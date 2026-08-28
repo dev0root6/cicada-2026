@@ -7,13 +7,11 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { login, type LoginState } from "@/app/admin/king/actions"
 
-export function LoginForm({ next }: { next?: string }) {
+export function LoginForm() {
   const [state, formAction] = useActionState<LoginState, FormData>(login, {})
 
   return (
     <form action={formAction} className="surface space-y-4 p-6">
-      <input type="hidden" name="next" value={next ?? ""} />
-
       <div className="space-y-2">
         <Label htmlFor="username">Username</Label>
         <Input

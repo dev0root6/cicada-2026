@@ -85,8 +85,28 @@ Shared classes: `.eyebrow` (mono section label), `.surface` / `.surface-hover`
 ## Admin dashboard
 
 Protected console at **`/admin/king`** listing registrations per event with their
-Cashfree payment status. Sign-in is at `/admin/king/login`; everything under
-`/admin` is gated by `middleware.ts`.
+Cashfree payment status. That URL is both the sign-in screen and the dashboard —
+it renders whichever the session calls for, at the same address.
+
+The path segment after `/admin` is a shared secret; keep it out of docs, tickets
+and screenshots. `/admin` and every other path beneath it answer with a single
+byte-identical page that appears to load forever:
+
+| Request (signed out) | Response |
+| --- | --- |
+| `/admin`, `/admin/login`, `/admin/<anything>` | identical loading page, `200` |
+| `/admin/king/export` and other sub-paths | the same identical loading page |
+| `/admin/king` | sign-in form |
+
+Nothing under `/admin` ever issues a redirect. A `Location` header naming a login
+URL would hand the secret to the first person who typed `/admin`, so unauthorised
+requests are answered in place instead. The decoy is served straight from
+`middleware.ts` rather than a React route, because a rendered page carries an RSC
+payload embedding the requested path, which would make `/admin` and
+`/admin/<guess>` differ byte-for-byte and expose the shape of the routing tree.
+
+Path secrecy only hides the door. Everything behind it is still authenticated
+independently.
 
 ### Setup
 
@@ -118,7 +138,7 @@ Mirror every variable in Vercel &rsaquo; Settings &rsaquo; Environment Variables
 | --- | --- |
 | Password storage | PBKDF2-SHA256, 210k iterations, per-user salt. Only digests are stored, only in env vars. |
 | Session | HMAC-SHA256 signed cookie: `httpOnly`, `secure` in production, `sameSite=lax`, 8h expiry. |
-| Route protection | `middleware.ts` on `/admin/:path*`, plus a second session check inside the page. |
+| Route protection | `middleware.ts` on `/admin/:path*` serves the decoy to unauthorised requests; the page re-checks the session itself. |
 | Brute force | In-memory throttle, 8 failures per IP per 15 min. Best-effort only — see `lib/auth/rate-limit.ts`. |
 | Enumeration | Same error and same PBKDF2 cost whether the user exists or not. |
 

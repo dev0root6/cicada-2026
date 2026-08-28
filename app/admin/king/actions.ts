@@ -17,7 +17,6 @@ export async function login(_previous: LoginState, formData: FormData): Promise<
     .trim()
     .toLowerCase()
   const password = String(formData.get("password") ?? "")
-  const next = String(formData.get("next") ?? "")
 
   if (!username || !password) return { error: INVALID }
 
@@ -49,11 +48,12 @@ export async function login(_previous: LoginState, formData: FormData): Promise<
   clearAttempts(ip)
   await createSession(username)
 
-  // Only same-origin paths, so `next` cannot be used as an open redirect.
-  redirect(next.startsWith("/") && !next.startsWith("//") ? next : "/admin/king")
+  // Same URL the form was served from, so the redirect discloses nothing that
+  // the visitor did not already know.
+  redirect("/admin/king")
 }
 
 export async function logout(): Promise<void> {
   await destroySession()
-  redirect("/admin/king/login")
+  redirect("/admin/king")
 }

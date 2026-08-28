@@ -20,8 +20,9 @@ function csvCell(value: unknown): string {
 }
 
 export async function GET(request: NextRequest) {
+  // 404, not 401: an unauthenticated caller should not learn this route exists.
   const session = await getSession()
-  if (!session) return new NextResponse("Unauthorized", { status: 401 })
+  if (!session) return new NextResponse("Not Found", { status: 404 })
 
   if (!isDatabaseConfigured()) {
     return new NextResponse("No database configured; there is nothing to export.", { status: 503 })

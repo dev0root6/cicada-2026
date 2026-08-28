@@ -1,12 +1,13 @@
 import type { Metadata } from "next"
-import { redirect } from "next/navigation"
 import { Suspense } from "react"
 import { AdminHeader } from "@/components/admin/admin-header"
+import { LoginScreen } from "@/components/admin/login-screen"
 import { Filters } from "@/components/admin/filters"
 import { RegistrationsTable } from "@/components/admin/registrations-table"
 import { StatTile } from "@/components/admin/stat-tile"
 import { Button } from "@/components/ui/button"
 import { getSession } from "@/lib/auth/session"
+import { isAuthConfigured } from "@/lib/auth/config"
 import { isDatabaseConfigured } from "@/lib/db/client"
 import {
   listRegistrations,
@@ -32,10 +33,10 @@ export default async function AdminDashboard({
 }: {
   searchParams: SearchParams
 }) {
-  // Middleware already gated this route; re-check so the page is never
-  // renderable if the matcher is ever misconfigured.
+  // Signed out, this URL *is* the login screen. Rendering it in place rather
+  // than redirecting means no Location header ever names an admin path.
   const session = await getSession()
-  if (!session) redirect("/admin/king/login")
+  if (!session) return <LoginScreen configured={isAuthConfigured()} />
 
   const params = await searchParams
   const eventSlug = events.some((e) => e.slug === params.event) ? params.event : undefined
