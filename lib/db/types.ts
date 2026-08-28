@@ -29,6 +29,9 @@ export type Registration = {
   paymentStatus: PaymentStatus
   cashfreeOrderId: string | null
   cashfreePaymentId: string | null
+  checkedInAt: string | null
+  checkedInBy: string | null
+  notes: string | null
   createdAt: string
   updatedAt: string
 }
@@ -39,5 +42,6 @@ export type EventSummary = {
   paid: number
   pending: number
   failed: number
+  checkedIn: number
   collectedPaise: number
 }

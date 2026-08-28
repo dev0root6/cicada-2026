@@ -6,8 +6,9 @@ import { Filters } from "@/components/admin/filters"
 import { RegistrationsTable } from "@/components/admin/registrations-table"
 import { StatTile } from "@/components/admin/stat-tile"
 import { Button } from "@/components/ui/button"
-import { getSession } from "@/lib/auth/session"
+import { getActor, isAdmin } from "@/lib/auth/actor"
 import { isAuthConfigured } from "@/lib/auth/config"
+import type { Actor } from "@/lib/auth/actor"
 import { isDatabaseConfigured } from "@/lib/db/client"
 import {
   listRegistrations,
@@ -35,22 +36,32 @@ export default async function AdminDashboard({
 }) {
   // Signed out, this URL *is* the login screen. Rendering it in place rather
   // than redirecting means no Location header ever names an admin path.
-  const session = await getSession()
-  if (!session) return <LoginScreen configured={isAuthConfigured()} />
+  const actor = await getActor()
+  if (!actor) return <LoginScreen configured={isAuthConfigured()} />
 
   const params = await searchParams
-  const eventSlug = events.some((e) => e.slug === params.event) ? params.event : undefined
+  // Only events this actor may see are valid filter values.
+  const visibleEvents = events
+    .filter((e) => actor.eventScope === null || actor.eventScope.includes(e.slug))
+    .map((e) => ({ slug: e.slug, title: e.title.trim() }))
+  const eventSlug = visibleEvents.some((e) => e.slug === params.event) ? params.event : undefined
   const status = PAYMENT_STATUSES.includes(params.status as PaymentStatus)
     ? (params.status as PaymentStatus)
     : undefined
 
   return (
     <>
-      <AdminHeader username={session.u} />
+      <AdminHeader actor={actor} />
       <main className="mx-auto max-w-7xl space-y-8 px-5 py-8 md:px-8">
         {isDatabaseConfigured() ? (
           <Suspense fallback={<p className="text-sm text-muted-foreground">Loading…</p>}>
-            <DashboardBody eventSlug={eventSlug} status={status} search={params.q} />
+            <DashboardBody
+              actor={actor}
+              visibleEvents={visibleEvents}
+              eventSlug={eventSlug}
+              status={status}
+              search={params.q}
+            />
           </Suspense>
         ) : (
           <DatabaseNotConfigured />
@@ -61,10 +72,14 @@ export default async function AdminDashboard({
 }
 
 async function DashboardBody({
+  actor,
+  visibleEvents,
   eventSlug,
   status,
   search,
 }: {
+  actor: Actor
+  visibleEvents: { slug: string; title: string }[]
   eventSlug?: string
   status?: PaymentStatus
   search?: string
@@ -73,8 +88,8 @@ async function DashboardBody({
   let summaries
   try {
     ;[registrations, summaries] = await Promise.all([
-      listRegistrations({ eventSlug, status, search }),
-      summariseByEvent(),
+      listRegistrations({ eventSlug, status, search, eventScope: actor.eventScope }),
+      summariseByEvent(actor.eventScope),
     ])
   } catch (error) {
     // Most often: the schema has not been applied yet.
@@ -97,9 +112,10 @@ async function DashboardBody({
       total: acc.total + row.total,
       paid: acc.paid + row.paid,
       pending: acc.pending + row.pending,
+      checkedIn: acc.checkedIn + row.checkedIn,
       collectedPaise: acc.collectedPaise + row.collectedPaise,
     }),
-    { total: 0, paid: 0, pending: 0, collectedPaise: 0 },
+    { total: 0, paid: 0, pending: 0, checkedIn: 0, collectedPaise: 0 },
   )
 
   const exportQuery = new URLSearchParams()
@@ -109,10 +125,15 @@ async function DashboardBody({
 
   return (
     <>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         <StatTile label="Registrations" value={String(totals.total)} />
         <StatTile label="Paid" value={String(totals.paid)} />
         <StatTile label="Pending" value={String(totals.pending)} hint="Awaiting payment capture" />
+        <StatTile
+          label="Checked in"
+          value={`${totals.checkedIn} / ${totals.paid}`}
+          hint="Attendance vs paid"
+        />
         <StatTile
           label="Collected"
           value={formatRupees(totals.collectedPaise)}
@@ -146,6 +167,10 @@ async function DashboardBody({
                       <dd>{row.failed}</dd>
                     </div>
                     <div className="flex gap-1">
+                      <dt>in</dt>
+                      <dd className="text-primary">{row.checkedIn}</dd>
+                    </div>
+                    <div className="flex gap-1">
                       <dt>collected</dt>
                       <dd>{formatRupees(row.collectedPaise)}</dd>
                     </div>
@@ -171,10 +196,10 @@ async function DashboardBody({
         </div>
 
         <Suspense fallback={null}>
-          <Filters events={events.map((e) => ({ slug: e.slug, title: e.title.trim() }))} />
+          <Filters events={visibleEvents} />
         </Suspense>
 
-        <RegistrationsTable registrations={registrations} />
+        <RegistrationsTable registrations={registrations} canEdit />
       </section>
     </>
   )

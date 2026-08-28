@@ -1,6 +1,10 @@
--- Registrations captured from the public event forms, with Cashfree payment state.
--- Apply with: npm run db:migrate
+-- CICADA admin schema. Idempotent — safe to run repeatedly.
+-- Apply with `npm run db:migrate`, or paste into the Neon SQL Editor.
 
+-- ---------------------------------------------------------------------------
+-- Registrations captured from the public event forms, with Cashfree payment
+-- state and on-site attendance.
+-- ---------------------------------------------------------------------------
 create table if not exists registrations (
   id                bigserial primary key,
 
@@ -8,7 +12,7 @@ create table if not exists registrations (
   -- a foreign key, since events live in source control rather than the database.
   event_slug        text        not null,
 
-  -- Primary contact. Kept as real columns because every form needs them and the
+  -- Primary contact. Real columns because every form needs them and the
   -- dashboard filters and sorts on them.
   team_name         text,
   contact_name      text        not null,
@@ -33,12 +37,62 @@ create table if not exists registrations (
   updated_at        timestamptz not null default now()
 );
 
-create index if not exists registrations_event_slug_idx on registrations (event_slug);
-create index if not exists registrations_payment_status_idx on registrations (payment_status);
-create index if not exists registrations_created_at_idx on registrations (created_at desc);
+-- Attendance / check-in at the venue. Added separately so the table can be
+-- extended on a database that already holds registrations.
+alter table registrations add column if not exists checked_in_at timestamptz;
+alter table registrations add column if not exists checked_in_by text;
+alter table registrations add column if not exists notes         text;
+
+create index if not exists registrations_event_slug_idx     on registrations (event_slug);
+create index if not exists registrations_payment_status_idx  on registrations (payment_status);
+create index if not exists registrations_created_at_idx      on registrations (created_at desc);
+create index if not exists registrations_checked_in_idx      on registrations (event_slug, checked_in_at);
 
 -- One registration per email per event, so a refresh or double submit cannot
 -- create duplicates. Partial: cancelled attempts should not block a retry.
 create unique index if not exists registrations_event_email_idx
   on registrations (event_slug, lower(email))
   where payment_status <> 'cancelled';
+
+-- ---------------------------------------------------------------------------
+-- Admin and manager accounts.
+--
+-- The bootstrap admins live in environment variables (ADMIN_USER_*) so nobody
+-- can be locked out by a bad database state. Accounts created here are the
+-- ones admins add at runtime — typically one manager per event.
+-- ---------------------------------------------------------------------------
+create table if not exists admin_users (
+  id              bigserial primary key,
+
+  -- Stored lowercase; sign-in lowercases the input before comparing.
+  username        text        not null unique,
+
+  -- pbkdf2:<iterations>:<saltHex>:<hashHex>. Never a plaintext password.
+  password_digest text        not null,
+
+  role            text        not null default 'manager'
+                              check (role in ('admin','manager')),
+
+  -- Username of whoever created this account, for an audit trail.
+  created_by      text,
+  created_at      timestamptz not null default now(),
+
+  -- Soft delete: set to revoke access while keeping the audit trail intact.
+  disabled_at     timestamptz
+);
+
+create index if not exists admin_users_active_idx on admin_users (username) where disabled_at is null;
+
+-- ---------------------------------------------------------------------------
+-- Which events a manager is responsible for.
+--
+-- A manager sees and edits only the events listed here. Admins are not listed:
+-- their access spans every event and is not stored as rows.
+-- ---------------------------------------------------------------------------
+create table if not exists admin_user_events (
+  user_id    bigint not null references admin_users (id) on delete cascade,
+  event_slug text   not null,
+  primary key (user_id, event_slug)
+);
+
+create index if not exists admin_user_events_slug_idx on admin_user_events (event_slug);

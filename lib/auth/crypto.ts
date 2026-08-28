@@ -73,6 +73,20 @@ async function pbkdf2(
   return new Uint8Array(bits)
 }
 
+/** Default work factor for new digests (OWASP 2023 guidance for PBKDF2-SHA256). */
+const PBKDF2_ITERATIONS = 210_000
+
+/**
+ * Produces a `pbkdf2:<iterations>:<saltHex>:<hashHex>` digest with a fresh
+ * random salt. Used when an admin creates a manager account at runtime; the
+ * plaintext is never stored or logged.
+ */
+export async function hashPassword(password: string): Promise<string> {
+  const salt = crypto.getRandomValues(new Uint8Array(16))
+  const derived = await pbkdf2(password, salt, PBKDF2_ITERATIONS)
+  return `${PBKDF2_PREFIX}:${PBKDF2_ITERATIONS}:${bytesToHex(salt)}:${bytesToHex(derived)}`
+}
+
 /**
  * Verifies a password against a stored PBKDF2 digest. Returns false rather than
  * throwing on a malformed digest, so a misconfigured env var denies access

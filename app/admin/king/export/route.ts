@@ -1,5 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server"
-import { getSession } from "@/lib/auth/session"
+import { getActor } from "@/lib/auth/actor"
 import { isDatabaseConfigured } from "@/lib/db/client"
 import {
   listRegistrations,
@@ -21,8 +21,8 @@ function csvCell(value: unknown): string {
 
 export async function GET(request: NextRequest) {
   // 404, not 401: an unauthenticated caller should not learn this route exists.
-  const session = await getSession()
-  if (!session) return new NextResponse("Not Found", { status: 404 })
+  const actor = await getActor()
+  if (!actor) return new NextResponse("Not Found", { status: 404 })
 
   if (!isDatabaseConfigured()) {
     return new NextResponse("No database configured; there is nothing to export.", { status: 503 })
@@ -40,6 +40,8 @@ export async function GET(request: NextRequest) {
         : undefined,
       search: params.get("q") ?? undefined,
       limit: 2000,
+      // A manager exports only their own events.
+      eventScope: actor.eventScope,
     })
   } catch (error) {
     console.error("csv export failed", error)
@@ -60,6 +62,8 @@ export async function GET(request: NextRequest) {
     "status",
     "cashfree_order_id",
     "cashfree_payment_id",
+    "checked_in_at",
+    "notes",
     "fields",
   ]
 
@@ -78,6 +82,8 @@ export async function GET(request: NextRequest) {
         r.paymentStatus,
         r.cashfreeOrderId,
         r.cashfreePaymentId,
+        r.checkedInAt,
+        r.notes,
         r.fields,
       ]
         .map(csvCell)

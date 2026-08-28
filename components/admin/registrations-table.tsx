@@ -1,8 +1,15 @@
 import { PaymentBadge } from "./payment-badge"
+import { CheckInButton } from "./check-in-button"
 import { formatDateTime, formatRupees } from "@/lib/format"
 import type { Registration } from "@/lib/db/types"
 
-export function RegistrationsTable({ registrations }: { registrations: Registration[] }) {
+export function RegistrationsTable({
+  registrations,
+  canEdit = false,
+}: {
+  registrations: Registration[]
+  canEdit?: boolean
+}) {
   if (registrations.length === 0) {
     return (
       <div className="surface p-10 text-center">
@@ -16,10 +23,10 @@ export function RegistrationsTable({ registrations }: { registrations: Registrat
 
   return (
     <div className="surface overflow-x-auto">
-      <table className="w-full min-w-[900px] text-sm">
+      <table className="w-full min-w-[1040px] text-sm">
         <thead>
           <tr className="border-b border-border text-left">
-            {["Registered", "Event", "Team", "Contact", "Phone", "Amount", "Status"].map((h) => (
+            {["Registered", "Event", "Team", "Contact", "Phone", "Amount", "Status", "Attendance"].map((h) => (
               <th
                 key={h}
                 className="px-4 py-3 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-muted-foreground"
@@ -59,6 +66,19 @@ export function RegistrationsTable({ registrations }: { registrations: Registrat
               </td>
               <td className="px-4 py-3">
                 <PaymentBadge status={registration.paymentStatus} />
+              </td>
+              <td className="px-4 py-3">
+                {canEdit ? (
+                  <CheckInButton
+                    id={registration.id}
+                    checkedIn={Boolean(registration.checkedInAt)}
+                    checkedInBy={registration.checkedInBy}
+                  />
+                ) : registration.checkedInAt ? (
+                  <span className="font-mono text-xs text-primary">in</span>
+                ) : (
+                  <span className="font-mono text-xs text-muted-foreground">—</span>
+                )}
               </td>
             </tr>
           ))}
