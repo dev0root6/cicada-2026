@@ -10,10 +10,10 @@ competitions, tech talks and showcases hosted by clubs across campus.
 ## Getting started
 
 ```bash
-npm install --legacy-peer-deps   # a few Radix peers still target React 18
-npm run dev                      # http://localhost:3000
-npm run build                    # production build (also typechecks)
-npm run typecheck                # tsc --noEmit
+npm install        # clean resolve — no --legacy-peer-deps needed
+npm run dev        # http://localhost:3000
+npm run build      # production build (also typechecks)
+npm run typecheck  # tsc --noEmit
 ```
 
 ## Project structure
