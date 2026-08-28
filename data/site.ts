@@ -5,7 +5,7 @@
 
 export const site = {
   name: "CICADA",
-  edition: "2025",
+  edition: "2026",
   get title() {
     return `${this.name} ${this.edition}`
   },
@@ -14,7 +14,7 @@ export const site = {
     "CICADA is AIT's annual technology festival — workshops, hackathons, competitions, talks and showcases hosted by clubs across campus.",
   logo: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760198155/cicada_logo_no_bg_m0sjov.png",
   brochure: "/Cicada Brochure-1_compress.pdf",
-  dates: "Nov 5 – 7, 2025",
+  dates: "Nov 5 – 7, 2026",
   venue: {
     name: "Atria Institute of Technology",
     city: "Hebbal, Bengaluru",

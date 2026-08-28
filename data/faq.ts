@@ -1,13 +1,18 @@
+import { site } from "./site"
+
 export type FaqItem = {
   question: string
   answer: string
 }
 
+/**
+ * Answers reference `site` rather than naming the edition inline, so rolling
+ * the fest forward stays a one-line change in data/site.ts.
+ */
 export const faqs: FaqItem[] = [
   {
-    question: "What is CICADA 2025?",
-    answer:
-      "CICADA 2025 is Atria Institute of Technology's premier annual technology festival featuring workshops, hackathons, competitions, tech talks, and showcases across AI, Robotics, Cybersecurity, Design, and Development. It's a three-day celebration of innovation and learning by building.",
+    question: `What is ${site.title}?`,
+    answer: `${site.title} is ${site.venue.name}'s premier annual technology festival featuring workshops, hackathons, competitions, tech talks, and showcases across AI, Robotics, Cybersecurity, Design, and Development. It's a three-day celebration of innovation and learning by building.`,
   },
   {
     question: "Who can participate?",
@@ -24,9 +29,8 @@ export const faqs: FaqItem[] = [
       "Yes! Most events offer exciting prizes, mentorship opportunities, and recognition. We have prize tracks across different categories, cash prizes, and certificates.",
   },
   {
-    question: "When and where is CICADA 2025?",
-    answer:
-      "CICADA 2025 takes place at Atria Institute of Technology in Hebbal, Bengaluru from 5th Nov to 7th Nov. Stay tuned to our website and social media for the latest updates on scheduling.",
+    question: `When and where is ${site.title}?`,
+    answer: `${site.title} takes place at ${site.venue.name} in ${site.venue.city} from ${site.dates}. Stay tuned to our website and social media for the latest updates on scheduling.`,
   },
   {
     question: "Is accommodation provided for participants?",
