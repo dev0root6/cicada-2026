@@ -82,6 +82,62 @@ Typography:
 Shared classes: `.eyebrow` (mono section label), `.surface` / `.surface-hover`
 (card treatment), `.grid-backdrop` (hairline grid), `.edge-fade` (marquee mask).
 
+## Admin dashboard
+
+Protected console at **`/admin/king`** listing registrations per event with their
+Cashfree payment status. Sign-in is at `/admin/king/login`; everything under
+`/admin` is gated by `middleware.ts`.
+
+### Setup
+
+1. Copy `.env.example` to `.env.local`.
+2. Generate a session secret and one digest per admin:
+
+   ```bash
+   node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"  # ADMIN_SESSION_SECRET
+   npm run hash-password                                                     # ADMIN_USER_<NAME>
+   ```
+
+   Each admin is one `ADMIN_USER_<NAME>` variable; the suffix, lowercased, is the
+   username. Add or remove admins by adding or removing variables — no code change.
+
+3. Add a database (Vercel &rsaquo; Storage &rsaquo; Neon) and apply the schema:
+
+   ```bash
+   npm run db:migrate
+   ```
+
+4. Set `CASHFREE_APP_ID` / `CASHFREE_SECRET_KEY`, and point the Cashfree webhook at
+   `https://<your-domain>/api/webhooks/cashfree`.
+
+Mirror every variable in Vercel &rsaquo; Settings &rsaquo; Environment Variables.
+
+### How auth works
+
+| Concern | Approach |
+| --- | --- |
+| Password storage | PBKDF2-SHA256, 210k iterations, per-user salt. Only digests are stored, only in env vars. |
+| Session | HMAC-SHA256 signed cookie: `httpOnly`, `secure` in production, `sameSite=lax`, 8h expiry. |
+| Route protection | `middleware.ts` on `/admin/:path*`, plus a second session check inside the page. |
+| Brute force | In-memory throttle, 8 failures per IP per 15 min. Best-effort only — see `lib/auth/rate-limit.ts`. |
+| Enumeration | Same error and same PBKDF2 cost whether the user exists or not. |
+
+Digests are colon-delimited (`pbkdf2:210000:…`) rather than `$`-delimited on
+purpose: Next.js runs dotenv-expand over `.env` files, so a `$` in a value is
+treated as variable interpolation and silently truncates it.
+
+### Registration flow
+
+```
+public form -> POST /api/registrations   -> row written (pending) + Cashfree order
+                                         -> browser completes Cashfree checkout
+Cashfree    -> POST /api/webhooks/cashfree -> signature verified -> status updated
+```
+
+The amount is read from `data/events.ts` server-side, never from the request, so a
+caller cannot choose their own price. Payment status is only ever changed by the
+signed webhook — never by the browser redirect, which is trivially forged.
+
 ## Tech stack
 
 - **Framework**: Next.js 15 (App Router, React 19)
