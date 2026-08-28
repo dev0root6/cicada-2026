@@ -1,0 +1,95 @@
+# CICADA
+
+<div align="center">
+<img src="https://res.cloudinary.com/dx9bvma03/image/upload/v1760198155/cicada_logo_no_bg_m0sjov.png" alt="CICADA logo" width="200" height="auto" />
+</div>
+
+CICADA is Atria Institute of Technology's annual technology festival — workshops, hackathons,
+competitions, tech talks and showcases hosted by clubs across campus.
+
+## Getting started
+
+```bash
+npm install --legacy-peer-deps   # a few Radix peers still target React 18
+npm run dev                      # http://localhost:3000
+npm run build                    # production build (also typechecks)
+npm run typecheck                # tsc --noEmit
+```
+
+## Project structure
+
+```
+app/
+  layout.tsx           Fonts, metadata, <html> shell
+  globals.css          Design tokens, base type, component & utility layers
+  not-found.tsx
+  (site)/
+    layout.tsx         Navbar + Footer chrome for every public page
+    page.tsx           Home — composes the sections in components/home
+    events/            Listing + [slug] detail
+    about/  terms/  project-expo/
+
+components/
+  layout/              Navbar, Footer
+  common/              Container, Section, Marquee, InfoPill, ContactDialog
+  home/                One file per home-page section
+  events/              Card, description renderer, notice, prizes, sidebar
+  visuals/             ParticleNetwork, PhotoMarquee
+  ui/                  shadcn/ui primitives
+
+data/
+  site.ts              Fest identity, nav, sponsors, clubs, organisers, gallery
+  events.ts            Event list — copy, logistics, prizes, contacts
+  faq.ts               Home-page FAQ
+  standings.ts         Project Expo results
+```
+
+### Content lives in `data/`
+
+Pages and components read from `data/` and render generically — there are no
+per-event branches in the markup. To change what the site says:
+
+| Change | Edit |
+| --- | --- |
+| Fest name, year, dates, venue, socials | `data/site.ts` |
+| Nav and footer links | `data/site.ts` |
+| Sponsors, clubs, gallery photos | `data/site.ts` |
+| An event's copy, fee, prizes, organisers | `data/events.ts` |
+| FAQ entries | `data/faq.ts` |
+| Project Expo results | `data/standings.ts` |
+
+Adding an event means appending one object to `events` in `data/events.ts`; its
+listing card and `/events/<slug>` page are generated from it.
+
+Rolling the site to a new edition is a one-line change to `site.edition` in
+`data/site.ts` (plus the year-specific strings in `data/faq.ts`).
+
+## Design system
+
+Dark-only, near-black surfaces with a neon-green primary. Colours are defined
+once as CSS custom properties in `app/globals.css` and consumed through Tailwind
+theme tokens (`bg-card`, `text-primary`, `border-border`) — avoid hard-coded
+hex values or `text-green-500` in components.
+
+Typography:
+
+| Role | Face | Token |
+| --- | --- | --- |
+| Headings, numerals | Space Grotesk | `font-display` |
+| Body copy, UI | Plus Jakarta Sans | `font-sans` |
+| Eyebrows, metadata | JetBrains Mono | `font-mono` |
+
+Shared classes: `.eyebrow` (mono section label), `.surface` / `.surface-hover`
+(card treatment), `.grid-backdrop` (hairline grid), `.edge-fade` (marquee mask).
+
+## Tech stack
+
+- **Framework**: Next.js 15 (App Router, React 19)
+- **Styling**: Tailwind CSS v4
+- **Components**: shadcn/ui + Radix
+- **Fonts**: `next/font/google`
+- **Deployment**: Vercel
+
+## License
+
+MIT — see [LICENSE](LICENSE).
