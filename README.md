@@ -7,6 +7,12 @@
 CICADA is Atria Institute of Technology's annual technology festival — workshops, hackathons,
 competitions, tech talks and showcases hosted by clubs across campus.
 
+## Landing teaser
+
+`landing/` is a separate, dependency-free teaser page for the 2026 edition —
+see [`landing/README.md`](landing/README.md). Deploy it as its own Vercel
+project with Root Directory set to `landing`.
+
 ## Getting started
 
 ```bash
