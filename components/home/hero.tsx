@@ -54,7 +54,7 @@ export function Hero({ eventCount }: { eventCount: number }) {
 
             <dl className="mt-12 grid max-w-lg grid-cols-3 gap-px overflow-hidden rounded-2xl border border-border bg-border">
               <Stat label="Events" value={String(eventCount)} />
-              <Stat label="Dates" value="Nov 5–7" icon={CalendarDays} />
+              <Stat label="Dates" value={site.shortDates} icon={CalendarDays} />
               <Stat label="Venue" value="Hebbal" icon={MapPin} />
             </dl>
           </div>

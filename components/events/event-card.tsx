@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { ArrowRight, BookOpenText, CalendarDays, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import type { Event } from "@/data/events"
+import { registrationHref, type Event } from "@/data/events"
 
 /**
  * Uniform event tile. Every per-event variation now comes from the data
@@ -72,7 +72,7 @@ export function EventCard({ event }: { event: Event }) {
             <CalendarDays className="h-3.5 w-3.5 shrink-0 text-primary/70" aria-hidden />
             <dt className="sr-only">Date</dt>
             <dd>
-              {event.date.trim()} · {event.Duration.trim()}
+              {event.date.trim()} · {(event.time ?? event.Duration).trim()}
             </dd>
           </div>
           <div className="flex items-center gap-2">
@@ -90,9 +90,7 @@ export function EventCard({ event }: { event: Event }) {
             </Link>
           </Button>
           <Button asChild size="sm" variant="outline">
-            <a href={event.registerUrl} target="_blank" rel="noreferrer noopener">
-              Register
-            </a>
+            <Link href={registrationHref(event)}>Register</Link>
           </Button>
           {event.brochureImage && (
             <Button asChild size="icon" variant="ghost" title={`${event.title} brochure`}>

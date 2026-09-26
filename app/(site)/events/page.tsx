@@ -14,7 +14,7 @@ export default function EventsPage() {
       size="wide"
       eyebrow={`${events.length} events`}
       title="All events"
-      description="Hackathons, CTFs, ideathons and showcases. Pick a track and register — most events run in teams."
+      description="Hackathons, CTFs, agent builds, drone runs and showcases. Pick a track and register — most events run in teams."
     >
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {events.map((event) => (

@@ -7,6 +7,12 @@
 CICADA is Atria Institute of Technology's annual technology festival — workshops, hackathons,
 competitions, tech talks and showcases hosted by clubs across campus.
 
+## Landing teaser
+
+`landing/` is a separate, dependency-free teaser page for the 2026 edition —
+see [`landing/README.md`](landing/README.md). Deploy it as its own Vercel
+project with Root Directory set to `landing`.
+
 ## Getting started
 
 ```bash
@@ -40,6 +46,7 @@ components/
 data/
   site.ts              Fest identity, nav, sponsors, clubs, organisers, gallery
   events.ts            Event list — copy, logistics, prizes, contacts
+  schedule.ts          Day-by-day timetable on the home page
   faq.ts               Home-page FAQ
   standings.ts         Project Expo results
 ```
@@ -55,11 +62,17 @@ per-event branches in the markup. To change what the site says:
 | Nav and footer links | `data/site.ts` |
 | Sponsors, clubs, gallery photos | `data/site.ts` |
 | An event's copy, fee, prizes, organisers | `data/events.ts` |
+| Day-by-day schedule | `data/schedule.ts` |
 | FAQ entries | `data/faq.ts` |
 | Project Expo results | `data/standings.ts` |
 
 Adding an event means appending one object to `events` in `data/events.ts`; its
 listing card and `/events/<slug>` page are generated from it.
+
+While an event has no `registerUrl`, its Register buttons lead to
+`/events/<slug>/register`, an "opening soon" page that stores emails in the
+`registration_interest` table (run `npm run db:migrate` to create it). Set
+`registerUrl` once the real form is live and that page redirects to it.
 
 Rolling the site to a new edition is a one-line change to `site.edition` in
 `data/site.ts` (plus the year-specific strings in `data/faq.ts`).
