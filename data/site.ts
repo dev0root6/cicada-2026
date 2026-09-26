@@ -12,7 +12,7 @@ export const site = {
   tagline: "Atria Institute of Technology",
   description:
     "CICADA is AIT's annual technology festival — workshops, hackathons, competitions, talks and showcases hosted by clubs across campus.",
-  logo: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760198155/cicada_logo_no_bg_m0sjov.png",
+  logo: "/brand/cicada-bug.svg",
   brochure: "/Cicada Brochure-1_compress.pdf",
   dates: "Nov 4 – 6, 2026",
   /** Compact form for the hero stat tile. */

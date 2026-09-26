@@ -3,6 +3,7 @@ import { notFound } from "next/navigation"
 import { CalendarDays, Clock, MapPin, Users, Wifi } from "lucide-react"
 import { Container } from "@/components/common/container"
 import { InfoPill } from "@/components/common/info-pill"
+import { EventCover } from "@/components/events/event-cover"
 import { EventDescription } from "@/components/events/event-description"
 import { EventNotice } from "@/components/events/event-notice"
 import { EventSidebar } from "@/components/events/event-sidebar"
@@ -49,13 +50,7 @@ export default async function EventDetailPage({ params }: PageProps) {
     <>
       {/* Banner image bleeds full width; the title card overlaps it below. */}
       <div className="relative h-56 w-full overflow-hidden border-b border-border md:h-72">
-        <img
-          src={event.coverImage || "/placeholder.jpg"}
-          alt=""
-          aria-hidden
-          className={event.imageFit === "contain" ? "h-full w-full object-contain" : "h-full w-full object-cover"}
-          style={{ objectPosition: event.imagePosition }}
-        />
+        <EventCover event={event} />
         <div
           className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-background/20"
           aria-hidden

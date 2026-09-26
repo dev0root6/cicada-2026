@@ -1,17 +1,9 @@
 import type React from "react"
 import type { Metadata, Viewport } from "next"
-import { Space_Grotesk, Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google"
+import { Plus_Jakarta_Sans, JetBrains_Mono } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 import { site } from "@/data/site"
 import "./globals.css"
-
-/** Display face — headings, logotype, numerals. */
-const display = Space_Grotesk({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-display",
-  display: "swap",
-})
 
 /** Body face — paragraphs, UI copy. */
 const body = Plus_Jakarta_Sans({
@@ -21,10 +13,10 @@ const body = Plus_Jakarta_Sans({
   display: "swap",
 })
 
-/** Mono face — eyebrows, metadata, tabular figures. */
+/** Mono face — headings, UI, eyebrows and figures; the teaser's terminal voice. */
 const mono = JetBrains_Mono({
   subsets: ["latin"],
-  weight: ["400", "500"],
+  weight: ["400", "500", "600", "700"],
   variable: "--font-mono-code",
   display: "swap",
 })
@@ -35,7 +27,7 @@ export const metadata: Metadata = {
     template: `%s · ${site.title}`,
   },
   description: site.description,
-  icons: { icon: "/cicada.png" },
+  icons: { icon: "/brand/cicada-bug.svg" },
   openGraph: {
     title: site.title,
     description: site.description,
@@ -51,7 +43,7 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`dark ${display.variable} ${body.variable} ${mono.variable}`}>
+    <html lang="en" className={`dark ${body.variable} ${mono.variable}`}>
       <body className="font-sans">
         {children}
         <Analytics />

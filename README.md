@@ -79,21 +79,30 @@ Rolling the site to a new edition is a one-line change to `site.edition` in
 
 ## Design system
 
-Dark-only, near-black surfaces with a neon-green primary. Colours are defined
-once as CSS custom properties in `app/globals.css` and consumed through Tailwind
-theme tokens (`bg-card`, `text-primary`, `border-border`) — avoid hard-coded
-hex values or `text-green-500` in components.
+A "heist" theme shared with the teaser at `/`: one acid-green accent
+(`#4CD97B`) on near-black (`#0A0A0A`), faint green-tinted panels and lines.
+Colours are defined once as CSS custom properties in `app/globals.css` and
+consumed through Tailwind theme tokens (`bg-card`, `text-primary`,
+`border-border`) — avoid hard-coded hex values in components.
+
+Brand: the bug mark and "cicada" wordmark live in `public/brand/` as SVGs
+traced from the original PNGs; `components/brand/logo.tsx` is the lockup used
+in the navbar and footer.
+
+Background: `components/visuals/heist-backdrop.tsx` renders the teaser's
+drifting perforated grid, rings, surveillance sweep and grid pings behind
+every public page — CSS only, disabled under `prefers-reduced-motion`.
 
 Typography:
 
 | Role | Face | Token |
 | --- | --- | --- |
-| Headings, numerals | Space Grotesk | `font-display` |
-| Body copy, UI | Plus Jakarta Sans | `font-sans` |
-| Eyebrows, metadata | JetBrains Mono | `font-mono` |
+| Headings, UI, eyebrows, figures | JetBrains Mono | `font-display` / `font-mono` |
+| Body copy | Plus Jakarta Sans | `font-sans` |
 
-Shared classes: `.eyebrow` (mono section label), `.surface` / `.surface-hover`
-(card treatment), `.grid-backdrop` (hairline grid), `.edge-fade` (marquee mask).
+Shared classes: `.eyebrow` (mono `// label`), `.surface` / `.surface-hover`
+(card treatment), `.hud-corners` (surveillance-frame corners), `.glow`,
+`.grid-backdrop` (hairline grid), `.edge-fade` (marquee mask).
 
 ## Admin dashboard
 

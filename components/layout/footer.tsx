@@ -5,24 +5,19 @@ import { useState } from "react"
 import { Instagram, Mail, MapPin, Phone } from "lucide-react"
 import { Container } from "@/components/common/container"
 import { ContactDialog } from "@/components/common/contact-dialog"
+import { Logo } from "@/components/brand/logo"
 import { footerLinks, organizerContacts, site } from "@/data/site"
 
 export function Footer() {
   const [contactOpen, setContactOpen] = useState(false)
 
   return (
-    <footer className="mt-auto border-t border-border">
+    <footer className="mt-auto border-t border-border bg-background/80">
       <Container size="wide">
         <div className="grid gap-12 py-14 md:grid-cols-12">
           <div className="md:col-span-5">
-            <Link href="/home" className="flex items-center gap-3">
-              <img src={site.logo} alt="" aria-hidden className="h-12 w-12 object-contain" />
-              <span className="flex flex-col leading-none">
-                <span className="font-display text-lg font-semibold">{site.name}</span>
-                <span className="font-mono text-[0.65rem] tracking-[0.2em] text-primary">
-                  {site.edition}
-                </span>
-              </span>
+            <Link href="/home" aria-label="CICADA 2026 home" className="inline-block">
+              <Logo size="md" />
             </Link>
             <p className="mt-5 max-w-sm text-sm leading-relaxed text-muted-foreground">
               {site.description}
