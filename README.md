@@ -41,7 +41,7 @@ components/
   home/                One file per home-page section
   events/              Card, description renderer, notice, prizes, sidebar
   visuals/             ParticleNetwork, PhotoMarquee
-  ui/                  shadcn/ui primitives
+  ui/                  shadcn/ui primitives (only the ones in use; add more with the shadcn CLI)
 
 data/
   site.ts              Fest identity, nav, sponsors, clubs, organisers, gallery
@@ -112,6 +112,13 @@ from `public/brand/`:
   position carries over full page loads via `sessionStorage`.
 
 Both do nothing under `prefers-reduced-motion` (the cursor stays, without lag).
+
+- `cicada-games.js` — desktop only. More than 5 seconds of continuous, erratic
+  mouse movement pops a "wanna play with the bug?" prompt (once per visit);
+  the footer's **Play with the bug** link opens it any time. Three games use the
+  real flying bug: **Catch** (it flees, click it), **Evade** (it hunts the cursor
+  and speeds up) and **Grid Heist** (steer it onto vault nodes). Best scores
+  are kept in `localStorage`.
 
 ## Design system
 

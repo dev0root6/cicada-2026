@@ -108,6 +108,8 @@
     var width = 100
     var lastMove = 0
     var homeTimer = 0
+    // Set while a game (public/brand/cicada-games.js) is steering the bug.
+    var game = null
     var raf = 0
     var last = 0
     var t = 0
@@ -170,7 +172,7 @@
     }
 
     function goHome() {
-      if (mode === "home") return
+      if (mode === "home" || game) return
       var r = homeRect()
       if (!onScreen(r)) return // home is off screen; stay where we are
       mode = "returning"
@@ -232,6 +234,10 @@
           ty = y
           lastMove = t - 10
         }
+      } else if (game) {
+        var goal = gameGoal(dt)
+        goalX = goal.x
+        goalY = goal.y
       } else if (mode === "fly" && !touchFirst) {
         // Hover near the cursor rather than on it, drifting in a lazy orbit
         // that calms down once the cursor rests so the bug can settle.
@@ -244,9 +250,18 @@
       var dx = goalX - x
       var dy = goalY - y
       var dist = Math.hypot(dx, dy)
-      var stiffness = mode === "returning" ? 26 : 16
-      var damping = mode === "returning" ? 9 : 6.2
-      if (mode !== "landed") {
+      var stiffness = mode === "returning" ? 26 : game ? game.stiffness : 16
+      var damping = mode === "returning" ? 9 : game ? game.damping : 6.2
+      if (game && game.kind === "chase") {
+        // Pursuit: steer towards the cursor at a capped speed, so it can be
+        // outrun — just — rather than snapping on like a spring.
+        var want = dist > 0.001 ? game.speed / dist : 0
+        var grip = clamp(dt * game.turn, 0, 1)
+        vx += (dx * want - vx) * grip
+        vy += (dy * want - vy) * grip
+        x += vx * dt
+        y += vy * dt
+      } else if (mode !== "landed") {
         vx += (dx * stiffness - vx * damping) * dt + Math.sin(t * 13.1) * 40 * dt
         vy += (dy * stiffness - vy * damping) * dt + Math.cos(t * 11.3) * 40 * dt
         var sp = Math.hypot(vx, vy)
@@ -262,7 +277,7 @@
       else if (mode === "returning" || mode === "landed") heading = angleLerp(heading, 0, clamp(dt * 3, 0, 1))
 
       // Landing: touch lands on the tap point; desktop lands once the cursor rests.
-      if (mode === "fly") {
+      if (mode === "fly" && !game) {
         var restLimit = touchFirst ? 0.2 : 1.6
         if (dist < 5 && speed < 30 && t - lastMove > restLimit) {
           mode = "landed"
@@ -322,6 +337,92 @@
       setAway(false)
     }
 
+    // ---- Games ---------------------------------------------------------------------
+    // Where the bug wants to be this frame while a game is running.
+    function gameGoal(dt) {
+      var W = window.innerWidth, H = window.innerHeight
+      if (game.kind === "seek" || game.kind === "chase") return { x: tx, y: ty }
+
+      // flee: bolt directly away from the cursor when it gets close, otherwise
+      // wander between random spots. Walls push it sideways, not into corners.
+      game.wanderIn -= dt
+      if (game.wanderIn <= 0 || Math.hypot(game.wx - x, game.wy - y) < 30) {
+        game.wx = 80 + Math.random() * (W - 160)
+        game.wy = 110 + Math.random() * (H - 190)
+        game.wanderIn = 1.2 + Math.random() * 1.2
+      }
+      var ax = x - tx, ay = y - ty
+      var d = Math.hypot(ax, ay) || 1
+      if (d < game.fear) {
+        var gx = x + (ax / d) * 320
+        var gy = y + (ay / d) * 320
+        if (gx < 60 || gx > W - 60) gy = y + (ay >= 0 ? 1 : -1) * 320
+        if (gy < 90 || gy > H - 60) gx = x + (ax >= 0 ? 1 : -1) * 320
+        return { x: clamp(gx, 60, W - 60), y: clamp(gy, 90, H - 60) }
+      }
+      return { x: game.wx, y: game.wy }
+    }
+
+    /**
+     * Hand the bug to a game. kind: "flee" (runs from the cursor), "chase"
+     * (hunts it) or "seek" (flies straight to it). options.level scales speed.
+     */
+    function play(kind, options) {
+      options = options || {}
+      var level = options.level || 1
+      clearTimeout(homeTimer)
+      game = {
+        kind: kind,
+        stiffness: kind === "flee" ? 10 + level * 3 : 22,
+        damping: kind === "flee" ? 5 : 7,
+        fear: 170 + level * 22,
+        speed: 170 + level * 55,
+        turn: 2.2 + level * 0.25,
+        wx: x, wy: y, wanderIn: 0,
+      }
+      var W = window.innerWidth, H = window.innerHeight
+      if (!tx && !ty) { tx = W / 2; ty = H / 2 }
+      if (mode === "home") {
+        if (homeRect()) takeOff(tx, ty)
+        else {
+          // Docked somewhere off screen: appear mid-screen instead.
+          sizeFlyer()
+          x = W / 2
+          y = H / 2
+          scale = 1
+          show()
+        }
+      }
+      mode = "fly"
+      start()
+    }
+
+    function setLevel(level) {
+      if (game) play(game.kind, { level: level })
+    }
+
+    function stopGame() {
+      game = null
+      lastMove = t
+      start()
+    }
+
+    /** Throw the bug to a random far spot (a catch in the catch game). */
+    function scatter() {
+      var W = window.innerWidth, H = window.innerHeight
+      var nx = 80 + Math.random() * (W - 160), ny = 110 + Math.random() * (H - 190)
+      vx = (nx - x) * 4
+      vy = (ny - y) * 4
+      if (game) { game.wx = nx; game.wy = ny; game.wanderIn = 1.5 }
+      start()
+    }
+
+    /** Where the bug is drawn (it hovers above its ground point), for hit tests. */
+    function state() {
+      var lift = altitude * (touchFirst ? 14 : 18)
+      return { x: x, y: y - lift, width: width, flying: mode === "fly" || mode === "returning" }
+    }
+
     // ---- Survive page loads ---------------------------------------------------
     function save() {
       try {
@@ -356,6 +457,7 @@
       window.removeEventListener("pagehide", save)
       flyer.remove()
       setAway(false)
+      if (window.CicadaFly.current === detach) window.CicadaFly.current = null
     }
 
     // The page's home element changed (client-side navigation): move the
@@ -363,6 +465,13 @@
     detach.refresh = function () {
       if (mode !== "home") setAway(true)
     }
+    detach.play = play
+    detach.setLevel = setLevel
+    detach.stop = stopGame
+    detach.scatter = scatter
+    detach.state = state
+
+    window.CicadaFly.current = detach
 
     return detach
   }
