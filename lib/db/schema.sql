@@ -96,3 +96,17 @@ create table if not exists admin_user_events (
 );
 
 create index if not exists admin_user_events_slug_idx on admin_user_events (event_slug);
+
+-- ---------------------------------------------------------------------------
+-- "Notify me" sign-ups from an event's registration page while registrations
+-- are still closed. One row per email per event.
+-- ---------------------------------------------------------------------------
+create table if not exists registration_interest (
+  id         bigserial   primary key,
+  event_slug text        not null,
+  email      text        not null,
+  created_at timestamptz not null default now()
+);
+
+create unique index if not exists registration_interest_event_email_idx
+  on registration_interest (event_slug, lower(email));

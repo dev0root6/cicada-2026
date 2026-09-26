@@ -3,7 +3,7 @@ import { ExternalLink } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { ContactDialog } from "@/components/common/contact-dialog"
 import { organizerContacts, site } from "@/data/site"
-import type { Event } from "@/data/events"
+import { registrationHref, type Event } from "@/data/events"
 
 /** Sticky booking rail: fee, CTAs, the full fact sheet, and who to call. */
 export function EventSidebar({ event }: { event: Event }) {
@@ -25,9 +25,7 @@ export function EventSidebar({ event }: { event: Event }) {
           <p className="mt-2 font-display text-3xl font-bold">{event.registrationFee}</p>
 
           <Button asChild size="lg" className="mt-5 w-full">
-            <a href={event.registerUrl || "#"} target="_blank" rel="noreferrer noopener">
-              Register now
-            </a>
+            <Link href={registrationHref(event)}>Register now</Link>
           </Button>
 
           {event.brochureImage && (

@@ -30,7 +30,12 @@ export type Event = {
   venue: string
   registrationFee: string
   mode?: string
-  registerUrl: string
+  /**
+   * External registration form. Leave unset while registrations are closed:
+   * the Register buttons then lead to the "opening soon" page, which collects
+   * emails for a priority notification.
+   */
+  registerUrl?: string
   coverImage?: string
   brochureImage?: string
   /** Short labels rendered as pills on the event card. */
@@ -50,16 +55,11 @@ export type Event = {
   imagePosition?: string
 }
 
-/** Flagship first, then in schedule order. */
+/** Flagship events first, then in schedule order. */
 export const events: Event[] = [
   {
     slug: "hackathon",
-    badges: ["Flagship Event", "On-Spot Only"],
-    notice: {
-      tone: "warning",
-      title: "On-Spot Registrations Only",
-      body: "Online registrations have been closed",
-    },
+    badges: ["Flagship Event"],
     prizes: [
       { label: "1st Prize", amount: "₹15,000", perks: ["E-Certificate"] },
       { label: "2nd Prize", amount: "₹10,000", perks: ["E-Certificate"] },
@@ -86,7 +86,28 @@ export const events: Event[] = [
     venue: "Atria Institute of Technology",
     registrationFee: "₹ 1200 per team",
     mode: "Offline",
-    registerUrl: "https://konfhub.com/cicada-2025", // replace later with Google Form
+  },
+  {
+    slug: "bug-off",
+    badges: ["Flagship Event"],
+    imageFit: "cover",
+    title: "Bug Off",
+    summary: "Drop into a broken codebase, hunt down every defect and get the program running clean — against the clock.",
+    description: `Every developer knows the pain — code that should work but doesn't. Bug Off drops your team into a broken codebase and challenges you to hunt down every defect, patch it, and get the program running clean.
+
+<span class="text-white">The Challenge</span>
+It's a race against the clock and against faulty logic.
+• 🐞 Hunt – Track down every defect hiding in the codebase.
+• 🩹 Patch – Fix the bugs without breaking anything else.
+• ✅ Run clean – Get the program working end to end before time runs out.`,
+    clubName: "CICADA 2026",
+    date: "Nov 4, 2026",
+    time: "2:00 PM – 4:00 PM",
+    Duration: "2 hours",
+    teamSize: "2 members",
+    venue: "Atria Institute of Technology",
+    registrationFee: "₹150 per team",
+    mode: "Offline",
   },
   {
     slug: "project-expo",
@@ -121,7 +142,6 @@ export const events: Event[] = [
     venue: "Atria Institute of Technology",
     registrationFee: "₹400 per team",
     mode: "Offline",
-    registerUrl: "https://konfhub.com/cicada-2025",
   },
   {
     slug: "who-am-i",
@@ -153,29 +173,6 @@ export const events: Event[] = [
     venue: "Atria Institute of Technology",
     registrationFee: "₹200 per team",
     mode: "Offline",
-    registerUrl: "https://konfhub.com/cicada-2025",
-  },
-  {
-    slug: "bug-off",
-    imageFit: "cover",
-    title: "Bug Off",
-    summary: "Drop into a broken codebase, hunt down every defect and get the program running clean — against the clock.",
-    description: `Every developer knows the pain — code that should work but doesn't. Bug Off drops your team into a broken codebase and challenges you to hunt down every defect, patch it, and get the program running clean.
-
-<span class="text-white">The Challenge</span>
-It's a race against the clock and against faulty logic.
-• 🐞 Hunt – Track down every defect hiding in the codebase.
-• 🩹 Patch – Fix the bugs without breaking anything else.
-• ✅ Run clean – Get the program working end to end before time runs out.`,
-    clubName: "CICADA 2026",
-    date: "Nov 4, 2026",
-    time: "2:00 PM – 4:30 PM",
-    Duration: "2 hours",
-    teamSize: "2 members",
-    venue: "Atria Institute of Technology",
-    registrationFee: "₹150 per team",
-    mode: "Offline",
-    registerUrl: "https://konfhub.com/cicada-2025",
   },
   {
     slug: "aeromaneuver",
@@ -187,7 +184,7 @@ It's a race against the clock and against faulty logic.
 Push the limits of aerial autonomy, precision, and maneuverability through a dynamic obstacle course designed to challenge every aspect of drone flight.
 
 Navigate complex obstacles, adapt to unpredictable flight conditions, and complete the mission with speed, precision, and control.`,
-    clubName: "CICADA 2026",
+    clubName: "Drone Club",
     date: "Nov 5, 2026",
     time: "9:00 AM – 1:30 PM",
     Duration: "4 hrs 30 min",
@@ -195,7 +192,6 @@ Navigate complex obstacles, adapt to unpredictable flight conditions, and comple
     venue: "Atria Institute of Technology",
     registrationFee: "₹800 per team",
     mode: "Offline",
-    registerUrl: "https://konfhub.com/cicada-2025",
   },
   {
     slug: "agent-arena",
@@ -227,7 +223,6 @@ A time-bound Agentic AI building competition where participants receive a proble
     venue: "Atria Institute of Technology",
     registrationFee: "₹200 per team",
     mode: "Offline",
-    registerUrl: "https://konfhub.com/cicada-2025",
   },
   {
     slug: "ipl-auction",
@@ -287,6 +282,10 @@ The real action begins! Compete in a live, dynamic auction to secure your dream 
     venue: "Atria Institute of Technology",
     registrationFee: "₹200 per team",
     mode: "Offline",
-    registerUrl: "https://konfhub.com/cicada-2025",
   },
 ]
+
+/** Where an event's Register buttons point. */
+export function registrationHref(event: Event): string {
+  return event.registerUrl ?? `/events/${event.slug}/register`
+}

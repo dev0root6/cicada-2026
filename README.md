@@ -63,6 +63,11 @@ per-event branches in the markup. To change what the site says:
 Adding an event means appending one object to `events` in `data/events.ts`; its
 listing card and `/events/<slug>` page are generated from it.
 
+While an event has no `registerUrl`, its Register buttons lead to
+`/events/<slug>/register`, an "opening soon" page that stores emails in the
+`registration_interest` table (run `npm run db:migrate` to create it). Set
+`registerUrl` once the real form is live and that page redirects to it.
+
 Rolling the site to a new edition is a one-line change to `site.edition` in
 `data/site.ts` (plus the year-specific strings in `data/faq.ts`).
 
