@@ -41,7 +41,7 @@ components/
   home/                One file per home-page section
   events/              Card, description renderer, notice, prizes, sidebar
   visuals/             ParticleNetwork, PhotoMarquee
-  ui/                  shadcn/ui primitives
+  ui/                  shadcn/ui primitives (only the ones in use; add more with the shadcn CLI)
 
 data/
   site.ts              Fest identity, nav, sponsors, clubs, organisers, gallery
