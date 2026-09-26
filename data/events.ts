@@ -23,6 +23,8 @@ export type Event = {
   clubName: string
   clubLogo?: string
   date: string
+  /** Clock window on the day, e.g. "11:00 AM – 1:30 PM". */
+  time?: string
   Duration: string
   teamSize: string
   venue: string
@@ -48,7 +50,7 @@ export type Event = {
   imagePosition?: string
 }
 
-
+/** Flagship first, then in schedule order. */
 export const events: Event[] = [
   {
     slug: "hackathon",
@@ -77,13 +79,155 @@ export const events: Event[] = [
     brochureImage: "/hacakthon-poster.png",
     clubName: "AIT  Club",
     clubLogo: "/ait-ai-club-logo.jpg",
-    date: "Nov 7-8, 2026",
-    Duration: "24 Hours ( starts at 2 pm )",
+    date: "Nov 6, 2026",
+    time: "Starts 2:00 PM",
+    Duration: "24 hours",
     teamSize: "3 - 4 members",
     venue: "Atria Institute of Technology",
     registrationFee: "₹ 1200 per team",
     mode: "Offline",
     registerUrl: "https://konfhub.com/cicada-2025", // replace later with Google Form
+  },
+  {
+    slug: "project-expo",
+    badges: ["7th-semester only"],
+    notice: {
+      tone: "info",
+      title: "Eligibility: Open to 7th-semester students only",
+    },
+    prizes: [
+      { label: "Winners", amount: "₹8,000", perks: ["E-Certificate"] },
+      { label: "Runner Up", amount: "₹4,000", perks: ["E-Certificate"] },
+    ],
+    participantReward: "E-Certificates",
+    contacts: [
+      { name: "Shruthi Raj", phone: "+91 6204705418" },
+      { name: "Kashik", phone: "+91 6360497813" },
+      { name: "Kavan TB", phone: "+91 8951811235" },
+      { name: "Shrajan", phone: "+91 7795264283" },
+    ],
+    imageFit: "contain",
+    title: "Project Expo - The Innovation Show",
+    summary: "Exclusive platform for 7th-semester students to present innovative projects to industry professionals and academic experts",
+    description: `Project Expo is an exclusive platform for 7th-semester students to present their most innovative and impactful projects before a panel of industry professionals and academic experts. It's where creativity meets real-world problem-solving, and visionary ideas come to life through prototypes, research models, and tech demonstrations.\n\n<span class="text-white">Domains You Can Showcase In</span>\n\n🤖 Artificial Intelligence & Machine Learning\n🌐 Internet of Things (IoT)\n🔐 Cybersecurity\n⚙️ Robotics and Automation\n🌱 Green Technology & Sustainability\n📊 Data Science & Analytics\n💻 Web & Mobile Applications\n\nWhether you're showcasing a working prototype, a research-driven concept, or a tech-powered innovation, this is your moment to shine, connect, and inspire.\n\n <span class="text-white">Tracks & Prizes</span>\nTwo separate categories ensure fair recognition for all innovators:\n\n <span class="text-white">Software Track</span>\n🥇 Winners: ₹8,000 + E-Certificate\n🥈 Runners-up: ₹4,000 + E-Certificate\n\n <span class="text-white">Hardware Track</span>\n🥇 Winners: ₹8,000 + E-Certificate\n🥈 Runners-up: ₹4,000 + E-Certificate\n\n <span class="text-white">Event Highlights</span>\n• 100+ Projects on Display\n• Judging by Industry Professionals\n• Mentorship & Incubation Opportunities\n• Prizes & Certificates for Top Innovations\n• Networking with Industry Experts`,
+    coverImage: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760969089/Untitled_design_h0ch4k.png",
+    brochureImage: "/project-expo.png",
+    clubName: "Innovation Club",
+    clubLogo: "/ait-ai-club-logo.jpg",
+    date: "Nov 4, 2026",
+    time: "9:00 AM – 5:00 PM",
+    Duration: "Full day",
+    teamSize: "Max of 4 members per team",
+    venue: "Atria Institute of Technology",
+    registrationFee: "₹400 per team",
+    mode: "Offline",
+    registerUrl: "https://konfhub.com/cicada-2025",
+  },
+  {
+    slug: "who-am-i",
+    contacts: [
+      { name: "Deva Kumar", phone: "+91 8431822512" },
+      { name: "Aishwarya", phone: "+91 9148771379" },
+      { name: "Charu Shree", phone: "+91 7019126145" },
+      { name: "Prithvi Prabhu", phone: "+91 9611272227" },
+    ],
+    imageFit: "cover",
+    imagePosition: "20% 30%",
+    title: "WHO AM I?",
+    summary: "A case-based Capture the Flag challenge — investigate realistic cyber cases, follow the attack trail and uncover the final flag.",
+    description: `A case-based Capture the Flag challenge where teams investigate realistic cyber cases, analyze digital evidence, follow hidden clues, connect the attack trail, and uncover the final flag.
+
+<span class="text-white">How It Works</span>
+• 🗂️ Investigate – Each team is handed a realistic cyber case to work through.
+• 🔍 Analyze – Examine the digital evidence and pick out what matters.
+• 🧩 Follow the clues – Hidden hints lead from one piece of evidence to the next.
+• 🔗 Connect the trail – Piece together how the attack unfolded.
+• 🚩 Capture the flag – Uncover the final flag before the clock runs out.`,
+    coverImage: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760965058/intrucv_lqqi1l.jpg",
+    clubName: "Cybersecurity Club",
+    clubLogo: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760269199/CyberSec-AIT_jtlgdt.png",
+    date: "Nov 4, 2026",
+    time: "11:00 AM – 1:30 PM",
+    Duration: "2 hrs 30 min",
+    teamSize: "3 - 4 members",
+    venue: "Atria Institute of Technology",
+    registrationFee: "₹200 per team",
+    mode: "Offline",
+    registerUrl: "https://konfhub.com/cicada-2025",
+  },
+  {
+    slug: "bug-off",
+    imageFit: "cover",
+    title: "Bug Off",
+    summary: "Drop into a broken codebase, hunt down every defect and get the program running clean — against the clock.",
+    description: `Every developer knows the pain — code that should work but doesn't. Bug Off drops your team into a broken codebase and challenges you to hunt down every defect, patch it, and get the program running clean.
+
+<span class="text-white">The Challenge</span>
+It's a race against the clock and against faulty logic.
+• 🐞 Hunt – Track down every defect hiding in the codebase.
+• 🩹 Patch – Fix the bugs without breaking anything else.
+• ✅ Run clean – Get the program working end to end before time runs out.`,
+    clubName: "CICADA 2026",
+    date: "Nov 4, 2026",
+    time: "2:00 PM – 4:30 PM",
+    Duration: "2 hours",
+    teamSize: "2 members",
+    venue: "Atria Institute of Technology",
+    registrationFee: "₹150 per team",
+    mode: "Offline",
+    registerUrl: "https://konfhub.com/cicada-2025",
+  },
+  {
+    slug: "aeromaneuver",
+    imageFit: "cover",
+    title: "AEROMANEUVER",
+    summary: "Advanced UAV Navigation & Agility Challenge",
+    description: `<span class="text-white">Advanced UAV Navigation & Agility Challenge</span>
+
+Push the limits of aerial autonomy, precision, and maneuverability through a dynamic obstacle course designed to challenge every aspect of drone flight.
+
+Navigate complex obstacles, adapt to unpredictable flight conditions, and complete the mission with speed, precision, and control.`,
+    clubName: "CICADA 2026",
+    date: "Nov 5, 2026",
+    time: "9:00 AM – 1:30 PM",
+    Duration: "4 hrs 30 min",
+    teamSize: "Max of 4 members",
+    venue: "Atria Institute of Technology",
+    registrationFee: "₹800 per team",
+    mode: "Offline",
+    registerUrl: "https://konfhub.com/cicada-2025",
+  },
+  {
+    slug: "agent-arena",
+    contacts: [
+      { name: "Aman", phone: "+91 9483798153" },
+      { name: "Mahima", phone: "+91 7483065137" },
+      { name: "Manotosh", phone: "+91 8293017048" },
+    ],
+    imageFit: "cover",
+    imagePosition: "center 30%",
+    title: "AGENT ARENA 2026",
+    summary: "Think. Build. Compete. Get a problem statement at the start and ship an AI agent that solves it — in 3.5 hours.",
+    description: `<span class="text-white">Think. Build. Compete.</span>
+
+A time-bound Agentic AI building competition where participants receive a problem statement at the start of the event and must design, develop, and demonstrate an AI agent specifically to solve that challenge.
+
+<span class="text-white">Event Flow</span>
+• 📜 Problem Statement Release – The challenge is revealed when the event begins.
+• 🧠 Design – Plan how your agent will reason, decide and act.
+• 🛠️ Build – Develop the agent against the clock.
+• 🎤 Demonstrate – Show your agent solving the challenge.`,
+    coverImage: "https://res.cloudinary.com/dx9bvma03/image/upload/v1761040526/agentic_ai_do9mf7.jpg",
+    clubName: "ATRAIC",
+    clubLogo: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760378401/ai_club-removebg-preview_szuluv.png",
+    date: "Nov 5, 2026",
+    time: "10:00 AM – 1:30 PM",
+    Duration: "3 hrs 30 min",
+    teamSize: "3 - 4 members",
+    venue: "Atria Institute of Technology",
+    registrationFee: "₹200 per team",
+    mode: "Offline",
+    registerUrl: "https://konfhub.com/cicada-2025",
   },
   {
     slug: "ipl-auction",
@@ -136,219 +280,12 @@ The real action begins! Compete in a live, dynamic auction to secure your dream 
     brochureImage: "/ipl-auction.png",
     clubName: "Sports Analytics Club",
     clubLogo: "/ait-ai-club-logo.jpg",
-    date: "Nov 6, 2026",
-    Duration: "Endless fun",
+    date: "Nov 5, 2026",
+    time: "1:00 PM – 5:00 PM",
+    Duration: "4 hours",
     teamSize: "3 members per team",
     venue: "Atria Institute of Technology",
     registrationFee: "₹200 per team",
-    mode: "Offline",
-    registerUrl: "https://konfhub.com/cicada-2025",
-  },
-   {
-    slug: "intruverse-ctf",
-    prizes: [
-      { label: "Winners", amount: "₹2,000", perks: ["E-Certificate"] },
-      { label: "Runner Up", amount: "₹1,000", perks: ["E-Certificate"] },
-    ],
-    participantReward: "E-Certificates",
-    contacts: [
-      { name: "Deva Kumar", phone: "+91 8431822512" },
-      { name: "Aishwarya", phone: "+91 9148771379" },
-      { name: "Charu Shree", phone: "+91 7019126145" },
-      { name: "Prithvi Prabhu", phone: "+91 9611272227" },
-    ],
-    imageFit: "cover",
-    imagePosition: "20% 30%",
-    title: "INTRUVERSE: The Local Breach",
-    summary: "A high-octane CTF competition testing your hacking, problem-solving, and analytical skills across multiple challenge streams",
-    description: `Get ready for an intense cybersecurity showdown that pushes your hacking, problem-solving, and analytical skills to the limit!
-Whether you're a beginner stepping into ethical hacking or an experienced player hungry for new challenges, this CTF competition is your chance to think like an attacker, act like a defender, and capture the flag!
-Work in teams, collaborate under pressure, and compete to crack codes, uncover vulnerabilities, and claim the ultimate root flag.
-
-⚔️ <span class="text-white">Challenge Streams</span>
-
-1. 🌐 <span class="text-white">Web</span>
-Dive into the digital underworld of the internet!
-Explore logically crafted web challenges filled with hidden vulnerabilities, injection flaws, and misconfigurations waiting to be exploited.
-
-2. 💻 <span class="text-white">VM (Virtual Machine)</span>
-Step inside a simulated environment designed to mimic real-world system architectures.
-Exploit vulnerabilities, navigate complex network topologies, and outsmart defense mechanisms to gain system-level access.
-
-3. 🗂️ <span class="text-white">File System</span>
-Put your forensic hat on!
-Decrypt hidden data, reconstruct files, and analyze digital trails to uncover secrets buried deep within file systems.
-
-  <span class="text-white">Why You Should Join</span>
-• Open to beginners and experts alike
-• Hands-on experience in ethical hacking & digital forensics
-• Compete in a real-time cyber battle against top teams
-• Learn, collaborate, and network with cybersecurity enthusiasts
-• Exciting prizes, certificates, and bragging rights await the winners`,
-    coverImage: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760965058/intrucv_lqqi1l.jpg",
-    brochureImage: "/intruverse.png",
-    clubName: "Cybersecurity Club",
-    clubLogo: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760269199/CyberSec-AIT_jtlgdt.png",
-    date: "Nov 6, 2026",
-    Duration: "3 - 4 hours",
-    teamSize: "3 members per team",
-    venue: "Atria Institute of Technology",
-    registrationFee: "₹150 per team",
-    mode: "Offline",
-    registerUrl: "https://konfhub.com/cicada-2025",
-  },
-  
- 
-  {
-    slug: "agentic-ai",
-    prizes: [
-      { label: "Winners", amount: "₹2,000", perks: ["E-Certificate"] },
-      { label: "Runner Up", amount: "₹1,000", perks: ["E-Certificate"] },
-    ],
-    participantReward: "E-Certificates",
-    contacts: [
-      { name: "Aman", phone: "+91 9483798153" },
-      { name: "Mahima", phone: "+91 7483065137" },
-      { name: "Manotosh", phone: "+91 8293017048" },
-    ],
-    imageFit: "cover",
-    imagePosition: "center 30%",
-    title: "Agentic AI Challenge",
-    summary: "Step into the next frontier of artificial intelligence by building AI agents that don't just respond — they act.",
-    description: `Step into the next frontier of artificial intelligence with the Agentic AI Challenge, where participants are tasked with building AI agents that don't just respond — they act. This challenge goes beyond traditional chatbot interactions and dives deep into agentic intelligence, where your AI can plan, reason, make decisions, and execute tasks independently. It's your chance to explore how autonomous agents can revolutionize productivity, problem-solving, and human-AI collaboration.
-
-<span class="text-white">Your Mission</span>
-Design and develop an AI Agent capable of:
-• Reasoning: Analyzing inputs and forming logical conclusions
-• Decision-Making: Choosing optimal actions based on context
-• Autonomous Execution: Performing multi-step tasks without human intervention
-
-Your agent could assist in research, automate workflows, manage data, or even act as an intelligent digital assistant — the possibilities are endless.
-
-<span class="text-white">Tech Stack (Suggested)</span>
-You're free to choose any stack or framework that empowers your agent to think and act.
-Some recommended tools include:
-• 🪄 LangChain – for chaining reasoning tasks
-• 📚 LlamaIndex – for context and knowledge retrieval
-• 🤗 Hugging Face – for powerful NLP models
-• ⚡ FastAPI / Flask – to deploy your agent as an API
-• 🧩 OpenAI Function Calling / Custom Logic – for complex decision-making
-
-Bring your creativity — custom architectures and open-source frameworks are equally welcome!
-
-<span class="text-white"> What We're Looking For</span>
-• Innovative autonomous behavior and adaptability
-• Strong reasoning and decision flow
-• Effective real-world problem-solving ability
-• Well-structured architecture and presentation
-
-<span class="text-white"> Why You Should Join</span>
-• Build a next-gen AI agent that mimics human reasoning
-• Gain hands-on experience with cutting-edge AI tools and frameworks
-• Collaborate and network with fellow innovators and AI enthusiasts
-• Compete for recognition, prizes, and exposure in the world of intelligent systems`,
-    coverImage: "https://res.cloudinary.com/dx9bvma03/image/upload/v1761040526/agentic_ai_do9mf7.jpg",
-    brochureImage: "https://res.cloudinary.com/dx9bvma03/image/upload/v1761874370/Cicada_2025_brochure__20251030_215809_0000-3_gnsutz.png",
-    clubName: "AIT AI Club",
-    clubLogo: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760378401/ai_club-removebg-preview_szuluv.png",
-    date: "Nov 6, 2026",
-    Duration: "4 - 6 hours",
-    teamSize: "3 members per team",
-    venue: "Atria Institute of Technology",
-    registrationFee: "₹150 per team",
-    mode: "Offline",
-    registerUrl: "https://unstop.com/p/agentic-ai-ideathon-atria-institute-of-technology-1576729?utm_campaign=site-emails&utm_medium=d2c-automated&utm_source=congratulations-your-listing-for-agentic-ai-ideathon-is-complete",
-  },
-  
-  
-  
-  
-  {
-    slug: "proto-race",
-    prizes: [
-      { label: "Winners", amount: "₹2,000", perks: ["E-Certificate"] },
-      { label: "Runner Up", amount: "₹1,000", perks: ["E-Certificate"] },
-    ],
-    participantReward: "E-Certificates",
-    contacts: [
-      { name: "Tanushri M P", phone: "+91 8431418376" },
-      { name: "Sherin", phone: "+91 9900350005" },
-    ],
-    imageFit: "cover",
-    imagePosition: "center 25%",
-    title: "PROTO RACE: The IoT Challenge",
-    summary: "Decode clues, find IoT components, and build a working project in this high-energy campus race!",
-    description: `Get ready for PROTO RACE, an innovative IoT-based campus challenge that blends tech, logic, and adventure into one thrilling experience!
-Participants will embark on a quest to decode clues, locate hidden IoT components, and assemble a real-time working project — all against the clock.
-It's not just about speed — it's about smart thinking, teamwork, and hands-on IoT mastery.
-
-<span class="text-white">What's the Challenge?</span>
-Teams will receive a series of clues related to IoT components used in a real-world project.
-Each clue leads to a hidden component somewhere across the campus.
-Once all components are found, teams must assemble the complete IoT setup, upload the code, and get it running successfully.
-The first team to finish the build and execute the project wins the race!
-
-<span class="text-white">Event Flow</span>
-• 🔍 Clue Release – Teams receive their first clue hinting at an IoT component.
-• 🧩 Decode & Locate – Crack the clue and find the hidden component in designated campus areas.
-• 🛠️ Assemble the Project – Once all components are collected, assemble the given IoT project.
-• 💻 Code Upload & Execution – Run your code and get the IoT setup working perfectly.
-• 🏁 Race to Finish – The team that completes and demonstrates the project first wins!
-
-<span class="text-white">Learning Outcomes</span>
-• Hands-on experience with IoT components and sensors
-• Enhanced problem-solving and logical reasoning
-• Strengthened teamwork and collaboration
-• Real-world understanding of IoT systems and implementation
-
-<span class="text-white">Why You'll Love It</span>
-• 🎯 A fun, fast-paced technical treasure hunt
-• 🏃‍♂️ Mix of physical activity and tech application
-• 🧠 Learn IoT by doing, building, and racing
-• 🏆 Compete for exciting prizes and bragging rights`,
-    coverImage: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760965186/1_hfampo.jpg",
-    brochureImage: "https://res.cloudinary.com/dx9bvma03/image/upload/v1761874413/Cicada_2025_brochure__20251030_215809_0000-6_td6zcm.png",
-    clubName: "IoT Forge Club",
-    clubLogo: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760960677/iot_forge-modified_v2gvml.png",
-    date: "Nov 6, 2026",
-    Duration: "3 - 4 hours",
-    teamSize: "Team of 4",
-    venue: "Atria Institute of Technology",
-    registrationFee: "₹150 per team",
-    mode: "Offline",
-    registerUrl: "https://konfhub.com/cicada-2025",
-  },
-  {
-    slug: "project-expo",
-    badges: ["7th-semester only"],
-    notice: {
-      tone: "info",
-      title: "Eligibility: Open to 7th-semester students only",
-    },
-    prizes: [
-      { label: "Winners", amount: "₹8,000", perks: ["E-Certificate"] },
-      { label: "Runner Up", amount: "₹4,000", perks: ["E-Certificate"] },
-    ],
-    participantReward: "E-Certificates",
-    contacts: [
-      { name: "Shruthi Raj", phone: "+91 6204705418" },
-      { name: "Kashik", phone: "+91 6360497813" },
-      { name: "Kavan TB", phone: "+91 8951811235" },
-      { name: "Shrajan", phone: "+91 7795264283" },
-    ],
-    imageFit: "contain",
-    title: "Project Expo - The Innovation Show",
-    summary: "Exclusive platform for 7th-semester students to present innovative projects to industry professionals and academic experts",
-    description: `Project Expo is an exclusive platform for 7th-semester students to present their most innovative and impactful projects before a panel of industry professionals and academic experts. It's where creativity meets real-world problem-solving, and visionary ideas come to life through prototypes, research models, and tech demonstrations.\n\n<span class="text-white">Domains You Can Showcase In</span>\n\n🤖 Artificial Intelligence & Machine Learning\n🌐 Internet of Things (IoT)\n🔐 Cybersecurity\n⚙️ Robotics and Automation\n🌱 Green Technology & Sustainability\n📊 Data Science & Analytics\n💻 Web & Mobile Applications\n\nWhether you're showcasing a working prototype, a research-driven concept, or a tech-powered innovation, this is your moment to shine, connect, and inspire.\n\n <span class="text-white">Tracks & Prizes</span>\nTwo separate categories ensure fair recognition for all innovators:\n\n <span class="text-white">Software Track</span>\n🥇 Winners: ₹8,000 + E-Certificate\n🥈 Runners-up: ₹4,000 + E-Certificate\n\n <span class="text-white">Hardware Track</span>\n🥇 Winners: ₹8,000 + E-Certificate\n🥈 Runners-up: ₹4,000 + E-Certificate\n\n <span class="text-white">Event Highlights</span>\n• 100+ Projects on Display\n• Judging by Industry Professionals\n• Mentorship & Incubation Opportunities\n• Prizes & Certificates for Top Innovations\n• Networking with Industry Experts`,
-    coverImage: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760969089/Untitled_design_h0ch4k.png",
-    brochureImage: "/project-expo.png",
-    clubName: "Innovation Club",
-    clubLogo: "/ait-ai-club-logo.jpg",
-    date: "Nov 5, 2026",
-    Duration: "5–6 hrs",
-    teamSize: "Max of 4 members per team",
-    venue: "Atria Institute of Technology",
-    registrationFee: "₹400 per team",
     mode: "Offline",
     registerUrl: "https://konfhub.com/cicada-2025",
   },

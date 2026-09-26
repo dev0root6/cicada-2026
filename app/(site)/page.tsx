@@ -1,5 +1,6 @@
 import { Hero } from "@/components/home/hero"
 import { FeaturedEvents } from "@/components/home/featured-events"
+import { Schedule } from "@/components/home/schedule"
 import { AboutPreview } from "@/components/home/about-preview"
 import { Standings } from "@/components/home/standings"
 import { Gallery } from "@/components/home/gallery"
@@ -14,6 +15,7 @@ export default function HomePage() {
     <>
       <Hero eventCount={events.length} />
       <FeaturedEvents />
+      <Schedule />
       <AboutPreview />
       <Standings />
       <Gallery />

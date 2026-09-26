@@ -14,7 +14,9 @@ export const site = {
     "CICADA is AIT's annual technology festival — workshops, hackathons, competitions, talks and showcases hosted by clubs across campus.",
   logo: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760198155/cicada_logo_no_bg_m0sjov.png",
   brochure: "/Cicada Brochure-1_compress.pdf",
-  dates: "Nov 5 – 7, 2026",
+  dates: "Nov 4 – 6, 2026",
+  /** Compact form for the hero stat tile. */
+  shortDates: "Nov 4–6",
   venue: {
     name: "Atria Institute of Technology",
     city: "Hebbal, Bengaluru",
@@ -106,37 +108,16 @@ export const clubs: Club[] = [
 
 export type Sponsor = {
   name: string
-  logo: string
+  href?: string
+  /** Without a logo the sponsor renders as a text wordmark. */
+  logo?: string
   /** Tailwind width class — logos ship at wildly different aspect ratios. */
-  width: string
+  width?: string
 }
 
 export const sponsors: Sponsor[] = [
-  {
-    name: "Monster Energy",
-    logo: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760802401/hd-white-monster-energy-logo-png-701751694778506qte0bhllt8-removebg-preview-removebg-preview_slhyah.png",
-    width: "w-40 md:w-48",
-  },
-  {
-    name: "Red Bull",
-    logo: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760348280/images__5_-removebg-preview_fjabqd.png",
-    width: "w-32 md:w-40",
-  },
-  {
-    name: "ScriptVerse",
-    logo: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760803111/WhatsApp_Image_2025-10-16_at_18.17.03_e329bb39-removebg-preview_3_sa6q3n-removebg-preview_fcwkkq.png",
-    width: "w-48 md:w-56",
-  },
-  {
-    name: "Atria Foundation",
-    logo: "https://res.cloudinary.com/dx9bvma03/image/upload/v1761825817/white_Atria_Foundation_1_1_kajka6.avif",
-    width: "w-44 md:w-52",
-  },
-  {
-    name: "IEEE Bangalore Section",
-    logo: "https://res.cloudinary.com/dx9bvma03/image/upload/v1761826422/Bangalore-Section-Logo-white-1-01-1-1024x244_c1k3mb.png",
-    width: "w-40 md:w-48",
-  },
+  { name: "Ellipsonic", href: "https://ellipsonic.com/" },
+  { name: "HackoSquad", href: "https://www.hackosquad.com/" },
 ]
 
 export const galleryImages = [

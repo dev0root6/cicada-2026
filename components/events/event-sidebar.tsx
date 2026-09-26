@@ -9,6 +9,7 @@ import type { Event } from "@/data/events"
 export function EventSidebar({ event }: { event: Event }) {
   const facts = [
     { label: "Date", value: event.date.trim() },
+    ...(event.time ? [{ label: "Time", value: event.time }] : []),
     { label: "Duration", value: event.Duration.trim() },
     { label: "Team size", value: event.teamSize },
     ...(event.mode ? [{ label: "Mode", value: event.mode }] : []),

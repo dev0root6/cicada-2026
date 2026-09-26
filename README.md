@@ -40,6 +40,7 @@ components/
 data/
   site.ts              Fest identity, nav, sponsors, clubs, organisers, gallery
   events.ts            Event list — copy, logistics, prizes, contacts
+  schedule.ts          Day-by-day timetable on the home page
   faq.ts               Home-page FAQ
   standings.ts         Project Expo results
 ```
@@ -55,6 +56,7 @@ per-event branches in the markup. To change what the site says:
 | Nav and footer links | `data/site.ts` |
 | Sponsors, clubs, gallery photos | `data/site.ts` |
 | An event's copy, fee, prizes, organisers | `data/events.ts` |
+| Day-by-day schedule | `data/schedule.ts` |
 | FAQ entries | `data/faq.ts` |
 | Project Expo results | `data/standings.ts` |
 
