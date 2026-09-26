@@ -2,8 +2,7 @@ import Link from "next/link"
 import { ArrowRight, CalendarDays, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Container } from "@/components/common/container"
-import { WORDMARK_SRC } from "@/components/brand/logo"
-import { FlyingBug } from "@/components/visuals/flying-bug"
+import { BUG_SRC, WORDMARK_SRC } from "@/components/brand/logo"
 import { site } from "@/data/site"
 
 /**
@@ -16,7 +15,14 @@ export function Hero({ eventCount }: { eventCount: number }) {
     <section className="relative border-b border-border">
       <Container size="wide">
         <div className="flex flex-col items-center py-20 text-center md:py-28">
-          <FlyingBug className="glow animate-glitch-in w-[clamp(140px,24vw,240px)]" />
+          {/* The flying bug (SiteEffects) takes off from here. */}
+          <img
+            src={BUG_SRC}
+            alt=""
+            aria-hidden
+            data-cicada-home="hero"
+            className="glow animate-glitch-in w-[clamp(140px,24vw,240px)]"
+          />
           <h1 className="animate-lock mt-6 w-[clamp(260px,62vw,600px)]">
             <img
               src={WORDMARK_SRC}

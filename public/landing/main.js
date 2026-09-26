@@ -52,6 +52,9 @@
   }
 
   // ---- Skip ------------------------------------------------------------
+  // Custom cursor and grid trails (public/brand/cicada-cursor.js).
+  if (window.CicadaCursor) window.CicadaCursor.attach({ grid: ".grid" })
+
   // Once the intro is over, the bug is free to fly (public/brand/cicada-fly.js).
   var flying = false
   function releaseBug() {

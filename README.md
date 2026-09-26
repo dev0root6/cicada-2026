@@ -96,13 +96,22 @@ All copy — subjects, headings, paragraphs, button labels, footer, sender name,
 reply-to, and an `enabled` switch per email — lives in `data/emails.ts`. The HTML
 layout is `lib/mail/render.ts`.
 
-## Flying bug
+## Cursor, grid trails and the flying bug
 
-`public/brand/cicada-fly.js` lifts the hero bug on `/` and `/home` off the page:
-it follows the cursor on desktop and flies to taps on touch screens, with
-wings flapping in 3D. It's plain JS shared by the teaser and
-`components/visuals/flying-bug.tsx`, and does nothing under
-`prefers-reduced-motion`.
+`components/visuals/site-effects.tsx` (mounted once in the site layout, so it
+survives client-side navigation) and the teaser both load two plain scripts
+from `public/brand/`:
+
+- `cicada-cursor.js` — a reticle cursor (dot + trailing ring that grows over
+  anything clickable; text fields keep the native I-beam) and trails that light
+  up the background grid's dots along the pointer's path. Touch screens keep
+  their normal behaviour and get a pulse through the grid on tap.
+- `cicada-fly.js` — the bug flies on every page: after the cursor on desktop,
+  to taps on touch screens. It rests in the `/home` hero when that's on screen,
+  otherwise in the navbar logo (elements marked `data-cicada-home`), and its
+  position carries over full page loads via `sessionStorage`.
+
+Both do nothing under `prefers-reduced-motion` (the cursor stays, without lag).
 
 ## Design system
 

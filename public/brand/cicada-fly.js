@@ -5,7 +5,14 @@
 // landing) and the Next site (components/visuals/flying-bug.tsx), so it is
 // plain JS with no dependencies.
 //
-//   const detach = window.CicadaFly.attach(heroBugElement)
+//   const detach = window.CicadaFly.attach(() => homeElement)
+//   detach.refresh()   // after the page's home element changes (navigation)
+//   detach()
+//
+// "Home" is where the bug docks when idle — an element, or a function that
+// returns the current one (the hero bug on /home, else the navbar logo). The
+// bug's position survives full page loads via sessionStorage, so it keeps
+// flying from one page to the next.
 //
 // The bug is three layers (two wings and the body, traced from the brand PNG)
 // in a perspective rig; each wing flaps with rotateY about its hinge. Every
@@ -55,11 +62,17 @@
     return img
   }
 
+  var STORE_KEY = "cicada-fly"
+
+  function noop() {}
+  noop.refresh = noop
+
   function attach(home, options) {
     options = options || {}
     if (!home || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-      return function () {}
+      return noop
     }
+    var resolveHome = typeof home === "function" ? home : function () { return home }
 
     if (!document.getElementById("cf-style")) {
       var style = el("style", "")
@@ -99,27 +112,47 @@
     var last = 0
     var t = 0
 
+    // The element currently faded out because the bug has left it.
+    var awayEl = null
+
     function homeRect() {
-      var r = home.getBoundingClientRect()
+      var node = resolveHome()
+      if (!node) return null
+      var r = node.getBoundingClientRect()
+      if (!r.width) return null
       return { x: r.left + r.width / 2, y: r.top + r.height / 2, w: r.width, h: r.height }
     }
 
     function onScreen(r) {
-      return r.y > -r.h && r.y < window.innerHeight + r.h && r.w > 0
+      return r && r.y > -r.h && r.y < window.innerHeight + r.h
     }
 
-    function flightWidth(homeWidth) {
-      return clamp(homeWidth * 0.5, touchFirst ? 72 : 90, 130)
+    function setAway(away) {
+      var node = away ? resolveHome() : null
+      if (node === awayEl) return
+      if (awayEl) awayEl.classList.remove("cf-away")
+      if (node) node.classList.add("cf-away")
+      awayEl = node
+    }
+
+    function sizeFlyer() {
+      width = clamp(window.innerWidth * 0.08, touchFirst ? 72 : 88, 112)
+      flyer.style.width = width + "px"
+      flyer.style.height = width * ASPECT + "px"
+    }
+
+    function show() {
+      setAway(true)
+      flyer.classList.add("cf-on")
     }
 
     function takeOff(px, py) {
       clearTimeout(homeTimer)
-      var r = homeRect()
-      width = flightWidth(r.w)
-      flyer.style.width = width + "px"
-      flyer.style.height = width * ASPECT + "px"
       if (mode === "home") {
-        // Start exactly on top of the hero bug, at its size, then shrink.
+        var r = homeRect()
+        if (!r) return
+        sizeFlyer()
+        // Start exactly on top of the home bug, at its size, then grow/shrink.
         x = r.x
         y = r.y
         vx = 0
@@ -127,8 +160,7 @@
         heading = 0
         altitude = 0
         scale = r.w / width
-        home.classList.add("cf-away")
-        flyer.classList.add("cf-on")
+        show()
       }
       mode = "fly"
       tx = px
@@ -140,7 +172,7 @@
     function goHome() {
       if (mode === "home") return
       var r = homeRect()
-      if (!onScreen(r)) return // the hero scrolled away; stay where we are
+      if (!onScreen(r)) return // home is off screen; stay where we are
       mode = "returning"
       start()
     }
@@ -189,9 +221,17 @@
 
       if (mode === "returning") {
         var r = homeRect()
-        goalX = r.x
-        goalY = r.y
-        goalScale = r.w / width
+        if (r) {
+          goalX = r.x
+          goalY = r.y
+          goalScale = r.w / width
+        } else {
+          // Home vanished mid-flight (navigation): settle where we are.
+          mode = "fly"
+          tx = x
+          ty = y
+          lastMove = t - 10
+        }
       } else if (mode === "fly" && !touchFirst) {
         // Hover near the cursor rather than on it, drifting in a lazy orbit
         // that calms down once the cursor rests so the bug can settle.
@@ -279,18 +319,52 @@
       vx = vy = 0
       altitude = 0
       flyer.classList.remove("cf-on")
-      home.classList.remove("cf-away")
+      setAway(false)
     }
 
-    return function detach() {
+    // ---- Survive page loads ---------------------------------------------------
+    function save() {
+      try {
+        if (mode === "home") sessionStorage.removeItem(STORE_KEY)
+        else sessionStorage.setItem(STORE_KEY, JSON.stringify({ x: x, y: y, h: heading, at: Date.now() }))
+      } catch (e) {}
+    }
+
+    function restore() {
+      var saved = null
+      try { saved = JSON.parse(sessionStorage.getItem(STORE_KEY) || "null") } catch (e) {}
+      if (!saved || Date.now() - saved.at > 5 * 60 * 1000) return
+      sizeFlyer()
+      x = tx = clamp(saved.x, 20, window.innerWidth - 20)
+      y = ty = clamp(saved.y, 20, window.innerHeight - 20)
+      heading = saved.h || 0
+      mode = "landed"
+      show()
+      start()
+    }
+
+    window.addEventListener("pagehide", save)
+    restore()
+
+    function detach() {
       if (raf) cancelAnimationFrame(raf)
       clearTimeout(homeTimer)
+      save()
       document.removeEventListener("pointermove", onPointerMove)
       document.removeEventListener("pointerdown", onPointerDown)
       document.removeEventListener("mouseout", onLeave)
+      window.removeEventListener("pagehide", save)
       flyer.remove()
-      home.classList.remove("cf-away")
+      setAway(false)
     }
+
+    // The page's home element changed (client-side navigation): move the
+    // faded "away" state to the new one, or re-dock onto it.
+    detach.refresh = function () {
+      if (mode !== "home") setAway(true)
+    }
+
+    return detach
   }
 
   window.CicadaFly = { attach: attach }

@@ -11,9 +11,12 @@ export const WORDMARK_SRC = "/brand/cicada-wordmark.svg"
 export function Logo({
   className,
   size = "sm",
+  home = false,
 }: {
   className?: string
   size?: "sm" | "md"
+  /** Marks this bug as the flying bug's resting place (the navbar's). */
+  home?: boolean
 }) {
   return (
     <span className={cn("flex items-center", size === "sm" ? "gap-2.5" : "gap-3", className)}>
@@ -21,6 +24,7 @@ export function Logo({
         src={BUG_SRC}
         alt=""
         aria-hidden
+        data-cicada-home={home ? "logo" : undefined}
         className={cn("glow w-auto", size === "sm" ? "h-7" : "h-9")}
       />
       <span className="flex flex-col gap-1 leading-none">
