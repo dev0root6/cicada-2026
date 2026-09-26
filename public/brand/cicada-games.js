@@ -12,6 +12,10 @@
 //   EVADE       it hunts the cursor and gets faster; survive as long as you can
 //   GRID HEIST  it follows the cursor; steer it onto vault nodes before they fade
 //
+// Twelve seconds into a game (once per visit) it pauses for a nudge back to
+// the fest: "weren't you supposed to be exploring events?", with a button to
+// /home and one to keep playing.
+//
 // Best scores are kept in localStorage. Plain JS, no dependencies.
 ;(function () {
   "use strict"
@@ -57,6 +61,10 @@
     "@keyframes cg-ring{from{transform:scale(.4);opacity:1}to{transform:scale(1.4);opacity:0}}" +
     ".cg-burst{position:fixed;z-index:66;width:60px;height:60px;margin:-30px 0 0 -30px;border:2px solid #4cd97b;border-radius:50%;pointer-events:none;animation:cg-burst .5s ease-out forwards}" +
     "@keyframes cg-burst{from{transform:scale(.2);opacity:1}to{transform:scale(1.6);opacity:0}}" +
+    ".cg-nag{position:fixed;inset:0;z-index:75;display:flex;align-items:center;justify-content:center;padding:24px;background:rgba(5,8,6,.55)}" +
+    ".cg-nag .cg-modal{width:min(460px,100%);text-align:left;animation:cg-nag-in .35s cubic-bezier(.3,1.3,.5,1) both}" +
+    ".cg-nag h2{font-size:19px;line-height:1.35;text-transform:none;letter-spacing:.01em}" +
+    "@keyframes cg-nag-in{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}" +
     ".cg-big{margin:6px 0 2px;font-size:56px;font-weight:700;color:#4cd97b;text-shadow:0 0 30px rgba(" + G + ",.4)}"
 
   var GAMES = {
@@ -197,6 +205,10 @@
     var last = 0
     var nodes = []
     var spawnIn = 0
+    var paused = false
+    var nagChecked = false
+    var nagEl = null
+    var NAG_AT = 12 // seconds into the game
 
     running = { kind: kind, end: end }
 
@@ -243,7 +255,12 @@
       if (!running) return
       var dt = Math.min((now - last) / 1000, 0.05)
       last = now
+      if (paused) { raf = requestAnimationFrame(loop); return }
       elapsed += dt
+      if (!nagChecked && elapsed >= NAG_AT) {
+        nagChecked = true
+        if (shouldNag()) return nag()
+      }
       var s = ctrl.state()
 
       if (kind === "evade") {
@@ -278,6 +295,59 @@
       raf = requestAnimationFrame(loop)
     }
 
+    // ---- The nudge back to the fest -----------------------------------------------
+    function shouldNag() {
+      try {
+        if (sessionStorage.getItem("cicada-games-nag")) return false
+        sessionStorage.setItem("cicada-games-nag", "1")
+      } catch (e) {}
+      return true
+    }
+
+    function mode() {
+      return kind === "catch" ? "flee" : kind === "evade" ? "chase" : "seek"
+    }
+
+    function level() {
+      return kind === "catch" ? 1 + score * 0.3 : kind === "evade" ? 1 + elapsed / 5 : 1
+    }
+
+    function nag() {
+      paused = true
+      ctrl.stop() // the bug relaxes and hovers by the cursor while you decide
+      nagEl = el(
+        "div",
+        "cg-nag",
+        document.body,
+        '<div class="cg-modal" role="alertdialog" aria-modal="true" aria-labelledby="cg-nag-title">' +
+          '<p class="cg-eyebrow">Hold up</p>' +
+          '<h2 id="cg-nag-title">I guess you were supposed to be exploring events, not playing games…</h2>' +
+          '<p class="cg-sub">The bug will still be here. The registrations might not.</p>' +
+          '<div class="cg-row"><button class="cg-btn cg-primary" data-a="home">Back to /home</button>' +
+          '<button class="cg-btn" data-a="resume">One more round</button></div>' +
+          "</div>",
+      )
+      nagEl.querySelector("button").focus({ preventScroll: true })
+      nagEl.addEventListener("click", function (e) {
+        var a = e.target.closest("[data-a]")
+        if (!a) return
+        if (a.dataset.a === "resume") return resume()
+        end(null)
+        if (location.pathname === "/home") window.scrollTo({ top: 0, behavior: "smooth" })
+        else location.href = "/home"
+      })
+      raf = requestAnimationFrame(loop)
+    }
+
+    function resume() {
+      if (nagEl) nagEl.remove()
+      // Don't resume Evade with the hunter already on top of the cursor.
+      if (kind === "evade") ctrl.scatter()
+      ctrl.play(mode(), { level: level() })
+      paused = false
+      last = performance.now()
+    }
+
     function spawnNode() {
       var cell = 18
       var W = window.innerWidth, H = window.innerHeight
@@ -291,7 +361,7 @@
 
     function onDown(e) {
       e.preventDefault()
-      if (!live || kind !== "catch") return
+      if (!live || paused || kind !== "catch") return
       var s = ctrl.state()
       if (Math.hypot(e.clientX - s.x, e.clientY - s.y) < s.width * 0.55) {
         score++
@@ -309,7 +379,7 @@
     }
 
     function onLeave(e) {
-      if (live && kind === "evade" && !e.relatedTarget) end("You left the vault.")
+      if (live && !paused && kind === "evade" && !e.relatedTarget) end("You left the vault.")
     }
 
     layer.addEventListener("mousedown", onDown)
@@ -324,6 +394,7 @@
       hud.remove()
       count.remove()
       nodes.forEach(function (node) { node.el.remove() })
+      if (nagEl) nagEl.remove()
       document.removeEventListener("keydown", onKey)
       document.removeEventListener("mouseout", onLeave)
       ctrl.stop()

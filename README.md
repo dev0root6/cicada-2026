@@ -118,7 +118,9 @@ Both do nothing under `prefers-reduced-motion` (the cursor stays, without lag).
   the footer's **Play with the bug** link opens it any time. Three games use the
   real flying bug: **Catch** (it flees, click it), **Evade** (it hunts the cursor
   and speeds up) and **Grid Heist** (steer it onto vault nodes). Best scores
-  are kept in `localStorage`.
+  are kept in `localStorage`. Twelve seconds into a game (once per visit) it pauses to ask
+  whether you weren't supposed to be exploring events, with a **Back to /home**
+  button and **One more round** to carry on.
 
 ## Design system
 
