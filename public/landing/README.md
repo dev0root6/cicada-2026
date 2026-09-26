@@ -1,6 +1,8 @@
 # CICADA 2026 — landing
 
-A single-screen, atmospheric teaser page. Plain HTML, CSS and vanilla JS: no
+A single-screen, atmospheric teaser page, served at `/` of the main site
+(`next.config.mjs` rewrites `/` to `/landing/index.html`). Its **Enter**
+button leads to the full site at `/home`. Plain HTML, CSS and vanilla JS: no
 build step, no dependencies, ~30 KB gzipped for the page plus ~5 KB of CSS/JS.
 
 ```
@@ -8,23 +10,13 @@ index.html   Markup, with the bug and wordmark inlined as SVG
 styles.css   Theme, background ambience and the intro timeline
 main.js      Starts the intro, cipher/decrypt text, skip, clock, grid pings
 assets/      Original brand PNGs (favicon / social preview)
-vercel.json  Cache headers
 ```
 
 ## Run locally
 
-Any static server works:
-
-```bash
-cd landing
-python3 -m http.server 4173   # http://localhost:4173
-```
-
-## Deploy to Vercel
-
-Import the repository as a new Vercel project and set **Root Directory** to
-`landing` and **Framework Preset** to *Other*. No build command or output
-directory is needed.
+It ships with the Next.js app: `npm run dev` and open http://localhost:3000.
+Asset paths are absolute (`/landing/...`), so it must be served from the site
+root rather than opened as a file.
 
 ## How it moves
 

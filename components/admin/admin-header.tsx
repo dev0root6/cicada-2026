@@ -35,7 +35,7 @@ export function AdminHeader({ actor }: { actor: Actor }) {
           )}
 
           <Button asChild variant="ghost" size="sm">
-            <Link href="/">View site</Link>
+            <Link href="/home">View site</Link>
           </Button>
           <form action={logout}>
             <Button type="submit" variant="outline" size="sm">

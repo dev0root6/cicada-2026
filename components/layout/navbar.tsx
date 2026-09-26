@@ -47,7 +47,7 @@ export function Navbar() {
 
 function Brand() {
   return (
-    <Link href="/" className="group flex items-center gap-3">
+    <Link href="/home" className="group flex items-center gap-3">
       <img
         src={site.logo}
         alt=""
