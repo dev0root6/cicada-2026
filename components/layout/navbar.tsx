@@ -49,7 +49,7 @@ export function Navbar() {
 function Brand() {
   return (
     <Link href="/home" aria-label="CICADA 2026 home" className="transition-opacity hover:opacity-85">
-      <Logo />
+      <Logo home />
     </Link>
   )
 }
