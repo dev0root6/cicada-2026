@@ -47,6 +47,7 @@ data/
   site.ts              Fest identity, nav, sponsors, clubs, organisers, gallery
   events.ts            Event list — copy, logistics, prizes, contacts
   schedule.ts          Day-by-day timetable on the home page
+  emails.ts            Email templates and mail settings
   faq.ts               Home-page FAQ
   standings.ts         Project Expo results
 ```
@@ -63,6 +64,7 @@ per-event branches in the markup. To change what the site says:
 | Sponsors, clubs, gallery photos | `data/site.ts` |
 | An event's copy, fee, prizes, organisers | `data/events.ts` |
 | Day-by-day schedule | `data/schedule.ts` |
+| Email copy, subjects, sender name | `data/emails.ts` |
 | FAQ entries | `data/faq.ts` |
 | Project Expo results | `data/standings.ts` |
 
@@ -76,6 +78,31 @@ While an event has no `registerUrl`, its Register buttons lead to
 
 Rolling the site to a new edition is a one-line change to `site.edition` in
 `data/site.ts` (plus the year-specific strings in `data/faq.ts`).
+
+## Priority-list emails
+
+The "registration opens soon" page collects emails into `registration_interest`.
+With `MAIL_APP_PASSWD` (a Gmail app password) and `MAIL_USER` set:
+
+1. **On sign-up** each new address gets a "you're on the list" email, sent after
+   the response so the visitor never waits on Gmail.
+2. **When registrations open**, set the event's `registerUrl` in
+   `data/events.ts`, deploy, then open **Alerts** in the admin console and press
+   **Send alert**. Everyone waiting gets the "registrations are open" email.
+   Each address is marked once delivered, so re-sending only reaches whoever is
+   still waiting (batches of `mailConfig.alertBatchSize`; Gmail allows ~500/day).
+
+All copy — subjects, headings, paragraphs, button labels, footer, sender name,
+reply-to, and an `enabled` switch per email — lives in `data/emails.ts`. The HTML
+layout is `lib/mail/render.ts`.
+
+## Flying bug
+
+`public/brand/cicada-fly.js` lifts the hero bug on `/` and `/home` off the page:
+it follows the cursor on desktop and flies to taps on touch screens, with
+wings flapping in 3D. It's plain JS shared by the teaser and
+`components/visuals/flying-bug.tsx`, and does nothing under
+`prefers-reduced-motion`.
 
 ## Design system
 

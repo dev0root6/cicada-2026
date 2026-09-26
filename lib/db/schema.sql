@@ -110,3 +110,10 @@ create table if not exists registration_interest (
 
 create unique index if not exists registration_interest_event_email_idx
   on registration_interest (event_slug, lower(email));
+
+-- Set once the "registrations are open" alert reached this address, so the
+-- alert can be re-run to finish a partial send without emailing anyone twice.
+alter table registration_interest add column if not exists notified_at timestamptz;
+
+create index if not exists registration_interest_pending_idx
+  on registration_interest (event_slug, created_at) where notified_at is null;

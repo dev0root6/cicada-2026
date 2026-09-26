@@ -1,7 +1,10 @@
 "use server"
 
+import { after } from "next/server"
 import { isDatabaseConfigured } from "@/lib/db/client"
 import { addRegistrationInterest } from "@/lib/db/interest"
+import { requestOrigin } from "@/lib/mail/origin"
+import { sendSignupConfirmation } from "@/lib/mail/send"
 import { events } from "@/data/events"
 
 export type NotifyState = {
@@ -36,7 +39,13 @@ export async function requestNotification(
   }
 
   try {
-    await addRegistrationInterest(event.slug, email)
+    const isNew = await addRegistrationInterest(event.slug, email)
+    // Confirm by email after the response is sent, so the visitor never waits
+    // on Gmail. Repeat sign-ups don't get a second copy.
+    if (isNew) {
+      const origin = await requestOrigin()
+      after(() => sendSignupConfirmation(event, email, origin))
+    }
   } catch (error) {
     console.error("registration interest failed", error)
     return { status: "error", message: "Something went wrong. Please try again.", email }
