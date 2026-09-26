@@ -9,9 +9,9 @@ competitions, tech talks and showcases hosted by clubs across campus.
 
 ## Landing teaser
 
-`landing/` is a separate, dependency-free teaser page for the 2026 edition —
-see [`landing/README.md`](landing/README.md). Deploy it as its own Vercel
-project with Root Directory set to `landing`.
+The site opens on a dependency-free teaser in `public/landing/` (see
+[`public/landing/README.md`](public/landing/README.md)). `next.config.mjs`
+rewrites `/` to it; its **Enter** button leads to the full site at `/home`.
 
 ## Getting started
 
@@ -31,7 +31,7 @@ app/
   not-found.tsx
   (site)/
     layout.tsx         Navbar + Footer chrome for every public page
-    page.tsx           Home — composes the sections in components/home
+    home/page.tsx      Home (/home) — composes the sections in components/home
     events/            Listing + [slug] detail
     about/  terms/  project-expo/
 

@@ -361,6 +361,25 @@ body {
   color: var(--muted);
 }
 
+/* Way into the full site. */
+.enter {
+  margin-top: clamp(24px, 5vh, 44px);
+  padding: 11px 22px;
+  font-size: 12px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: var(--green);
+  text-decoration: none;
+  border: 1px solid rgb(var(--green-rgb) / .45);
+  border-radius: 999px;
+  background: rgb(var(--green-rgb) / .04);
+  transition: background-color .25s, border-color .25s, color .25s;
+}
+.enter span { display: inline-block; transition: transform .25s; }
+.enter:hover { background: var(--green); border-color: var(--green); color: var(--bg); }
+.enter:hover span { transform: translateX(3px); }
+.enter:focus-visible { outline: 2px solid var(--green); outline-offset: 4px; }
+
 /* ------------------------------------------------------------------ */
 /* Footer strip                                                        */
 /* ------------------------------------------------------------------ */
@@ -403,7 +422,7 @@ body {
 /* ------------------------------------------------------------------ */
 
 /* Waiting for main.js: hold the frame dark rather than flash the end state. */
-.js:not(.go):not(.skip) :is(.bug, .wordmark, .edition, .tagline, .subline, .hud, .strip) {
+.js:not(.go):not(.skip) :is(.bug, .wordmark, .edition, .tagline, .subline, .enter, .hud, .strip) {
   opacity: 0;
 }
 
@@ -487,6 +506,7 @@ body {
 .go:not(.skip) .edition { animation: rise .6s ease-out 2.3s both; }
 .go:not(.skip) .tagline { animation: rise .4s ease-out 2.15s both; }
 .go:not(.skip) .subline { animation: rise .6s ease-out 2.7s both; }
+.go:not(.skip) .enter { animation: rise .6s ease-out 2.9s both; }
 .go:not(.skip) :is(.hud, .strip) { animation: rise .8s ease-out 2.4s both; }
 
 @keyframes rise {

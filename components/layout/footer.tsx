@@ -15,7 +15,7 @@ export function Footer() {
       <Container size="wide">
         <div className="grid gap-12 py-14 md:grid-cols-12">
           <div className="md:col-span-5">
-            <Link href="/" className="flex items-center gap-3">
+            <Link href="/home" className="flex items-center gap-3">
               <img src={site.logo} alt="" aria-hidden className="h-12 w-12 object-contain" />
               <span className="flex flex-col leading-none">
                 <span className="font-display text-lg font-semibold">{site.name}</span>

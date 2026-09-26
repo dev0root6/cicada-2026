@@ -41,7 +41,7 @@ export type NavLink = {
 }
 
 export const navLinks: NavLink[] = [
-  { href: "/", label: "Home" },
+  { href: "/home", label: "Home" },
   { href: "/events", label: "Events" },
   { href: "/about", label: "About" },
   { href: site.brochure, label: "Brochure", external: true },
