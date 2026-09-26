@@ -352,12 +352,14 @@
   }
 
   // ---- Restlessness detector ------------------------------------------------------
-  // A moment is "erratic" when the last 1.4s of movement has many sharp direction
-  // reversals and covers a lot of ground. The prompt needs that to hold for more
+  // A moment is "erratic" when the last 1.5s of movement has several direction
+  // reversals and covers a lot of ground (tuned against human-like random
+  // movement: a new heading every 150-350ms at 600-1400px/s). The prompt needs that to hold for more
   // than RESTLESS_MS without a break; a pause longer than GRACE_MS resets it.
   // Ordinary reading, scrolling or pointing never gets close.
   var RESTLESS_MS = 5000
-  var GRACE_MS = 700
+  var GRACE_MS = 1000
+  var WINDOW_MS = 1500
   var samples = []
   var lastDx = 0, lastDy = 0
   var armedAt = 0
@@ -376,11 +378,11 @@
     }
     mx = e.clientX
     my = e.clientY
-    while (samples.length && now - samples[0].t > 1400) samples.shift()
+    while (samples.length && now - samples[0].t > WINDOW_MS) samples.shift()
     if (ui || running || now < armedAt) { restlessSince = 0; return }
     var turns = 0, path = 0
     for (var i = 0; i < samples.length; i++) { path += samples[i].d; if (samples[i].turn) turns++ }
-    var erratic = turns >= 6 && path >= 900
+    var erratic = turns >= 3 && path >= 600
 
     if (erratic) {
       if (!restlessSince || now - lastErratic > GRACE_MS) restlessSince = now
