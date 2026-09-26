@@ -87,6 +87,14 @@ export function Footer() {
             <p>
               © {site.edition} {site.name}
             </p>
+            {/* Desktop only: the bug games need a mouse (public/brand/cicada-games.js). */}
+            <button
+              type="button"
+              onClick={() => window.CicadaGames?.open()}
+              className="hidden uppercase tracking-[0.18em] text-primary/80 transition-colors hover:text-primary [@media(hover:hover)_and_(pointer:fine)]:inline"
+            >
+              {"// Play with the bug"}
+            </button>
             <a
               href={site.credit.href}
               target="_blank"

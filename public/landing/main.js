@@ -61,6 +61,7 @@
     if (flying || !window.CicadaFly) return
     flying = true
     window.CicadaFly.attach(document.querySelector(".bug"))
+    if (window.CicadaGames) window.CicadaGames.attach()
   }
 
   function finish() {

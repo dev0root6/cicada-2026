@@ -113,6 +113,13 @@ from `public/brand/`:
 
 Both do nothing under `prefers-reduced-motion` (the cursor stays, without lag).
 
+- `cicada-games.js` — desktop only. More than 5 seconds of continuous, erratic
+  mouse movement pops a "wanna play with the bug?" prompt (once per visit);
+  the footer's **Play with the bug** link opens it any time. Three games use the
+  real flying bug: **Catch** (it flees, click it), **Evade** (it hunts the cursor
+  and speeds up) and **Grid Heist** (steer it onto vault nodes). Best scores
+  are kept in `localStorage`.
+
 ## Design system
 
 A "heist" theme shared with the teaser at `/`: one acid-green accent

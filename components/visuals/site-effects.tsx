@@ -9,6 +9,7 @@ declare global {
   interface Window {
     CicadaFly?: { attach: (home: Element | (() => Element | null)) => Detach }
     CicadaCursor?: { attach: (options: { grid?: string }) => () => void }
+    CicadaGames?: { attach: () => void; open: () => void }
   }
 }
 
@@ -43,8 +44,8 @@ function currentHome(): Element | null {
 
 /**
  * Site-wide interactive layer, mounted once in the (site) layout so it
- * survives client-side navigation: the custom cursor with grid trails, and the
- * flying bug. The effects themselves are plain scripts in public/brand, shared
+ * survives client-side navigation: the custom cursor with grid trails, the
+ * flying bug, and the games you can play with it (desktop). The effects themselves are plain scripts in public/brand, shared
  * with the teaser at "/".
  */
 export function SiteEffects() {
@@ -61,11 +62,14 @@ export function SiteEffects() {
       Promise.all([
         load("/brand/cicada-cursor.js", () => Boolean(window.CicadaCursor)),
         load("/brand/cicada-fly.js", () => Boolean(window.CicadaFly)),
+        load("/brand/cicada-games.js", () => Boolean(window.CicadaGames)),
       ])
         .then(() => {
           if (cancelled) return
           detachCursor = window.CicadaCursor?.attach({ grid: ".heist-grid" })
           fly.current = window.CicadaFly?.attach(currentHome) ?? null
+          // Desktop only; offers the bug games after sustained restless movement.
+          window.CicadaGames?.attach()
         })
         .catch(() => {})
     }, delay)
