@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { ArrowRight, BookOpenText, CalendarDays, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { EventCover } from "@/components/events/event-cover"
 import { registrationHref, type Event } from "@/data/events"
 
 /**
@@ -15,13 +16,9 @@ export function EventCard({ event }: { event: Event }) {
         href={`/events/${event.slug}`}
         className="relative block aspect-[16/10] overflow-hidden bg-muted"
       >
-        <img
-          src={event.coverImage || "/placeholder.jpg"}
-          alt=""
-          aria-hidden
-          loading="lazy"
-          className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
-          style={{ objectPosition: event.imagePosition }}
+        <EventCover
+          event={{ ...event, imageFit: "cover" }}
+          className="transition-transform duration-500 group-hover:scale-105"
         />
         <span
           className="absolute inset-0 bg-gradient-to-t from-card via-card/20 to-transparent"

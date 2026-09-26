@@ -2,43 +2,47 @@ import Link from "next/link"
 import { ArrowRight, CalendarDays, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Container } from "@/components/common/container"
-import { ParticleNetwork } from "@/components/visuals/particle-network"
+import { WORDMARK_SRC } from "@/components/brand/logo"
+import { FlyingBug } from "@/components/visuals/flying-bug"
 import { site } from "@/data/site"
 
 /**
- * Full-bleed hero: particle canvas, then a hairline grid, then the copy.
- * The layout is a single asymmetric grid rather than the old 50/50 split, so
- * the headline gets the room and the logo reads as a watermark.
+ * Centred lockup echoing the teaser at "/": the bug glitches in, the wordmark
+ * locks into place, then the copy rises. The ambient grid behind it comes from
+ * the site layout's HeistBackdrop.
  */
 export function Hero({ eventCount }: { eventCount: number }) {
   return (
-    <section className="relative isolate overflow-hidden border-b border-border">
-      <ParticleNetwork className="absolute inset-0 -z-20" showControls={false} />
-      <div className="grid-backdrop absolute inset-0 -z-10 opacity-40" aria-hidden />
-      <div
-        className="absolute inset-0 -z-10 bg-gradient-to-b from-background/70 via-background/60 to-background"
-        aria-hidden
-      />
-
+    <section className="relative border-b border-border">
       <Container size="wide">
-        <div className="grid items-center gap-12 py-20 md:py-28 lg:grid-cols-12">
-          <div className="animate-rise-in lg:col-span-7">
-            <p className="eyebrow">Atria Institute of Technology presents</p>
+        <div className="flex flex-col items-center py-20 text-center md:py-28">
+          <FlyingBug className="glow animate-glitch-in w-[clamp(140px,24vw,240px)]" />
+          <h1 className="animate-lock mt-6 w-[clamp(260px,62vw,600px)]">
+            <img
+              src={WORDMARK_SRC}
+              alt={site.title}
+              className="w-full drop-shadow-[0_0_18px_rgb(76_217_123/0.22)]"
+            />
+          </h1>
 
-            <h1 className="mt-5 font-display text-5xl font-bold leading-[1.05] md:text-6xl lg:text-7xl">
-              {site.name}{" "}
-              <span className="text-primary">{site.edition}</span>
-              <span className="mt-2 block text-3xl font-medium text-muted-foreground md:text-4xl">
-                The annual tech fest
-              </span>
-            </h1>
-
-            <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground md:text-lg">
-              Workshops, hackathons, competitions, tech talks and creative showcases across every
-              club on campus. Come build, learn and connect.
+          <div className="animate-rise-in [animation-delay:0.9s]">
+            <p className="mt-4 font-mono text-xs tracking-[0.5em] text-primary">
+              <span className="text-muted-foreground">[</span> {site.edition}{" "}
+              <span className="text-muted-foreground">]</span>
             </p>
 
-            <div className="mt-8 flex flex-wrap items-center gap-3">
+            <p className="eyebrow mt-8">Atria Institute of Technology presents</p>
+
+            <p className="mx-auto mt-5 max-w-2xl font-mono text-sm uppercase tracking-[0.14em] text-foreground sm:text-base sm:tracking-[0.2em] md:text-lg">
+              The plan is already in motion.
+            </p>
+
+            <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">
+              Workshops, hackathons, competitions, tech talks and creative showcases across every
+              club on campus. Pick your crew, pick your job.
+            </p>
+
+            <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
               <Button asChild size="lg">
                 <Link href="/events">
                   Explore events
@@ -52,20 +56,11 @@ export function Hero({ eventCount }: { eventCount: number }) {
               </Button>
             </div>
 
-            <dl className="mt-12 grid max-w-lg grid-cols-3 gap-px overflow-hidden rounded-2xl border border-border bg-border">
+            <dl className="mx-auto mt-12 grid max-w-lg grid-cols-3 gap-px overflow-hidden rounded-2xl border border-border bg-border text-left">
               <Stat label="Events" value={String(eventCount)} />
               <Stat label="Dates" value={site.shortDates} icon={CalendarDays} />
               <Stat label="Venue" value="Hebbal" icon={MapPin} />
             </dl>
-          </div>
-
-          <div className="hidden justify-center lg:col-span-5 lg:flex">
-            <img
-              src={site.logo}
-              alt=""
-              aria-hidden
-              className="w-full max-w-sm object-contain opacity-90 drop-shadow-[0_0_60px_oklch(0.72_0.19_142/0.25)]"
-            />
           </div>
         </div>
       </Container>
@@ -83,12 +78,12 @@ function Stat({
   icon?: typeof CalendarDays
 }) {
   return (
-    <div className="bg-background/60 p-4 backdrop-blur-sm">
+    <div className="bg-background/80 p-4">
       <dt className="flex items-center gap-1.5 font-mono text-[0.65rem] uppercase tracking-[0.15em] text-muted-foreground">
         {Icon && <Icon className="h-3 w-3" aria-hidden />}
         {label}
       </dt>
-      <dd className="mt-1 font-display text-xl font-semibold tabular-nums">{value}</dd>
+      <dd className="mt-1 whitespace-nowrap font-mono text-base font-semibold tabular-nums text-primary sm:text-xl">{value}</dd>
     </div>
   )
 }

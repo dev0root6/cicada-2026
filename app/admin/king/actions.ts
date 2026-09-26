@@ -12,6 +12,9 @@ import { findActiveUser, createUser, setUserDisabled, setUserEvents, setUserPass
 import { setCheckedIn } from "@/lib/db/registrations"
 import { getActor, isAdmin, type Actor } from "@/lib/auth/actor"
 import { events } from "@/data/events"
+import { isMailConfigured } from "@/lib/mail/transport"
+import { requestOrigin } from "@/lib/mail/origin"
+import { sendRegistrationOpenAlert } from "@/lib/mail/send"
 
 export type LoginState = { error?: string }
 
@@ -234,4 +237,38 @@ export async function resetManagerPassword(
 
   revalidatePath("/admin/king/team")
   return { notice: "Password updated." }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Priority-list alerts                                                        */
+/* -------------------------------------------------------------------------- */
+
+export type AlertState = { message?: string; error?: string }
+
+/**
+ * Emails an event's priority list that registrations are open. Admin-only:
+ * it reaches real inboxes and cannot be taken back. Re-running it only emails
+ * people who haven't been reached yet.
+ */
+export async function sendRegistrationAlert(
+  eventSlug: string,
+  _previous: AlertState,
+): Promise<AlertState> {
+  if (!(await requireAdmin())) return { error: "Admins only." }
+
+  const event = events.find((e) => e.slug === eventSlug)
+  if (!event) return { error: "Unknown event." }
+  if (!isMailConfigured()) return { error: "Email isn't configured (MAIL_APP_PASSWD)." }
+
+  try {
+    const result = await sendRegistrationOpenAlert(event, await requestOrigin())
+    revalidatePath("/admin/king/alerts")
+    const parts = [`Sent ${result.sent}.`]
+    if (result.failed) parts.push(`${result.failed} failed.`)
+    if (result.remaining) parts.push(`${result.remaining} still waiting — send again to continue.`)
+    return { message: parts.join(" ") }
+  } catch (error) {
+    console.error("registration alert failed", error)
+    return { error: error instanceof Error ? error.message : "Could not send the alert." }
+  }
 }

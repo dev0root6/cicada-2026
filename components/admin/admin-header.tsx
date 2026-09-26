@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { LogOut, Users } from "lucide-react"
+import { BellRing, LogOut, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { logout } from "@/app/admin/king/actions"
 import { site } from "@/data/site"
@@ -26,12 +26,20 @@ export function AdminHeader({ actor }: { actor: Actor }) {
 
           {/* Team management is admin-only; the server action re-checks. */}
           {admin && (
-            <Button asChild variant="ghost" size="sm">
-              <Link href="/admin/king/team">
-                <Users className="h-3.5 w-3.5" />
-                Team
-              </Link>
-            </Button>
+            <>
+              <Button asChild variant="ghost" size="sm">
+                <Link href="/admin/king/team">
+                  <Users className="h-3.5 w-3.5" />
+                  Team
+                </Link>
+              </Button>
+              <Button asChild variant="ghost" size="sm">
+                <Link href="/admin/king/alerts">
+                  <BellRing className="h-3.5 w-3.5" />
+                  Alerts
+                </Link>
+              </Button>
+            </>
           )}
 
           <Button asChild variant="ghost" size="sm">

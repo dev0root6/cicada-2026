@@ -7,7 +7,8 @@ import { Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetClose, SheetContent, SheetTitle, SheetTrigger } from "@/components/ui/sheet"
 import { Container } from "@/components/common/container"
-import { navLinks, site } from "@/data/site"
+import { Logo } from "@/components/brand/logo"
+import { navLinks } from "@/data/site"
 import { cn } from "@/lib/utils"
 
 export function Navbar() {
@@ -20,7 +21,7 @@ export function Navbar() {
         "sticky top-0 z-50 border-b transition-colors duration-300",
         scrolled
           ? "border-border bg-background/85 backdrop-blur-xl"
-          : "border-transparent bg-background/40 backdrop-blur-sm",
+          : "border-transparent bg-transparent",
       )}
     >
       <Container size="wide">
@@ -47,19 +48,8 @@ export function Navbar() {
 
 function Brand() {
   return (
-    <Link href="/home" className="group flex items-center gap-3">
-      <img
-        src={site.logo}
-        alt=""
-        aria-hidden
-        className="h-9 w-9 object-contain transition-transform duration-300 group-hover:scale-105"
-      />
-      <span className="flex flex-col leading-none">
-        <span className="font-display text-base font-semibold tracking-tight">{site.name}</span>
-        <span className="font-mono text-[0.65rem] tracking-[0.2em] text-primary">
-          {site.edition}
-        </span>
-      </span>
+    <Link href="/home" aria-label="CICADA 2026 home" className="transition-opacity hover:opacity-85">
+      <Logo />
     </Link>
   )
 }
@@ -72,7 +62,7 @@ function NavItem({
   active: boolean
 }) {
   const className = cn(
-    "relative rounded-full px-4 py-2 text-sm transition-colors",
+    "relative rounded-full px-4 py-2 font-mono text-xs uppercase tracking-[0.18em] transition-colors",
     active ? "text-primary" : "text-muted-foreground hover:text-foreground",
   )
 
@@ -113,7 +103,7 @@ function MobileNav({ pathname }: { pathname: string }) {
                     href={link.href}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="rounded-lg px-3 py-3 text-base text-muted-foreground hover:bg-accent/50 hover:text-foreground"
+                    className="rounded-lg px-3 py-3 font-mono text-sm uppercase tracking-[0.16em] text-muted-foreground hover:bg-accent/50 hover:text-foreground"
                   >
                     {link.label}
                   </a>
@@ -121,7 +111,7 @@ function MobileNav({ pathname }: { pathname: string }) {
                   <Link
                     href={link.href}
                     className={cn(
-                      "rounded-lg px-3 py-3 text-base hover:bg-accent/50",
+                      "rounded-lg px-3 py-3 font-mono text-sm uppercase tracking-[0.16em] hover:bg-accent/50",
                       pathname === link.href ? "text-primary" : "text-muted-foreground",
                     )}
                   >
