@@ -52,7 +52,16 @@
   }
 
   // ---- Skip ------------------------------------------------------------
+  // Once the intro is over, the bug is free to fly (public/brand/cicada-fly.js).
+  var flying = false
+  function releaseBug() {
+    if (flying || !window.CicadaFly) return
+    flying = true
+    window.CicadaFly.attach(document.querySelector(".bug"))
+  }
+
   function finish() {
+    releaseBug()
     timers.forEach(clearTimeout)
     intervals.forEach(clearInterval)
     timers = []

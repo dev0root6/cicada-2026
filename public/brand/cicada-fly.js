@@ -1,0 +1,297 @@
+// CICADA — the flying bug.
+//
+// Lifts the hero bug off the page and flies it: after the cursor on desktop,
+// to wherever the user taps on touch screens. Shared by the teaser (public/
+// landing) and the Next site (components/visuals/flying-bug.tsx), so it is
+// plain JS with no dependencies.
+//
+//   const detach = window.CicadaFly.attach(heroBugElement)
+//
+// The bug is three layers (two wings and the body, traced from the brand PNG)
+// in a perspective rig; each wing flaps with rotateY about its hinge. Every
+// per-frame write is a transform or opacity on a small composited layer.
+// Honours prefers-reduced-motion by doing nothing at all.
+;(function () {
+  "use strict"
+  if (window.CicadaFly) return
+
+  var BASE = "/brand/cicada-bug-"
+  var ASPECT = 88 / 213
+  // Wing hinges, as a fraction of the 213x88 artwork.
+  var HINGE_L = "36.6% 42%"
+  var HINGE_R = "62% 42%"
+
+  var CSS =
+    ".cf-flyer{position:fixed;left:0;top:0;z-index:70;pointer-events:none;will-change:transform;opacity:0;transition:opacity .25s}" +
+    ".cf-flyer.cf-on{opacity:1}" +
+    ".cf-shadow{position:absolute;left:18%;right:18%;top:62%;height:34%;border-radius:50%;background:radial-gradient(closest-side,rgba(0,0,0,.55),transparent);will-change:transform,opacity}" +
+    ".cf-rig{position:absolute;inset:0;perspective:240px;will-change:transform}" +
+    ".cf-glow{position:absolute;inset:-30% -10%;background:radial-gradient(closest-side,rgba(76,217,123,.28),transparent 70%);will-change:opacity}" +
+    ".cf-part{position:absolute;inset:0;width:100%;height:100%;user-select:none;-webkit-user-drag:none}" +
+    ".cf-wl{transform-origin:" + HINGE_L + "}" +
+    ".cf-wr{transform-origin:" + HINGE_R + "}" +
+    ".cf-ghost{opacity:0}" +
+    ".cf-away{transition:opacity .35s;opacity:.12!important}"
+
+  function clamp(v, a, b) { return v < a ? a : v > b ? b : v }
+  function lerp(a, b, t) { return a + (b - a) * t }
+  function angleLerp(a, b, t) {
+    var d = ((b - a + 540) % 360) - 180
+    return a + d * t
+  }
+
+  function el(tag, cls, parent) {
+    var n = document.createElement(tag)
+    n.className = cls
+    if (parent) parent.appendChild(n)
+    return n
+  }
+
+  function part(src, cls, parent) {
+    var img = el("img", "cf-part " + cls, parent)
+    img.src = BASE + src + ".svg"
+    img.alt = ""
+    img.draggable = false
+    return img
+  }
+
+  function attach(home, options) {
+    options = options || {}
+    if (!home || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      return function () {}
+    }
+
+    if (!document.getElementById("cf-style")) {
+      var style = el("style", "")
+      style.id = "cf-style"
+      style.textContent = CSS
+      document.head.appendChild(style)
+    }
+
+    var touchFirst = window.matchMedia("(hover: none), (pointer: coarse)").matches
+
+    // ---- Rig ---------------------------------------------------------------
+    var flyer = el("div", "cf-flyer")
+    flyer.setAttribute("aria-hidden", "true")
+    var shadow = el("div", "cf-shadow", flyer)
+    var rig = el("div", "cf-rig", flyer)
+    var glow = el("div", "cf-glow", rig)
+    // Motion-blur ghosts trail the real wings by a fraction of a beat.
+    var ghostL = part("wing-left", "cf-wl cf-ghost", rig)
+    var ghostR = part("wing-right", "cf-wr cf-ghost", rig)
+    var wingL = part("wing-left", "cf-wl", rig)
+    var wingR = part("wing-right", "cf-wr", rig)
+    part("body", "", rig)
+    document.body.appendChild(flyer)
+
+    // ---- State -------------------------------------------------------------
+    var mode = "home" // home | fly | landed | returning
+    var x = 0, y = 0, vx = 0, vy = 0
+    var tx = 0, ty = 0
+    var heading = 0
+    var altitude = 0
+    var phase = 0
+    var scale = 1
+    var width = 100
+    var lastMove = 0
+    var homeTimer = 0
+    var raf = 0
+    var last = 0
+    var t = 0
+
+    function homeRect() {
+      var r = home.getBoundingClientRect()
+      return { x: r.left + r.width / 2, y: r.top + r.height / 2, w: r.width, h: r.height }
+    }
+
+    function onScreen(r) {
+      return r.y > -r.h && r.y < window.innerHeight + r.h && r.w > 0
+    }
+
+    function flightWidth(homeWidth) {
+      return clamp(homeWidth * 0.5, touchFirst ? 72 : 90, 130)
+    }
+
+    function takeOff(px, py) {
+      clearTimeout(homeTimer)
+      var r = homeRect()
+      width = flightWidth(r.w)
+      flyer.style.width = width + "px"
+      flyer.style.height = width * ASPECT + "px"
+      if (mode === "home") {
+        // Start exactly on top of the hero bug, at its size, then shrink.
+        x = r.x
+        y = r.y
+        vx = 0
+        vy = -60
+        heading = 0
+        altitude = 0
+        scale = r.w / width
+        home.classList.add("cf-away")
+        flyer.classList.add("cf-on")
+      }
+      mode = "fly"
+      tx = px
+      ty = py
+      lastMove = t
+      start()
+    }
+
+    function goHome() {
+      if (mode === "home") return
+      var r = homeRect()
+      if (!onScreen(r)) return // the hero scrolled away; stay where we are
+      mode = "returning"
+      start()
+    }
+
+    // ---- Input ---------------------------------------------------------------
+    function onPointerMove(e) {
+      if (e.pointerType !== "mouse") return
+      if (mode === "home" || mode === "returning" || mode === "landed") {
+        if (mode !== "landed" || Math.hypot(e.clientX - x, e.clientY - y) > 14) {
+          takeOff(e.clientX, e.clientY)
+        }
+      }
+      tx = e.clientX
+      ty = e.clientY
+      lastMove = t
+    }
+
+    function onPointerDown(e) {
+      if (e.pointerType === "mouse") return
+      takeOff(e.clientX, e.clientY)
+    }
+
+    function onLeave(e) {
+      if (!e.relatedTarget) goHome()
+    }
+
+    document.addEventListener("pointermove", onPointerMove, { passive: true })
+    document.addEventListener("pointerdown", onPointerDown, { passive: true })
+    document.addEventListener("mouseout", onLeave)
+
+    // ---- Loop ------------------------------------------------------------------
+    function start() {
+      if (!raf) {
+        last = performance.now()
+        raf = requestAnimationFrame(frame)
+      }
+    }
+
+    function frame(now) {
+      var dt = Math.min((now - last) / 1000, 1 / 30)
+      last = now
+      t += dt
+      raf = 0
+
+      var goalX = tx, goalY = ty, goalScale = 1
+
+      if (mode === "returning") {
+        var r = homeRect()
+        goalX = r.x
+        goalY = r.y
+        goalScale = r.w / width
+      } else if (mode === "fly" && !touchFirst) {
+        // Hover near the cursor rather than on it, drifting in a lazy orbit
+        // that calms down once the cursor rests so the bug can settle.
+        var drift = clamp(1 - (t - lastMove) / 1.2, 0, 1)
+        goalX += Math.cos(t * 1.3) * 22 * drift + 28
+        goalY += Math.sin(t * 1.7) * 16 * drift - 26
+      }
+
+      // Critically-damped-ish spring towards the goal, plus a little flutter.
+      var dx = goalX - x
+      var dy = goalY - y
+      var dist = Math.hypot(dx, dy)
+      var stiffness = mode === "returning" ? 26 : 16
+      var damping = mode === "returning" ? 9 : 6.2
+      if (mode !== "landed") {
+        vx += (dx * stiffness - vx * damping) * dt + Math.sin(t * 13.1) * 40 * dt
+        vy += (dy * stiffness - vy * damping) * dt + Math.cos(t * 11.3) * 40 * dt
+        var sp = Math.hypot(vx, vy)
+        if (sp > 1500) { vx *= 1500 / sp; vy *= 1500 / sp }
+        x += vx * dt
+        y += vy * dt
+      }
+      var speed = Math.hypot(vx, vy)
+
+      // Face the direction of travel; when hovering, turn towards the goal.
+      if (speed > 70) heading = angleLerp(heading, (Math.atan2(vy, vx) * 180) / Math.PI + 90, clamp(dt * 7, 0, 1))
+      else if (mode === "fly" && dist > 8) heading = angleLerp(heading, (Math.atan2(dy, dx) * 180) / Math.PI + 90, clamp(dt * 2, 0, 1))
+      else if (mode === "returning" || mode === "landed") heading = angleLerp(heading, 0, clamp(dt * 3, 0, 1))
+
+      // Landing: touch lands on the tap point; desktop lands once the cursor rests.
+      if (mode === "fly") {
+        var restLimit = touchFirst ? 0.2 : 1.6
+        if (dist < 5 && speed < 30 && t - lastMove > restLimit) {
+          mode = "landed"
+          vx = vy = 0
+          // On touch there is no cursor to come back to: after a while
+          // perched, fly home.
+          if (touchFirst) homeTimer = setTimeout(goHome, 7000)
+        }
+      } else if (mode === "returning" && dist < 2.5 && speed < 40) {
+        dock()
+        return
+      }
+
+      var airborne = mode === "fly" || mode === "returning"
+      altitude = lerp(altitude, airborne ? 1 : 0, clamp(dt * (airborne ? 5 : 3), 0, 1))
+      scale = lerp(scale, goalScale, clamp(dt * 3.5, 0, 1))
+
+      // Wingbeat: faster when moving fast, winding down as it settles.
+      var hz = 6.5 + clamp(speed / 900, 0, 1) * 5.5
+      phase += dt * hz * Math.PI * 2 * altitude
+      var beat = 0.5 + 0.5 * Math.sin(phase)
+      var ghostBeat = 0.5 + 0.5 * Math.sin(phase - 0.9)
+      var amp = 62 * altitude
+      var rest = 18 * (1 - altitude)
+      var a = rest + 6 + amp * beat
+      var ga = rest + 6 + amp * ghostBeat
+      // Wing tips catch the light on the downstroke.
+      var shade = 0.75 + 0.25 * (1 - beat)
+
+      var bob = Math.sin(t * 2.4) * 3 * altitude
+      var lift = altitude * (touchFirst ? 14 : 18)
+
+      flyer.style.transform =
+        "translate3d(" + (x - width / 2).toFixed(1) + "px," + (y - (width * ASPECT) / 2).toFixed(1) + "px,0)"
+      rig.style.transform =
+        "translate3d(0," + (bob - lift).toFixed(1) + "px,0) rotate(" + heading.toFixed(1) + "deg) scale(" + (scale * (1 + altitude * 0.06)).toFixed(3) + ")"
+      wingL.style.transform = "rotateY(" + a.toFixed(1) + "deg)"
+      wingR.style.transform = "rotateY(" + (-a).toFixed(1) + "deg)"
+      wingL.style.opacity = wingR.style.opacity = shade.toFixed(2)
+      ghostL.style.transform = "rotateY(" + ga.toFixed(1) + "deg)"
+      ghostR.style.transform = "rotateY(" + (-ga).toFixed(1) + "deg)"
+      ghostL.style.opacity = ghostR.style.opacity = (0.3 * altitude * clamp(hz / 9, 0, 1)).toFixed(2)
+      glow.style.opacity = (0.5 + 0.5 * altitude).toFixed(2)
+      shadow.style.transform = "translate3d(0," + (6 + lift * 0.9).toFixed(1) + "px,0) scale(" + (scale * (1 - altitude * 0.25)).toFixed(3) + ")"
+      shadow.style.opacity = (0.8 - altitude * 0.45).toFixed(2)
+
+      // Keep running while anything is still moving; a settled, landed bug sleeps.
+      var settled = mode === "landed" && altitude < 0.01 && Math.abs(scale - goalScale) < 0.001
+      if (!settled) raf = requestAnimationFrame(frame)
+    }
+
+    function dock() {
+      mode = "home"
+      vx = vy = 0
+      altitude = 0
+      flyer.classList.remove("cf-on")
+      home.classList.remove("cf-away")
+    }
+
+    return function detach() {
+      if (raf) cancelAnimationFrame(raf)
+      clearTimeout(homeTimer)
+      document.removeEventListener("pointermove", onPointerMove)
+      document.removeEventListener("pointerdown", onPointerDown)
+      document.removeEventListener("mouseout", onLeave)
+      flyer.remove()
+      home.classList.remove("cf-away")
+    }
+  }
+
+  window.CicadaFly = { attach: attach }
+})()
