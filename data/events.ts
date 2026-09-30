@@ -72,15 +72,17 @@ export const events: Event[] = [
       { name: "Sneha", phone: "+91 7483075818" },
     ],
     imageFit: "cover",
+    // Poster: keep its title band in view when cropped to a card or banner.
+    imagePosition: "center 22%",
+    coverImage: "/posters/hackathon.webp",
+    brochureImage: "/posters/hackathon.webp",
     title: "CICADA Hackathon ",
     summary: "Build a software in 24 hours with mentorship and prizes.",
     description: ` <span class="text-white">A 24-Hour Innovation Marathon: Where Creativity Meets Code</span>\n\nGet ready for 24 hours of pure innovation, collaboration, and adrenaline!\nThis marathon brings together brilliant minds from across domains to solve real-world challenges through technology and creativity. Participants will collaborate in teams to prototype, build, and demo an AI-powered application under the guidance of expert mentors. The marathon focuses on pushing boundaries in Vision and Agents — encouraging teams to blend imagination with cutting-edge  tools to craft impactful solutions.\n\n <span class="text-white">Problem Statement Release</span>\n\nAt the start of the hackathon   , problem statements will be revealed, each designed to address pressing real-world issues. Teams must brainstorm, ideate, and select a statement that aligns with their skills and vision. They'll then turn their ideas into working prototypes — all within 24 hours.\n\n <span class="text-white">Event Phases</span>\n\n• Problem Statement Release – Discover and choose your challenge.\n• Ideation & Prototyping – Brainstorm innovative solutions and start building your MVP.\n• Mentorship Checkpoints – Get expert feedback and refine your solution with mentor guidance.\n• Final Presentation & Judging – Pitch your prototype to the judging panel and showcase your innovation.\n\n <span class="text-white">Perks & Amenities</span>\n\nWe've got your energy covered throughout the marathon!\n• 🥞 3 Full Meals:  Midnight snack , Dinner and Breakfast\n• 🍪 Snacks & Refreshments: Available throughout the event\n• 🍔 Midnight Burger Bash: Fuel for your late-night coding sprints\n• ☕ Tea & Coffee: Keep your neurons firing\n• 🎁 Exclusive Swags: Cool goodies for all participants\n• 💬 Mentorship & Networking: Interact with industry experts and tech leaders\n\n <span class="text-white">Final Showdown</span>\n\nShortlisted teams will present their prototypes to a panel of judges comprising industry professionals and academicians. The most innovative, impactful, and technically sound solutions will be crowned the winners — with exciting prizes and recognition awaiting them.`,
-    coverImage: "https://res.cloudinary.com/dx9bvma03/image/upload/v1761035597/CICADA_HACKATHON_srpido.png",
-    brochureImage: "/hacakthon-poster.png",
     clubName: "AIT  Club",
     clubLogo: "/ait-ai-club-logo.jpg",
     date: "Nov 6, 2026",
-    time: "Starts 2:00 PM",
+    time: "Starts 10:30 AM",
     Duration: "24 hours",
     teamSize: "3 - 4 members",
     venue: "Atria Institute of Technology",
@@ -131,12 +133,14 @@ It's a race against the clock and against faulty logic.
       { name: "Kavan TB", phone: "+91 8951811235" },
       { name: "Shrajan", phone: "+91 7795264283" },
     ],
-    imageFit: "contain",
+    imageFit: "cover",
+    // Poster: keep its title band in view when cropped to a card or banner.
+    imagePosition: "center 22%",
+    coverImage: "/posters/project-expo.webp",
+    brochureImage: "/posters/project-expo.webp",
     title: "Project Expo - The Innovation Show",
     summary: "Exclusive platform for 7th-semester students to present innovative projects to industry professionals and academic experts",
     description: `Project Expo is an exclusive platform for 7th-semester students to present their most innovative and impactful projects before a panel of industry professionals and academic experts. It's where creativity meets real-world problem-solving, and visionary ideas come to life through prototypes, research models, and tech demonstrations.\n\n<span class="text-white">Domains You Can Showcase In</span>\n\n🤖 Artificial Intelligence & Machine Learning\n🌐 Internet of Things (IoT)\n🔐 Cybersecurity\n⚙️ Robotics and Automation\n🌱 Green Technology & Sustainability\n📊 Data Science & Analytics\n💻 Web & Mobile Applications\n\nWhether you're showcasing a working prototype, a research-driven concept, or a tech-powered innovation, this is your moment to shine, connect, and inspire.\n\n <span class="text-white">Tracks & Prizes</span>\nTwo separate categories ensure fair recognition for all innovators:\n\n <span class="text-white">Software Track</span>\n🥇 Winners: ₹8,000 + E-Certificate\n🥈 Runners-up: ₹4,000 + E-Certificate\n\n <span class="text-white">Hardware Track</span>\n🥇 Winners: ₹8,000 + E-Certificate\n🥈 Runners-up: ₹4,000 + E-Certificate\n\n <span class="text-white">Event Highlights</span>\n• 100+ Projects on Display\n• Judging by Industry Professionals\n• Mentorship & Incubation Opportunities\n• Prizes & Certificates for Top Innovations\n• Networking with Industry Experts`,
-    coverImage: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760969089/Untitled_design_h0ch4k.png",
-    brochureImage: "/project-expo.png",
     clubName: "Innovation Club",
     clubLogo: "/ait-ai-club-logo.jpg",
     date: "Nov 4, 2026",
@@ -301,4 +305,45 @@ The real action begins! Compete in a live, dynamic auction to secure your dream 
 /** Where an event's Register buttons point. */
 export function registrationHref(event: Event): string {
   return event.registerUrl ?? `/events/${event.slug}/register`
+}
+
+const MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
+
+/**
+ * When an event starts, as a sortable number: its `date` ("Nov 4, 2026") plus
+ * the first clock time in `time` ("11:00 AM – 1:30 PM", "Starts 10:30 AM").
+ * Parsed by hand so it never depends on the JS engine's date-string quirks.
+ */
+export function eventStart(event: Event): number {
+  const d = event.date.match(/([A-Za-z]{3})[A-Za-z]*\.?\s+(\d{1,2})[^\d]+(\d{4})/)
+  const month = d ? MONTHS.indexOf(d[1].toLowerCase()) : -1
+  const day = d && month >= 0 ? Date.UTC(Number(d[3]), month, Number(d[2])) : Number.MAX_SAFE_INTEGER
+
+  const t = event.time?.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i)
+  let minutes = 0
+  if (t) {
+    const hour = (Number(t[1]) % 12) + (t[3].toUpperCase() === "PM" ? 12 : 0)
+    minutes = hour * 60 + Number(t[2])
+  }
+  return day + minutes * 60_000
+}
+
+export type EventDay = {
+  /** "Day 1", "Day 2", … in fest order. */
+  label: string
+  /** The shared `date` string, e.g. "Nov 4, 2026". */
+  date: string
+  events: Event[]
+}
+
+/** Every event in start order, grouped by day. */
+export function eventsByDay(list: Event[] = events): EventDay[] {
+  const days: EventDay[] = []
+  for (const event of [...list].sort((a, b) => eventStart(a) - eventStart(b))) {
+    const date = event.date.trim()
+    const current = days[days.length - 1]
+    if (current && current.date === date) current.events.push(event)
+    else days.push({ label: `Day ${days.length + 1}`, date, events: [event] })
+  }
+  return days
 }
