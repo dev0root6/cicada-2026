@@ -82,7 +82,7 @@ export const events: Event[] = [
     clubName: "AIT  Club",
     clubLogo: "/ait-ai-club-logo.jpg",
     date: "Nov 6, 2026",
-    time: "Starts 2:00 PM",
+    time: "Starts 10:30 AM",
     Duration: "24 hours",
     teamSize: "3 - 4 members",
     venue: "Atria Institute of Technology",
@@ -305,4 +305,45 @@ The real action begins! Compete in a live, dynamic auction to secure your dream 
 /** Where an event's Register buttons point. */
 export function registrationHref(event: Event): string {
   return event.registerUrl ?? `/events/${event.slug}/register`
+}
+
+const MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
+
+/**
+ * When an event starts, as a sortable number: its `date` ("Nov 4, 2026") plus
+ * the first clock time in `time` ("11:00 AM – 1:30 PM", "Starts 10:30 AM").
+ * Parsed by hand so it never depends on the JS engine's date-string quirks.
+ */
+export function eventStart(event: Event): number {
+  const d = event.date.match(/([A-Za-z]{3})[A-Za-z]*\.?\s+(\d{1,2})[^\d]+(\d{4})/)
+  const month = d ? MONTHS.indexOf(d[1].toLowerCase()) : -1
+  const day = d && month >= 0 ? Date.UTC(Number(d[3]), month, Number(d[2])) : Number.MAX_SAFE_INTEGER
+
+  const t = event.time?.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i)
+  let minutes = 0
+  if (t) {
+    const hour = (Number(t[1]) % 12) + (t[3].toUpperCase() === "PM" ? 12 : 0)
+    minutes = hour * 60 + Number(t[2])
+  }
+  return day + minutes * 60_000
+}
+
+export type EventDay = {
+  /** "Day 1", "Day 2", … in fest order. */
+  label: string
+  /** The shared `date` string, e.g. "Nov 4, 2026". */
+  date: string
+  events: Event[]
+}
+
+/** Every event in start order, grouped by day. */
+export function eventsByDay(list: Event[] = events): EventDay[] {
+  const days: EventDay[] = []
+  for (const event of [...list].sort((a, b) => eventStart(a) - eventStart(b))) {
+    const date = event.date.trim()
+    const current = days[days.length - 1]
+    if (current && current.date === date) current.events.push(event)
+    else days.push({ label: `Day ${days.length + 1}`, date, events: [event] })
+  }
+  return days
 }
