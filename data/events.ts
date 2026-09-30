@@ -91,6 +91,10 @@ export const events: Event[] = [
     slug: "bug-off",
     badges: ["Flagship Event"],
     imageFit: "cover",
+    // Poster: keep its title band in view when cropped to a card or banner.
+    imagePosition: "center 22%",
+    coverImage: "/posters/bug-off.webp",
+    brochureImage: "/posters/bug-off.webp",
     title: "Bug Off",
     summary: "Drop into a broken codebase, hunt down every defect and get the program running clean — against the clock.",
     description: `Every developer knows the pain — code that should work but doesn't. Bug Off drops your team into a broken codebase and challenges you to hunt down every defect, patch it, and get the program running clean.
@@ -152,7 +156,10 @@ It's a race against the clock and against faulty logic.
       { name: "Prithvi Prabhu", phone: "+91 9611272227" },
     ],
     imageFit: "cover",
-    imagePosition: "20% 30%",
+    // Poster: keep its title band in view when cropped to a card or banner.
+    imagePosition: "center 22%",
+    coverImage: "/posters/who-am-i.webp",
+    brochureImage: "/posters/who-am-i.webp",
     title: "WHO AM I?",
     summary: "A case-based Capture the Flag challenge — investigate realistic cyber cases, follow the attack trail and uncover the final flag.",
     description: `A case-based Capture the Flag challenge where teams investigate realistic cyber cases, analyze digital evidence, follow hidden clues, connect the attack trail, and uncover the final flag.
@@ -163,7 +170,6 @@ It's a race against the clock and against faulty logic.
 • 🧩 Follow the clues – Hidden hints lead from one piece of evidence to the next.
 • 🔗 Connect the trail – Piece together how the attack unfolded.
 • 🚩 Capture the flag – Uncover the final flag before the clock runs out.`,
-    coverImage: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760965058/intrucv_lqqi1l.jpg",
     clubName: "Cybersecurity Club",
     clubLogo: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760269199/CyberSec-AIT_jtlgdt.png",
     date: "Nov 4, 2026",
@@ -177,6 +183,10 @@ It's a race against the clock and against faulty logic.
   {
     slug: "aeromaneuver",
     imageFit: "cover",
+    // Poster: keep its title band in view when cropped to a card or banner.
+    imagePosition: "center 22%",
+    coverImage: "/posters/aeromaneuver.webp",
+    brochureImage: "/posters/aeromaneuver.webp",
     title: "AEROMANEUVER",
     summary: "Advanced UAV Navigation & Agility Challenge",
     description: `<span class="text-white">Advanced UAV Navigation & Agility Challenge</span>
@@ -201,7 +211,10 @@ Navigate complex obstacles, adapt to unpredictable flight conditions, and comple
       { name: "Manotosh", phone: "+91 8293017048" },
     ],
     imageFit: "cover",
-    imagePosition: "center 30%",
+    // Poster: keep its title band in view when cropped to a card or banner.
+    imagePosition: "center 22%",
+    coverImage: "/posters/agent-arena.webp",
+    brochureImage: "/posters/agent-arena.webp",
     title: "AGENT ARENA 2026",
     summary: "Think. Build. Compete. Get a problem statement at the start and ship an AI agent that solves it — in 3.5 hours.",
     description: `<span class="text-white">Think. Build. Compete.</span>
@@ -213,7 +226,6 @@ A time-bound Agentic AI building competition where participants receive a proble
 • 🧠 Design – Plan how your agent will reason, decide and act.
 • 🛠️ Build – Develop the agent against the clock.
 • 🎤 Demonstrate – Show your agent solving the challenge.`,
-    coverImage: "https://res.cloudinary.com/dx9bvma03/image/upload/v1761040526/agentic_ai_do9mf7.jpg",
     clubName: "ATRAIC",
     clubLogo: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760378401/ai_club-removebg-preview_szuluv.png",
     date: "Nov 5, 2026",
@@ -236,7 +248,10 @@ A time-bound Agentic AI building competition where participants receive a proble
       { name: "Shivam Malge", phone: "+91 8618169821" },
     ],
     imageFit: "cover",
-    imagePosition: "center 20%",
+    // Poster: keep its title band in view when cropped to a card or banner.
+    imagePosition: "center 22%",
+    coverImage: "/posters/ipl-auction.webp",
+    brochureImage: "/posters/ipl-auction.webp",
     title: "IPL Auction: Cricket Strategy Challenge",
     summary: "Step into the shoes of an IPL team owner in this thrilling Auction Challenge where strategy meets cricketing genius!",
     description: `Step into the shoes of an IPL team owner in this thrilling Auction Challenge, where strategy meets cricketing genius!
@@ -271,8 +286,6 @@ The real action begins! Compete in a live, dynamic auction to secure your dream 
 • Test your cricket IQ and analytical thinking
 • Compete for exciting prizes and recognition
 • Experience the thrill of managing your own IPL franchise`,
-    coverImage: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760971638/ipl-2021-ix7zwgff29ylomuf_ina4fe.jpg",
-    brochureImage: "/ipl-auction.png",
     clubName: "Sports Analytics Club",
     clubLogo: "/ait-ai-club-logo.jpg",
     date: "Nov 5, 2026",
