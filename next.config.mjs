@@ -11,6 +11,11 @@ export default {
       beforeFiles: [{ source: "/", destination: "/landing/index.html" }],
     }
   },
+  // The admin "Apply schema" action reads lib/db/schema.sql at runtime; make
+  // sure the file ships with the admin routes' serverless bundles.
+  outputFileTracingIncludes: {
+    "/admin/king/**": ["./lib/db/schema.sql"],
+  },
   images: {
     unoptimized: true,
     remotePatterns: [{ protocol: "https", hostname: "res.cloudinary.com" }],

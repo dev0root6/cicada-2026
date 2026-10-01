@@ -117,3 +117,31 @@ alter table registration_interest add column if not exists notified_at timestamp
 
 create index if not exists registration_interest_pending_idx
   on registration_interest (event_slug, created_at) where notified_at is null;
+
+-- ---------------------------------------------------------------------------
+-- Small key/value switches the admin console can flip at runtime, e.g. whether
+-- the /helloworld easter egg has been claimed.
+-- ---------------------------------------------------------------------------
+create table if not exists site_flags (
+  key        text        primary key,
+  value      text        not null,
+  updated_by text,
+  updated_at timestamptz not null default now()
+);
+
+-- ---------------------------------------------------------------------------
+-- Every email sent from the admin Outreach page. Lets a broadcast skip people
+-- who already got the same kind of email recently, and leaves an audit trail.
+-- ---------------------------------------------------------------------------
+create table if not exists email_log (
+  id         bigserial   primary key,
+  kind       text        not null,
+  recipient  text        not null,
+  event_slug text,
+  note       text,
+  sent_by    text,
+  sent_at    timestamptz not null default now()
+);
+
+create index if not exists email_log_kind_recipient_idx
+  on email_log (kind, lower(recipient), sent_at desc);
