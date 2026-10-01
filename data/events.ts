@@ -56,6 +56,18 @@ export type Event = {
 }
 
 /** Flagship events first, then in schedule order. */
+/**
+ * Shown instead of a fee while fees are under wraps. The real amounts are kept
+ * as comments on each event; to publish one, uncomment its line and delete the
+ * FEE_TBA line below it.
+ */
+export const FEE_TBA = "Yet to be announced"
+
+/** True once an event's fee is a real amount rather than FEE_TBA. */
+export function feeAnnounced(event: Event): boolean {
+  return /\d/.test(event.registrationFee)
+}
+
 export const events: Event[] = [
   {
     slug: "hackathon",
@@ -86,7 +98,8 @@ export const events: Event[] = [
     Duration: "24 hours",
     teamSize: "3 - 4 members",
     venue: "Atria Institute of Technology",
-    registrationFee: "₹ 1200 per team",
+    // registrationFee: "₹ 1200 per team", // hidden until fees are announced
+    registrationFee: FEE_TBA,
     mode: "Offline",
   },
   {
@@ -112,7 +125,8 @@ It's a race against the clock and against faulty logic.
     Duration: "2 hours",
     teamSize: "2 members",
     venue: "Atria Institute of Technology",
-    registrationFee: "₹150 per team",
+    // registrationFee: "₹150 per team", // hidden until fees are announced
+    registrationFee: FEE_TBA,
     mode: "Offline",
   },
   {
@@ -148,7 +162,8 @@ It's a race against the clock and against faulty logic.
     Duration: "Full day",
     teamSize: "Max of 4 members per team",
     venue: "Atria Institute of Technology",
-    registrationFee: "₹400 per team",
+    // registrationFee: "₹400 per team", // hidden until fees are announced
+    registrationFee: FEE_TBA,
     mode: "Offline",
   },
   {
@@ -181,7 +196,8 @@ It's a race against the clock and against faulty logic.
     Duration: "2 hrs 30 min",
     teamSize: "3 - 4 members",
     venue: "Atria Institute of Technology",
-    registrationFee: "₹200 per team",
+    // registrationFee: "₹200 per team", // hidden until fees are announced
+    registrationFee: FEE_TBA,
     mode: "Offline",
   },
   {
@@ -204,7 +220,8 @@ Navigate complex obstacles, adapt to unpredictable flight conditions, and comple
     Duration: "4 hrs 30 min",
     teamSize: "Max of 4 members",
     venue: "Atria Institute of Technology",
-    registrationFee: "₹800 per team",
+    // registrationFee: "₹800 per team", // hidden until fees are announced
+    registrationFee: FEE_TBA,
     mode: "Offline",
   },
   {
@@ -237,7 +254,8 @@ A time-bound Agentic AI building competition where participants receive a proble
     Duration: "3 hrs 30 min",
     teamSize: "3 - 4 members",
     venue: "Atria Institute of Technology",
-    registrationFee: "₹200 per team",
+    // registrationFee: "₹200 per team", // hidden until fees are announced
+    registrationFee: FEE_TBA,
     mode: "Offline",
   },
   {
@@ -297,7 +315,8 @@ The real action begins! Compete in a live, dynamic auction to secure your dream 
     Duration: "4 hours",
     teamSize: "3 members per team",
     venue: "Atria Institute of Technology",
-    registrationFee: "₹200 per team",
+    // registrationFee: "₹200 per team", // hidden until fees are announced
+    registrationFee: FEE_TBA,
     mode: "Offline",
   },
 ]

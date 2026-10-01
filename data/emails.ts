@@ -1,5 +1,5 @@
 import { site } from "./site"
-import type { Event } from "./events"
+import { feeAnnounced, type Event } from "./events"
 
 /**
  * Everything the site emails, in one place. Edit copy, subjects and the
@@ -57,7 +57,7 @@ export const emailTemplates = {
     heading: () => "The vault is open.",
     paragraphs: (event) => [
       `Registrations for ${event.title.trim()} are now live, and you're hearing it first.`,
-      `${event.date.trim()}${event.time ? ` · ${event.time}` : ""} · ${event.venue}. ${event.teamSize}, ${event.registrationFee}.`,
+      `${event.date.trim()}${event.time ? ` · ${event.time}` : ""} · ${event.venue}. ${event.teamSize}${feeAnnounced(event) ? `, ${event.registrationFee}` : ""}.`,
       "Spots are limited — lock yours in before the word gets out.",
     ],
     cta: { label: "Register now" },
