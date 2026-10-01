@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { BellRing, LogOut, Users } from "lucide-react"
+import { BellRing, LogOut, Mail, Settings, Users } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { logout } from "@/app/admin/king/actions"
 import { site } from "@/data/site"
@@ -37,6 +37,18 @@ export function AdminHeader({ actor }: { actor: Actor }) {
                 <Link href="/admin/king/alerts">
                   <BellRing className="h-3.5 w-3.5" />
                   Alerts
+                </Link>
+              </Button>
+              <Button asChild variant="ghost" size="sm">
+                <Link href="/admin/king/outreach">
+                  <Mail className="h-3.5 w-3.5" />
+                  Outreach
+                </Link>
+              </Button>
+              <Button asChild variant="ghost" size="sm">
+                <Link href="/admin/king/system">
+                  <Settings className="h-3.5 w-3.5" />
+                  System
                 </Link>
               </Button>
             </>

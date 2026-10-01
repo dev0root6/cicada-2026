@@ -149,6 +149,22 @@ Shared classes: `.eyebrow` (mono `// label`), `.surface` / `.surface-hover`
 (card treatment), `.hud-corners` (surveillance-frame corners), `.glow`,
 `.grid-backdrop` (hairline grid), `.edge-fade` (marquee mask).
 
+## Admin: System and Outreach
+
+- **System** (`/admin/king/system`, admins): shows which database tables exist
+  and has an **Apply schema** button that runs `lib/db/schema.sql` from inside
+  the deployment, so the database can be set up without a local CLI. Also shows
+  email status and the `/helloworld` easter egg switch.
+- **Outreach** (`/admin/king/outreach`, admins): email pre-registered people,
+  either a whole list (everyone, or one event's) or one person. Only two
+  messages exist — *Pre-registration update* and *Enrollment invitation*
+  (`outreachTemplates` in `data/emails.ts`) — plus an optional short note.
+  Every send is logged in `email_log`; a broadcast can skip anyone who got the
+  same message in the last 24 hours, so pressing Send again is safe.
+- **`/helloworld`**: an unlinked easter egg. It invites the finder to email a
+  screenshot to atriacicada@gmail.com for a gift, until an admin marks it
+  claimed on the System page.
+
 ## Admin dashboard
 
 Protected console at **`/admin/king`** listing registrations per event with their

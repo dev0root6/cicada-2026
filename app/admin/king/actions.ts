@@ -14,7 +14,12 @@ import { getActor, isAdmin, type Actor } from "@/lib/auth/actor"
 import { events } from "@/data/events"
 import { isMailConfigured } from "@/lib/mail/transport"
 import { requestOrigin } from "@/lib/mail/origin"
-import { sendRegistrationOpenAlert } from "@/lib/mail/send"
+import { sendOutreach, sendRegistrationOpenAlert } from "@/lib/mail/send"
+import { applySchema } from "@/lib/db/migrate"
+import { HELLOWORLD_CLAIMED, setFlag } from "@/lib/db/flags"
+import { isPreRegistered, listPreRegistered } from "@/lib/db/interest"
+import { recentlySent } from "@/lib/db/email-log"
+import { OUTREACH_KINDS, type OutreachKind } from "@/data/emails"
 
 export type LoginState = { error?: string }
 
@@ -270,5 +275,130 @@ export async function sendRegistrationAlert(
   } catch (error) {
     console.error("registration alert failed", error)
     return { error: error instanceof Error ? error.message : "Could not send the alert." }
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* System: database schema and the /helloworld easter egg                      */
+/* -------------------------------------------------------------------------- */
+
+export type SimpleState = { message?: string; error?: string }
+
+/** Creates or updates every table from lib/db/schema.sql. Idempotent. */
+export async function applySchemaAction(_previous: SimpleState): Promise<SimpleState> {
+  if (!(await requireAdmin())) return { error: "Admins only." }
+  if (!isDatabaseConfigured()) return { error: "DATABASE_URL isn't set on this deployment." }
+  try {
+    const count = await applySchema()
+    revalidatePath("/admin/king/system")
+    return { message: `Schema applied (${count} statements). All tables are ready.` }
+  } catch (error) {
+    console.error("apply schema failed", error)
+    return { error: error instanceof Error ? error.message : "Could not apply the schema." }
+  }
+}
+
+export async function setHelloworldClaimed(claimed: boolean): Promise<SimpleState> {
+  const actor = await requireAdmin()
+  if (!actor) return { error: "Admins only." }
+  try {
+    await setFlag(HELLOWORLD_CLAIMED, claimed ? "yes" : "no", actor.username)
+  } catch (error) {
+    console.error("helloworld flag failed", error)
+    return { error: "Could not save. Has the schema been applied?" }
+  }
+  revalidatePath("/admin/king/system")
+  revalidatePath("/helloworld")
+  return { message: claimed ? "Marked as claimed." : "Reopened." }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Outreach: pre-registration and enrollment emails only                       */
+/* -------------------------------------------------------------------------- */
+
+const NOTE_MAX = 600
+// Gmail allows ~500 messages a day; one click never spends more than this.
+const BROADCAST_CAP = 300
+
+function readOutreach(formData: FormData): { kind: OutreachKind; note: string } | { error: string } {
+  const kind = String(formData.get("kind") ?? "") as OutreachKind
+  if (!OUTREACH_KINDS.includes(kind)) return { error: "Pick a message type." }
+  const note = String(formData.get("note") ?? "").trim()
+  if (note.length > NOTE_MAX) return { error: `Keep the note under ${NOTE_MAX} characters.` }
+  return { kind, note }
+}
+
+/** Emails everyone on a pre-registration list (all, or one event's). */
+export async function sendBroadcast(_previous: SimpleState, formData: FormData): Promise<SimpleState> {
+  const actor = await requireAdmin()
+  if (!actor) return { error: "Admins only." }
+  if (!isMailConfigured()) return { error: "Email isn't configured (MAIL_APP_PASSWD)." }
+
+  const parsed = readOutreach(formData)
+  if ("error" in parsed) return parsed
+
+  const scope = String(formData.get("scope") ?? "all")
+  const eventSlug = scope === "all" ? null : events.find((e) => e.slug === scope)?.slug
+  if (scope !== "all" && !eventSlug) return { error: "Unknown event." }
+  const skipRecent = formData.get("skipRecent") === "on"
+
+  try {
+    let recipients = await listPreRegistered(eventSlug)
+    if (skipRecent) {
+      const recent = await recentlySent(parsed.kind, 24)
+      recipients = recipients.filter((r) => !recent.has(r.email))
+    }
+    if (!recipients.length) return { message: "Nobody to email — everyone on that list already got it in the last 24 hours, or the list is empty." }
+
+    const batch = recipients.slice(0, BROADCAST_CAP)
+    const result = await sendOutreach({
+      kind: parsed.kind,
+      recipients: batch,
+      note: parsed.note,
+      siteUrl: await requestOrigin(),
+      sentBy: actor.username,
+    })
+    revalidatePath("/admin/king/outreach")
+    const parts = [`Sent ${result.sent}.`]
+    if (result.failed) parts.push(`${result.failed} failed.`)
+    if (recipients.length > batch.length) {
+      parts.push(`${recipients.length - batch.length} still to go — send again tomorrow (Gmail daily limit) with "skip recent" on.`)
+    }
+    return { message: parts.join(" ") }
+  } catch (error) {
+    console.error("broadcast failed", error)
+    return { error: error instanceof Error ? error.message : "Could not send." }
+  }
+}
+
+/** Emails one pre-registered person. */
+export async function sendIndividual(_previous: SimpleState, formData: FormData): Promise<SimpleState> {
+  const actor = await requireAdmin()
+  if (!actor) return { error: "Admins only." }
+  if (!isMailConfigured()) return { error: "Email isn't configured (MAIL_APP_PASSWD)." }
+
+  const parsed = readOutreach(formData)
+  if ("error" in parsed) return parsed
+  const email = String(formData.get("email") ?? "").trim().toLowerCase()
+  if (!email) return { error: "Enter an email address." }
+
+  try {
+    if (!(await isPreRegistered(email))) {
+      return { error: "That address isn't on any pre-registration list. Outreach only goes to pre-registered people." }
+    }
+    const person = (await listPreRegistered()).find((p) => p.email === email)
+    if (!person) return { error: "That address isn't on any pre-registration list." }
+    const result = await sendOutreach({
+      kind: parsed.kind,
+      recipients: [person],
+      note: parsed.note,
+      siteUrl: await requestOrigin(),
+      sentBy: actor.username,
+    })
+    revalidatePath("/admin/king/outreach")
+    return result.sent ? { message: `Sent to ${email}.` } : { error: `Gmail rejected the email to ${email}.` }
+  } catch (error) {
+    console.error("individual email failed", error)
+    return { error: error instanceof Error ? error.message : "Could not send." }
   }
 }
