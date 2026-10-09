@@ -63,6 +63,17 @@ export type Event = {
  */
 export const FEE_TBA = "Yet to be announced"
 
+/**
+ * Shown instead of prize money while it's under wraps. Each prize keeps its
+ * real amount in a comment; to publish it, put the amount back in place of
+ * PRIZE_TBA. (Project Expo's description had its per-track amounts too:
+ * ₹8,000 winners / ₹4,000 runners-up for both Software and Hardware.)
+ */
+export const PRIZE_TBA = "Yet to be announced"
+
+/** Shown on events that don't list their prizes yet. */
+export const DEFAULT_PRIZES: EventPrize[] = [{ label: "Prize pool", amount: PRIZE_TBA }]
+
 /** True once an event's fee is a real amount rather than FEE_TBA. */
 export function feeAnnounced(event: Event): boolean {
   return /\d/.test(event.registrationFee)
@@ -73,8 +84,8 @@ export const events: Event[] = [
     slug: "hackathon",
     badges: ["Flagship Event"],
     prizes: [
-      { label: "1st Prize", amount: "₹15,000", perks: ["E-Certificate"] },
-      { label: "2nd Prize", amount: "₹10,000", perks: ["E-Certificate"] },
+      { label: "1st Prize", amount: PRIZE_TBA /* was "₹15,000" — hidden until announced */, perks: ["E-Certificate"] },
+      { label: "2nd Prize", amount: PRIZE_TBA /* was "₹10,000" — hidden until announced */, perks: ["E-Certificate"] },
     ],
     participantReward: "Exclusive Goodies + E-Certificates",
     contacts: [
@@ -137,8 +148,8 @@ It's a race against the clock and against faulty logic.
       title: "Eligibility: Open to 7th-semester students only",
     },
     prizes: [
-      { label: "Winners", amount: "₹8,000", perks: ["E-Certificate"] },
-      { label: "Runner Up", amount: "₹4,000", perks: ["E-Certificate"] },
+      { label: "Winners", amount: PRIZE_TBA /* was "₹8,000" — hidden until announced */, perks: ["E-Certificate"] },
+      { label: "Runner Up", amount: PRIZE_TBA /* was "₹4,000" — hidden until announced */, perks: ["E-Certificate"] },
     ],
     participantReward: "E-Certificates",
     contacts: [
@@ -154,7 +165,7 @@ It's a race against the clock and against faulty logic.
     brochureImage: "/posters/project-expo.webp",
     title: "Project Expo - The Innovation Show",
     summary: "Exclusive platform for 7th-semester students to present innovative projects to industry professionals and academic experts",
-    description: `Project Expo is an exclusive platform for 7th-semester students to present their most innovative and impactful projects before a panel of industry professionals and academic experts. It's where creativity meets real-world problem-solving, and visionary ideas come to life through prototypes, research models, and tech demonstrations.\n\n<span class="text-white">Domains You Can Showcase In</span>\n\n🤖 Artificial Intelligence & Machine Learning\n🌐 Internet of Things (IoT)\n🔐 Cybersecurity\n⚙️ Robotics and Automation\n🌱 Green Technology & Sustainability\n📊 Data Science & Analytics\n💻 Web & Mobile Applications\n\nWhether you're showcasing a working prototype, a research-driven concept, or a tech-powered innovation, this is your moment to shine, connect, and inspire.\n\n <span class="text-white">Tracks & Prizes</span>\nTwo separate categories ensure fair recognition for all innovators:\n\n <span class="text-white">Software Track</span>\n🥇 Winners: ₹8,000 + E-Certificate\n🥈 Runners-up: ₹4,000 + E-Certificate\n\n <span class="text-white">Hardware Track</span>\n🥇 Winners: ₹8,000 + E-Certificate\n🥈 Runners-up: ₹4,000 + E-Certificate\n\n <span class="text-white">Event Highlights</span>\n• 100+ Projects on Display\n• Judging by Industry Professionals\n• Mentorship & Incubation Opportunities\n• Prizes & Certificates for Top Innovations\n• Networking with Industry Experts`,
+    description: `Project Expo is an exclusive platform for 7th-semester students to present their most innovative and impactful projects before a panel of industry professionals and academic experts. It's where creativity meets real-world problem-solving, and visionary ideas come to life through prototypes, research models, and tech demonstrations.\n\n<span class="text-white">Domains You Can Showcase In</span>\n\n🤖 Artificial Intelligence & Machine Learning\n🌐 Internet of Things (IoT)\n🔐 Cybersecurity\n⚙️ Robotics and Automation\n🌱 Green Technology & Sustainability\n📊 Data Science & Analytics\n💻 Web & Mobile Applications\n\nWhether you're showcasing a working prototype, a research-driven concept, or a tech-powered innovation, this is your moment to shine, connect, and inspire.\n\n <span class="text-white">Tracks & Prizes</span>\nTwo separate categories ensure fair recognition for all innovators:\n\n <span class="text-white">Software Track</span>\n🥇 Winners: Prize yet to be announced + E-Certificate\n🥈 Runners-up: Prize yet to be announced + E-Certificate\n\n <span class="text-white">Hardware Track</span>\n🥇 Winners: Prize yet to be announced + E-Certificate\n🥈 Runners-up: Prize yet to be announced + E-Certificate\n\n <span class="text-white">Event Highlights</span>\n• 100+ Projects on Display\n• Judging by Industry Professionals\n• Mentorship & Incubation Opportunities\n• Prizes & Certificates for Top Innovations\n• Networking with Industry Experts`,
     clubName: "Innovation Club",
     clubLogo: "/ait-ai-club-logo.jpg",
     date: "Nov 4, 2026",
@@ -261,8 +272,8 @@ A time-bound Agentic AI building competition where participants receive a proble
   {
     slug: "ipl-auction",
     prizes: [
-      { label: "Winners", amount: "₹3,000", perks: ["E-Certificate"] },
-      { label: "Runner Up", amount: "₹1,000", perks: ["E-Certificate"] },
+      { label: "Winners", amount: PRIZE_TBA /* was "₹3,000" — hidden until announced */, perks: ["E-Certificate"] },
+      { label: "Runner Up", amount: PRIZE_TBA /* was "₹1,000" — hidden until announced */, perks: ["E-Certificate"] },
     ],
     participantReward: "E-Certificates",
     contacts: [
