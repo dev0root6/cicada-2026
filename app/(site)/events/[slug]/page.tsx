@@ -9,7 +9,7 @@ import { EventNotice } from "@/components/events/event-notice"
 import { EventSidebar } from "@/components/events/event-sidebar"
 import { EventRequirements, EventTakeaways } from "@/components/events/event-takeaways"
 import { PrizePanel } from "@/components/events/prize-panel"
-import { events } from "@/data/events"
+import { DEFAULT_PRIZES, events } from "@/data/events"
 
 type PageProps = { params: Promise<{ slug: string }> }
 
@@ -99,9 +99,10 @@ export default async function EventDetailPage({ params }: PageProps) {
               </div>
             </section>
 
-            {event.prizes && event.prizes.length > 0 && (
-              <PrizePanel prizes={event.prizes} participantReward={event.participantReward} />
-            )}
+            <PrizePanel
+              prizes={event.prizes?.length ? event.prizes : DEFAULT_PRIZES}
+              participantReward={event.participantReward}
+            />
 
             <EventTakeaways />
             <EventRequirements />

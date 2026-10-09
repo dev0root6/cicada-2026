@@ -1,5 +1,5 @@
 import { Award, Trophy } from "lucide-react"
-import type { EventPrize } from "@/data/events"
+import { PRIZE_TBA, type EventPrize } from "@/data/events"
 
 type PrizePanelProps = {
   prizes: EventPrize[]
@@ -14,14 +14,22 @@ export function PrizePanel({ prizes, participantReward }: PrizePanelProps) {
         <h2 className="text-base font-semibold">What&apos;s in it for you</h2>
       </div>
 
-      <div className="grid gap-px bg-border sm:grid-cols-2">
+      <div className={prizes.length > 1 ? "grid gap-px bg-border sm:grid-cols-2" : "grid gap-px bg-border"}>
         {prizes.map((prize) => (
           <div key={prize.label} className="bg-card p-6">
             <p className="font-mono text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground">
               {prize.label}
             </p>
-            <p className="mt-2 font-display text-4xl font-bold tabular-nums">{prize.amount}</p>
-            <p className="mt-1 text-xs text-muted-foreground">Cash prize</p>
+            {prize.amount === PRIZE_TBA ? (
+              <p className="mt-2 font-display text-xl font-semibold uppercase tracking-[0.06em] text-primary">
+                {prize.amount}
+              </p>
+            ) : (
+              <>
+                <p className="mt-2 font-display text-4xl font-bold tabular-nums">{prize.amount}</p>
+                <p className="mt-1 text-xs text-muted-foreground">Cash prize</p>
+              </>
+            )}
             {prize.perks && prize.perks.length > 0 && (
               <ul className="mt-4 flex flex-wrap gap-2">
                 {prize.perks.map((perk) => (
