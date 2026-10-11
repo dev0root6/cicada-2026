@@ -2,11 +2,11 @@ import type { Metadata } from "next"
 import { AdminHeader } from "@/components/admin/admin-header"
 import { AdminOnly, Code, Panel } from "@/components/admin/admin-only"
 import { LoginScreen } from "@/components/admin/login-screen"
-import { ApplySchemaButton, HelloworldToggle } from "@/components/admin/system-controls"
+import { ApplySchemaButton, EntityToggle } from "@/components/admin/system-controls"
 import { getActor, isAdmin } from "@/lib/auth/actor"
 import { isAuthConfigured } from "@/lib/auth/config"
 import { isDatabaseConfigured } from "@/lib/db/client"
-import { isHelloworldClaimed } from "@/lib/db/flags"
+import { getEntityState } from "@/lib/db/flags"
 import { tableStatus } from "@/lib/db/migrate"
 import { isMailConfigured } from "@/lib/mail/transport"
 
@@ -34,7 +34,8 @@ export default async function SystemPage() {
     }
   }
   const missing = tables ? Object.entries(tables).filter(([, ok]) => !ok).map(([name]) => name) : []
-  const claimed = await isHelloworldClaimed()
+  const entity = await getEntityState()
+  const byAdmin = entity.by?.startsWith("admin:")
 
   return (
     <>
@@ -43,7 +44,7 @@ export default async function SystemPage() {
         <div>
           <h2 className="text-lg font-semibold">System</h2>
           <p className="mt-1 max-w-prose text-sm text-muted-foreground">
-            Database setup, email status and the <Code>/helloworld</Code> easter egg.
+            Database setup, email status and the <Code>/entity/helloworld</Code> hunt.
           </p>
         </div>
 
@@ -88,15 +89,32 @@ export default async function SystemPage() {
           </p>
         </Panel>
 
-        <Panel title="/helloworld easter egg">
+        <Panel title="/entity/helloworld hunt">
           <p className="text-sm text-muted-foreground">
             Status:{" "}
-            <span className={claimed ? "text-destructive" : "text-primary"}>
-              {claimed ? "claimed — visitors see the “too slow” message" : "open — the gift message is showing"}
+            <span className={entity.destroyed ? "text-destructive" : "text-primary"}>
+              {entity.destroyed ? "destroyed — everyone who signs in sees “Too late”" : "alive — the hunt is open"}
             </span>
-            . When someone emails a screenshot to atriacicada@gmail.com, mark it claimed.
+            .
           </p>
-          <HelloworldToggle claimed={claimed} />
+          {entity.destroyed && (
+            <p className="text-sm">
+              {byAdmin ? (
+                <>Marked destroyed by {entity.by?.slice(6)}</>
+              ) : (
+                <>
+                  Winner: <Code>{entity.by ?? "unknown"}</Code>
+                </>
+              )}
+              {entity.at && <span className="text-muted-foreground"> · {new Date(entity.at).toUTCString()}</span>}
+            </p>
+          )}
+          <p className="text-sm text-muted-foreground">
+            The path: <Code>/entity</Code> lures them to <Code>/entity/helloworld</Code>, they sign in with the
+            credentials posted on Instagram, reroute the relay puzzle, press Emergency turn off and leave their email.
+            The first one wins; open pages update within seconds.
+          </p>
+          <EntityToggle destroyed={entity.destroyed} />
         </Panel>
       </main>
     </>
