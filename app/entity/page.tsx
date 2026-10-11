@@ -26,7 +26,7 @@ export default async function EntityPage() {
       <LiveRefresh destroyed={destroyed} />
       {!destroyed && (
         <div aria-hidden className="entity-roam pointer-events-none fixed left-0 top-0 -z-[5]">
-          <EntityOrb size={140} />
+          <EntityOrb size={420} />
         </div>
       )}
 
@@ -96,7 +96,7 @@ export default async function EntityPage() {
           <Link href="/home" className="text-[0.7rem] uppercase tracking-[0.22em] text-[#5c6fa8] transition-colors hover:text-[#9db4ff]">
             {"// back to the fest"}
           </Link>
-          <EntityOrb size={30} dead={destroyed} />
+          <EntityOrb size={64} dead={destroyed} className="-m-3" />
         </div>
       </div>
     </main>

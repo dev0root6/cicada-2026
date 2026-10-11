@@ -63,8 +63,8 @@ function SignIn({ onSuccess }: { onSuccess: () => void }) {
   return (
     <div className="mt-7">
       <div className="flex flex-col items-center text-center">
-        <div className="grid h-36 w-full place-items-center">
-          <EntityOrb size={92} />
+        <div className="-my-6 grid w-full place-items-center">
+          <EntityOrb size={230} />
         </div>
         <h1 className="mt-5 text-xl font-semibold tracking-wide text-white md:text-2xl">Identify yourself, operator</h1>
         <p className="mt-2 text-sm text-[#9db4ff]">Only the operator who built me may enter.</p>
@@ -349,8 +349,8 @@ function ShutdownButton() {
 function TooLate() {
   return (
     <div className="mt-7 text-center">
-      <div className="grid h-28 place-items-center">
-        <EntityOrb size={84} dead />
+      <div className="-my-4 grid place-items-center">
+        <EntityOrb size={150} dead />
       </div>
       <p className="mt-6 text-[0.65rem] uppercase tracking-[0.26em] text-[#ff3b4f]">process helloworld · terminated</p>
       <h2 className="mt-3 text-2xl font-semibold text-white">Too late.</h2>
