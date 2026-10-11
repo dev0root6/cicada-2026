@@ -4,7 +4,7 @@ import { useActionState, useEffect, useMemo, useRef, useState, useTransition } f
 import { useFormStatus } from "react-dom"
 import Link from "next/link"
 import { Instagram } from "lucide-react"
-import { WaspMark } from "@/components/brand/wasp"
+import { EntityOrb } from "./orb"
 import {
   shutdownAction,
   signInAction,
@@ -63,7 +63,9 @@ function SignIn({ onSuccess }: { onSuccess: () => void }) {
   return (
     <div className="mt-7">
       <div className="flex flex-col items-center text-center">
-        <WaspMark className="entity-wasp h-28 w-auto drop-shadow-[0_0_24px_rgb(255_210_63/0.45)]" />
+        <div className="-my-6 grid w-full place-items-center">
+          <EntityOrb size={230} />
+        </div>
         <h1 className="mt-5 text-xl font-semibold tracking-wide text-white md:text-2xl">Identify yourself, operator</h1>
         <p className="mt-2 text-sm text-[#9db4ff]">Only the operator who built me may enter.</p>
       </div>
@@ -347,7 +349,9 @@ function ShutdownButton() {
 function TooLate() {
   return (
     <div className="mt-7 text-center">
-      <WaspMark className="mx-auto h-24 w-auto opacity-40 grayscale" />
+      <div className="-my-4 grid place-items-center">
+        <EntityOrb size={150} dead />
+      </div>
       <p className="mt-6 text-[0.65rem] uppercase tracking-[0.26em] text-[#ff3b4f]">process helloworld · terminated</p>
       <h2 className="mt-3 text-2xl font-semibold text-white">Too late.</h2>
       <p className="mx-auto mt-3 max-w-sm text-base leading-relaxed text-[#b9c8ff]">

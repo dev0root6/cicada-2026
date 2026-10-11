@@ -427,11 +427,16 @@
 }
 
 /* ---------------------------------------------------------------------------
-   /entity: the wasp breathes, the bug flickers, the way in half-hides.
+   /entity: the yellow orb roams, the bug flickers, the way in half-hides.
 --------------------------------------------------------------------------- */
-@keyframes entity-hover {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-4px) rotate(-1.5deg); }
+.entity-roam { animation: orb-roam 46s ease-in-out infinite; opacity: .8; margin: -210px 0 0 -210px; }
+@keyframes orb-roam {
+  0% { transform: translate(12vw, 18vh) }
+  20% { transform: translate(72vw, 10vh) }
+  40% { transform: translate(82vw, 62vh) }
+  60% { transform: translate(40vw, 78vh) }
+  80% { transform: translate(6vw, 58vh) }
+  100% { transform: translate(12vw, 18vh) }
 }
 @keyframes entity-flicker {
   0%, 92%, 100% { opacity: 1; }
@@ -443,7 +448,6 @@
   0%, 70%, 100% { opacity: 1; }
   72%, 80% { opacity: 0; }
 }
-.entity-wasp { animation: entity-hover 4.5s ease-in-out infinite; }
 .entity-flicker { animation: entity-flicker 3.2s steps(1) infinite; }
 .entity-scramble > span { animation: entity-letters 2.6s steps(1) infinite; }
 .entity-scramble > span:nth-child(2) { animation-delay: .7s; }
@@ -454,5 +458,5 @@
   box-shadow: 0 0 50px rgb(255 210 63 / 0.25);
 }
 @media (prefers-reduced-motion: reduce) {
-  .entity-wasp, .entity-flicker, .entity-scramble > span { animation: none; }
+  .entity-roam, .entity-flicker, .entity-scramble > span { animation: none; }
 }
