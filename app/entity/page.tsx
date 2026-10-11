@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import Link from "next/link"
 import { BUG_SRC } from "@/components/brand/logo"
-import { WaspMark } from "@/components/brand/wasp"
+import { EntityOrb } from "@/components/entity/orb"
 import { EntityBackdrop } from "@/components/entity/backdrop"
 import { LiveRefresh } from "@/components/entity/live-refresh"
 import { getEntityState } from "@/lib/db/flags"
@@ -24,6 +24,11 @@ export default async function EntityPage() {
     <main className="relative flex min-h-screen items-center justify-center px-5 py-16">
       <EntityBackdrop />
       <LiveRefresh destroyed={destroyed} />
+      {!destroyed && (
+        <div aria-hidden className="entity-roam pointer-events-none fixed left-0 top-0 -z-[5]">
+          <EntityOrb size={140} />
+        </div>
+      )}
 
       <div className="w-full max-w-2xl rounded-2xl border border-[#3d7bff]/30 bg-[#070b1f]/90 p-6 font-mono shadow-[0_0_80px_rgb(255_59_79/0.15)] backdrop-blur md:p-10">
         <div className="flex items-center gap-3 border-b border-[#3d7bff]/25 pb-4 text-[0.7rem] uppercase tracking-[0.22em] text-[#9db4ff]">
@@ -91,7 +96,7 @@ export default async function EntityPage() {
           <Link href="/home" className="text-[0.7rem] uppercase tracking-[0.22em] text-[#5c6fa8] transition-colors hover:text-[#9db4ff]">
             {"// back to the fest"}
           </Link>
-          <WaspMark className={`h-10 w-auto ${destroyed ? "opacity-25 grayscale" : "entity-wasp opacity-80"}`} />
+          <EntityOrb size={30} dead={destroyed} />
         </div>
       </div>
     </main>
