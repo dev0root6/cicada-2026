@@ -16,7 +16,7 @@ import { isMailConfigured } from "@/lib/mail/transport"
 import { requestOrigin } from "@/lib/mail/origin"
 import { sendOutreach, sendRegistrationOpenAlert } from "@/lib/mail/send"
 import { applySchema } from "@/lib/db/migrate"
-import { HELLOWORLD_CLAIMED, setFlag } from "@/lib/db/flags"
+import { ENTITY_DESTROYED, setFlag } from "@/lib/db/flags"
 import { isPreRegistered, listPreRegistered } from "@/lib/db/interest"
 import { recentlySent } from "@/lib/db/email-log"
 import { OUTREACH_KINDS, type OutreachKind } from "@/data/emails"
@@ -279,7 +279,7 @@ export async function sendRegistrationAlert(
 }
 
 /* -------------------------------------------------------------------------- */
-/* System: database schema and the /helloworld easter egg                      */
+/* System: database schema and the /entity/helloworld hunt                     */
 /* -------------------------------------------------------------------------- */
 
 export type SimpleState = { message?: string; error?: string }
@@ -298,18 +298,23 @@ export async function applySchemaAction(_previous: SimpleState): Promise<SimpleS
   }
 }
 
-export async function setHelloworldClaimed(claimed: boolean): Promise<SimpleState> {
+/**
+ * Brings the entity back (for a rehearsal, or to reset after testing) or marks
+ * it destroyed by hand. Open pages pick the change up within a few seconds.
+ */
+export async function setEntityDestroyed(destroyed: boolean): Promise<SimpleState> {
   const actor = await requireAdmin()
   if (!actor) return { error: "Admins only." }
   try {
-    await setFlag(HELLOWORLD_CLAIMED, claimed ? "yes" : "no", actor.username)
+    await setFlag(ENTITY_DESTROYED, destroyed ? "yes" : "no", `admin:${actor.username}`)
   } catch (error) {
-    console.error("helloworld flag failed", error)
+    console.error("entity flag failed", error)
     return { error: "Could not save. Has the schema been applied?" }
   }
   revalidatePath("/admin/king/system")
-  revalidatePath("/helloworld")
-  return { message: claimed ? "Marked as claimed." : "Reopened." }
+  revalidatePath("/entity")
+  revalidatePath("/entity/helloworld")
+  return { message: destroyed ? "Marked as destroyed." : "The entity is alive again." }
 }
 
 /* -------------------------------------------------------------------------- */

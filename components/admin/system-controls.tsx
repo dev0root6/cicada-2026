@@ -4,7 +4,7 @@ import { useActionState, useTransition, useState } from "react"
 import { useFormStatus } from "react-dom"
 import { Database } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import { applySchemaAction, setHelloworldClaimed, type SimpleState } from "@/app/admin/king/actions"
+import { applySchemaAction, setEntityDestroyed, type SimpleState } from "@/app/admin/king/actions"
 
 function Feedback({ state }: { state: SimpleState }) {
   if (state.error) return <p role="alert" className="text-sm text-destructive">{state.error}</p>
@@ -32,27 +32,27 @@ function SchemaSubmit({ disabled }: { disabled?: boolean }) {
   )
 }
 
-export function HelloworldToggle({ claimed }: { claimed: boolean }) {
+export function EntityToggle({ destroyed }: { destroyed: boolean }) {
   const [state, setState] = useState<SimpleState>({})
   const [pending, startTransition] = useTransition()
 
   function flip(next: boolean) {
     const question = next
-      ? "Mark /helloworld as claimed? Visitors will see the 'too slow' message instead."
-      : "Reopen /helloworld? The gift message will show again."
+      ? "Mark the entity as destroyed? Everyone who signs in will see 'Too late'."
+      : "Bring the entity back? This clears the winner, and the hunt opens again for everyone."
     if (!window.confirm(question)) return
-    startTransition(async () => setState(await setHelloworldClaimed(next)))
+    startTransition(async () => setState(await setEntityDestroyed(next)))
   }
 
   return (
     <div className="space-y-3">
-      {claimed ? (
+      {destroyed ? (
         <Button variant="outline" disabled={pending} onClick={() => flip(false)}>
-          Reopen the easter egg
+          Bring the entity back
         </Button>
       ) : (
-        <Button disabled={pending} onClick={() => flip(true)}>
-          Mark as claimed
+        <Button variant="outline" disabled={pending} onClick={() => flip(true)}>
+          Mark as destroyed
         </Button>
       )}
       <Feedback state={state} />
