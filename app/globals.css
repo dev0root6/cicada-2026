@@ -425,3 +425,53 @@
     display: none;
   }
 }
+
+/* ---------------------------------------------------------------------------
+   Announcement treatment. Amber rather than the site's green so a change of
+   plans reads as news instead of decoration.
+   --------------------------------------------------------------------------- */
+
+/* Moving hazard stripes along the top edge of the announcement. */
+@keyframes hazard-slide {
+  to {
+    background-position: 56px 0;
+  }
+}
+
+.hazard-bar {
+  background-image: repeating-linear-gradient(
+    45deg,
+    oklch(0.78 0.16 75 / 0.85) 0 14px,
+    transparent 14px 28px
+  );
+  background-size: 56px 100%;
+  animation: hazard-slide 1.6s linear infinite;
+}
+
+/* Slow pulse on the beacon next to the headline. */
+@keyframes beacon {
+  0%,
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 0 0 oklch(0.78 0.16 75 / 0.55);
+  }
+  70% {
+    opacity: 0.85;
+    box-shadow: 0 0 0 10px oklch(0.78 0.16 75 / 0);
+  }
+}
+
+.animate-beacon {
+  animation: beacon 2.2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+.announce-glow {
+  text-shadow: 0 0 28px oklch(0.78 0.16 75 / 0.45);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hazard-bar,
+  .animate-beacon {
+    animation: none !important;
+  }
+}

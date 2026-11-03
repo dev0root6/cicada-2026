@@ -361,36 +361,84 @@ body {
   color: var(--muted);
 }
 
-/* Postponement notice. Amber so it reads as news, not decoration. */
+/* Postponement notice — the one thing every visitor must leave with, so it
+   gets display type and movement rather than a line of fine print. Amber so it
+   reads as news, not decoration. */
 .notice {
-  margin: clamp(20px, 4vh, 32px) auto 0;
-  max-width: 34rem;
+  position: relative;
+  margin: clamp(22px, 4.5vh, 38px) auto 0;
+  max-width: 36rem;
   display: flex;
   flex-direction: column;
-  gap: 4px;
-  padding: 12px 18px;
-  border: 1px solid rgba(245, 185, 75, .34);
-  border-radius: 10px;
-  background: rgba(245, 185, 75, .09);
+  align-items: center;
+  gap: 10px;
+  padding: clamp(22px, 4vw, 32px) clamp(18px, 4vw, 34px) clamp(20px, 3.5vw, 28px);
+  border: 1px solid rgba(245, 185, 75, .38);
+  border-radius: 14px;
+  background:
+    linear-gradient(180deg, rgba(245, 185, 75, .13), rgba(245, 185, 75, .045));
+  box-shadow: 0 0 44px rgba(245, 185, 75, .13), inset 0 0 44px rgba(245, 185, 75, .05);
   text-align: center;
+  overflow: hidden;
+}
+
+/* Moving hazard stripes along the top edge. */
+.notice-hazard {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 5px;
+  background-image: repeating-linear-gradient(
+    45deg,
+    rgba(245, 185, 75, .85) 0 12px,
+    transparent 12px 24px
+  );
+  background-size: 48px 100%;
+  animation: notice-hazard-slide 1.6s linear infinite;
+}
+
+@keyframes notice-hazard-slide { to { background-position: 48px 0; } }
+
+.notice-kicker {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 2px 0 0;
+  font-size: 10px;
+  letter-spacing: .3em;
+  text-transform: uppercase;
+  color: rgba(252, 211, 128, .85);
+}
+
+.notice-beacon {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgb(245, 185, 75);
+  animation: notice-beacon 2.2s cubic-bezier(.4, 0, .6, 1) infinite;
+}
+
+@keyframes notice-beacon {
+  0%, 100% { box-shadow: 0 0 0 0 rgba(245, 185, 75, .55); }
+  70%      { box-shadow: 0 0 0 9px rgba(245, 185, 75, 0); }
 }
 
 .notice b {
-  font-size: 13px;
-  letter-spacing: .06em;
-  color: rgb(252, 211, 128);
+  font-size: clamp(21px, 5.2vw, 34px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -.01em;
+  color: rgb(253, 224, 158);
+  text-shadow: 0 0 26px rgba(245, 185, 75, .4);
 }
 
 .notice span {
-  font-size: 12px;
-  line-height: 1.55;
-  color: rgba(252, 211, 128, .72);
+  font-size: clamp(12px, 2.4vw, 14px);
+  line-height: 1.6;
+  color: rgba(252, 211, 128, .74);
 }
 
-@media (max-width: 520px) {
-  .notice { padding: 11px 14px; }
-  .notice b { font-size: 12px; }
-  .notice span { font-size: 11px; }
+@media (prefers-reduced-motion: reduce) {
+  .notice-hazard, .notice-beacon { animation: none; }
 }
 
 /* Way into the full site. */

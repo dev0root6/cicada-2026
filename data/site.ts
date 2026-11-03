@@ -42,6 +42,8 @@ export const announcement = {
   enabled: true,
   title: "CICADA 2026 has been postponed",
   body: "New dates will be announced soon. Thank you for your patience.",
+  /** Short form, repeated in the scrolling ticker. */
+  ticker: "Postponed — new dates announced soon",
 }
 
 /** Shown wherever a date would go while the schedule is unconfirmed. */
