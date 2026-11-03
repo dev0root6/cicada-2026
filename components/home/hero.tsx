@@ -3,7 +3,7 @@ import { ArrowRight, CalendarDays, MapPin } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Container } from "@/components/common/container"
 import { BUG_SRC, WORDMARK_SRC } from "@/components/brand/logo"
-import { site } from "@/data/site"
+import { DATE_TBA_SHORT, site } from "@/data/site"
 
 /**
  * Centred lockup echoing the teaser at "/": the bug glitches in, the wordmark
@@ -64,7 +64,7 @@ export function Hero({ eventCount }: { eventCount: number }) {
 
             <dl className="mx-auto mt-12 grid max-w-lg grid-cols-3 gap-px overflow-hidden rounded-2xl border border-border bg-border text-left">
               <Stat label="Events" value={String(eventCount)} />
-              <Stat label="Dates" value={site.shortDates} icon={CalendarDays} />
+              <Stat label="Dates" value={site.shortDates ?? DATE_TBA_SHORT} icon={CalendarDays} />
               <Stat label="Venue" value="Hebbal" icon={MapPin} />
             </dl>
           </div>

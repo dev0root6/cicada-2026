@@ -69,7 +69,7 @@ export function EventCard({ event }: { event: Event }) {
             <CalendarDays className="h-3.5 w-3.5 shrink-0 text-primary/70" aria-hidden />
             <dt className="sr-only">Date</dt>
             <dd>
-              {event.date.trim()} · {(event.time ?? event.Duration).trim()}
+              {event.date?.trim() ?? "Date TBA"} · {(event.time ?? event.Duration).trim()}
             </dd>
           </div>
           <div className="flex items-center gap-2">

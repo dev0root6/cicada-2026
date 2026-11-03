@@ -2,25 +2,27 @@ import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
 import { Section } from "@/components/common/section"
 import { schedule } from "@/data/schedule"
-import { site } from "@/data/site"
+import { DATES_TBA, site } from "@/data/site"
 
 export function Schedule() {
   return (
     <Section
       id="schedule"
       size="wide"
-      eyebrow={site.dates}
+      eyebrow={site.dates ?? DATES_TBA}
       title="Schedule"
-      description="Three days, one campus. Here's what runs when."
+      description="Three days, one campus. Exact dates are still being confirmed."
     >
       <div className="grid gap-6 lg:grid-cols-3">
         {schedule.map((day) => (
           <div key={day.label} className="surface overflow-hidden">
             <div className="flex items-baseline justify-between border-b border-border bg-gradient-to-br from-primary/10 to-transparent px-5 py-4">
               <h3 className="font-display text-xl font-semibold">{day.label}</h3>
-              <p className="font-mono text-xs uppercase tracking-[0.15em] text-primary">
-                {day.date}
-              </p>
+              {day.date && (
+                <p className="font-mono text-xs uppercase tracking-[0.15em] text-primary">
+                  {day.date}
+                </p>
+              )}
             </div>
             <ul className="divide-y divide-border">
               {day.items.map((item) => (

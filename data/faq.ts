@@ -30,7 +30,7 @@ export const faqs: FaqItem[] = [
   },
   {
     question: `When and where is ${site.title}?`,
-    answer: `${site.title} takes place at ${site.venue.name} in ${site.venue.city} from ${site.dates}. Stay tuned to our website and social media for the latest updates on scheduling.`,
+    answer: `${site.title} takes place at ${site.venue.name} in ${site.venue.city}. The dates are yet to be announced — keep an eye on this site and our social media, and we'll post them as soon as they're confirmed.`,
   },
   {
     question: "Is accommodation provided for participants?",

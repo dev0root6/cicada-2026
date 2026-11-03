@@ -2,7 +2,7 @@ import Link from "next/link"
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Container } from "@/components/common/container"
-import { site } from "@/data/site"
+import { DATES_TBA, site } from "@/data/site"
 
 export function Cta() {
   return (
@@ -15,7 +15,7 @@ export function Cta() {
             aria-hidden
           />
           <div className="relative">
-            <p className="eyebrow">{site.dates}</p>
+            <p className="eyebrow">{site.dates ?? DATES_TBA}</p>
             <h2 className="mx-auto mt-4 max-w-2xl text-3xl font-semibold leading-tight md:text-5xl">
               Bring an idea. Leave with a prototype.
             </h2>

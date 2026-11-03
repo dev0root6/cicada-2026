@@ -8,7 +8,7 @@ import { registrationHref, type Event } from "@/data/events"
 /** Sticky booking rail: fee, CTAs, the full fact sheet, and who to call. */
 export function EventSidebar({ event }: { event: Event }) {
   const facts = [
-    { label: "Date", value: event.date.trim() },
+    { label: "Date", value: event.date?.trim() ?? "To be announced" },
     ...(event.time ? [{ label: "Time", value: event.time }] : []),
     { label: "Duration", value: event.Duration.trim() },
     { label: "Team size", value: event.teamSize },

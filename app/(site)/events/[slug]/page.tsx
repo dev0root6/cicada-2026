@@ -39,7 +39,7 @@ export default async function EventDetailPage({ params }: PageProps) {
   if (!event) notFound()
 
   const pills = [
-    { icon: CalendarDays, label: event.date.trim() },
+    { icon: CalendarDays, label: event.date?.trim() ?? "Date to be announced" },
     { icon: Clock, label: event.Duration.trim() },
     { icon: Users, label: event.teamSize },
     ...(event.mode ? [{ icon: Wifi, label: event.mode }] : []),

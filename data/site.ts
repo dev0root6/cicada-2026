@@ -14,9 +14,10 @@ export const site = {
     "CICADA is AIT's annual technology festival — workshops, hackathons, competitions, talks and showcases hosted by clubs across campus.",
   logo: "/brand/cicada-bug.svg",
   brochure: "/Cicada Brochure-1_compress.pdf",
-  dates: "Nov 4 – 6, 2026",
+  /** Set once confirmed; null until then and the site says so. */
+  dates: null as string | null,
   /** Compact form for the hero stat tile. */
-  shortDates: "Nov 4–6",
+  shortDates: null as string | null,
   venue: {
     name: "Atria Institute of Technology",
     city: "Hebbal, Bengaluru",
@@ -32,6 +33,10 @@ export const site = {
     href: "https://script-verse-mu.vercel.app/",
   },
 } as const
+
+/** Shown wherever a date would go while the schedule is unconfirmed. */
+export const DATES_TBA = "Dates to be announced"
+export const DATE_TBA_SHORT = "TBA"
 
 export type NavLink = {
   href: string

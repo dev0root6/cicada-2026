@@ -9,7 +9,8 @@ export type ScheduleItem = {
 
 export type ScheduleDay = {
   label: string
-  date: string
+  /** Omitted until the schedule is announced; the day ordering still holds. */
+  date?: string
   items: ScheduleItem[]
 }
 
@@ -23,7 +24,6 @@ function event(slug: string): ScheduleItem {
 export const schedule: ScheduleDay[] = [
   {
     label: "Day 1",
-    date: "Nov 4",
     items: [
       event("project-expo"),
       { title: "Cricket", time: "9:00 AM – 5:00 PM" },
@@ -33,7 +33,6 @@ export const schedule: ScheduleDay[] = [
   },
   {
     label: "Day 2",
-    date: "Nov 5",
     items: [
       event("aeromaneuver"),
       { title: "Football", time: "9:00 AM – 5:00 PM" },
@@ -43,7 +42,6 @@ export const schedule: ScheduleDay[] = [
   },
   {
     label: "Day 3",
-    date: "Nov 6",
     items: [event("hackathon")],
   },
 ]

@@ -57,7 +57,9 @@ export const emailTemplates = {
     heading: () => "The vault is open.",
     paragraphs: (event) => [
       `Registrations for ${event.title.trim()} are now live, and you're hearing it first.`,
-      `${event.date.trim()}${event.time ? ` · ${event.time}` : ""} · ${event.venue}. ${event.teamSize}, ${event.registrationFee}.`,
+      `${[event.date?.trim() ?? "Date to be announced", event.time, event.venue]
+        .filter(Boolean)
+        .join(" · ")}. ${event.teamSize}, ${event.registrationFee}.`,
       "Spots are limited — lock yours in before the word gets out.",
     ],
     cta: { label: "Register now" },

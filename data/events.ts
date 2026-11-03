@@ -17,7 +17,8 @@ export type Event = {
   description: string
   clubName: string
   clubLogo?: string
-  date: string
+  /** Omitted until the schedule is announced. */
+  date?: string
   /** Clock window on the day, e.g. "11:00 AM – 1:30 PM". */
   time?: string
   Duration: string
@@ -66,7 +67,6 @@ export const events: Event[] = [
     brochureImage: "/hacakthon-poster.png",
     clubName: "AIT  Club",
     clubLogo: "/ait-ai-club-logo.jpg",
-    date: "Nov 6, 2026",
     time: "Starts 2:00 PM",
     Duration: "24 hours",
     teamSize: "3 - 4 members",
@@ -88,7 +88,6 @@ It's a race against the clock and against faulty logic.
 • 🩹 Patch – Fix the bugs without breaking anything else.
 • ✅ Run clean – Get the program working end to end before time runs out.`,
     clubName: "CICADA 2026",
-    date: "Nov 4, 2026",
     time: "2:00 PM – 4:00 PM",
     Duration: "2 hours",
     teamSize: "2 members",
@@ -116,7 +115,6 @@ It's a race against the clock and against faulty logic.
     brochureImage: "/project-expo.png",
     clubName: "Innovation Club",
     clubLogo: "/ait-ai-club-logo.jpg",
-    date: "Nov 4, 2026",
     time: "9:00 AM – 5:00 PM",
     Duration: "Full day",
     teamSize: "Max of 4 members per team",
@@ -141,7 +139,6 @@ It's a race against the clock and against faulty logic.
     coverImage: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760965058/intrucv_lqqi1l.jpg",
     clubName: "Cybersecurity Club",
     clubLogo: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760269199/CyberSec-AIT_jtlgdt.png",
-    date: "Nov 4, 2026",
     time: "11:00 AM – 1:30 PM",
     Duration: "2 hrs 30 min",
     teamSize: "3 - 4 members",
@@ -160,7 +157,6 @@ Push the limits of aerial autonomy, precision, and maneuverability through a dyn
 
 Navigate complex obstacles, adapt to unpredictable flight conditions, and complete the mission with speed, precision, and control.`,
     clubName: "Drone Club",
-    date: "Nov 5, 2026",
     time: "9:00 AM – 1:30 PM",
     Duration: "4 hrs 30 min",
     teamSize: "Max of 4 members",
@@ -186,7 +182,6 @@ A time-bound Agentic AI building competition where participants receive a proble
     coverImage: "https://res.cloudinary.com/dx9bvma03/image/upload/v1761040526/agentic_ai_do9mf7.jpg",
     clubName: "ATRAIC",
     clubLogo: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760378401/ai_club-removebg-preview_szuluv.png",
-    date: "Nov 5, 2026",
     time: "10:00 AM – 1:30 PM",
     Duration: "3 hrs 30 min",
     teamSize: "3 - 4 members",
@@ -241,7 +236,6 @@ The real action begins! Compete in a live, dynamic auction to secure your dream 
     brochureImage: "/ipl-auction.png",
     clubName: "Sports Analytics Club",
     clubLogo: "/ait-ai-club-logo.jpg",
-    date: "Nov 5, 2026",
     time: "1:00 PM – 5:00 PM",
     Duration: "4 hours",
     teamSize: "3 members per team",
