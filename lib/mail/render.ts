@@ -21,10 +21,35 @@ export function renderEmail(
   event: Event,
   options: { link: string; logoUrl: string },
 ): RenderedEmail {
-  const subject = template.subject(event)
-  const eyebrow = template.eyebrow(event)
-  const heading = template.heading(event)
-  const paragraphs = template.paragraphs(event)
+  return renderContent(
+    {
+      subject: template.subject(event),
+      eyebrow: template.eyebrow(event),
+      heading: template.heading(event),
+      paragraphs: template.paragraphs(event),
+      cta: template.cta,
+      footer: template.footer,
+    },
+    options,
+  )
+}
+
+/** Already-resolved email copy, independent of any one event. */
+export type EmailContent = {
+  subject: string
+  eyebrow: string
+  heading: string
+  paragraphs: string[]
+  cta?: { label: string }
+  footer: string
+}
+
+export function renderContent(
+  content: EmailContent,
+  options: { link: string; logoUrl: string },
+): RenderedEmail {
+  const { subject, eyebrow, heading, paragraphs } = content
+  const template = content
 
   const mono = "'JetBrains Mono','SFMono-Regular',Menlo,Consolas,monospace"
   const sans = "'Plus Jakarta Sans',Helvetica,Arial,sans-serif"

@@ -50,34 +50,64 @@ export type Event = {
 }
 
 /** Flagship events first, then in schedule order. */
+/**
+ * Shown instead of a fee while fees are under wraps. The real amounts are kept
+ * as comments on each event; to publish one, uncomment its line and delete the
+ * FEE_TBA line below it.
+ */
+export const FEE_TBA = "Yet to be announced"
+
+/**
+ * Shown instead of prize money while it's under wraps. Each prize keeps its
+ * real amount in a comment; to publish it, put the amount back in place of
+ * PRIZE_TBA. (Project Expo's description had its per-track amounts too:
+ * ₹8,000 winners / ₹4,000 runners-up for both Software and Hardware.)
+ */
+export const PRIZE_TBA = "Yet to be announced"
+
+/** Shown on events that don't list their prizes yet. */
+export const DEFAULT_PRIZES: EventPrize[] = [{ label: "Prize pool", amount: PRIZE_TBA }]
+
+/** True once an event's fee is a real amount rather than FEE_TBA. */
+export function feeAnnounced(event: Event): boolean {
+  return /\d/.test(event.registrationFee)
+}
+
 export const events: Event[] = [
   {
     slug: "hackathon",
     badges: ["Flagship Event"],
     prizes: [
-      { label: "1st Prize", amount: "₹15,000", perks: ["E-Certificate"] },
-      { label: "2nd Prize", amount: "₹10,000", perks: ["E-Certificate"] },
+      { label: "1st Prize", amount: PRIZE_TBA /* was "₹15,000" — hidden until announced */, perks: ["E-Certificate"] },
+      { label: "2nd Prize", amount: PRIZE_TBA /* was "₹10,000" — hidden until announced */, perks: ["E-Certificate"] },
     ],
     participantReward: "Exclusive Goodies + E-Certificates",
     imageFit: "cover",
+    // Poster: keep its title band in view when cropped to a card or banner.
+    imagePosition: "center 22%",
+    coverImage: "/posters/hackathon.webp",
+    brochureImage: "/posters/hackathon.webp",
     title: "CICADA Hackathon ",
     summary: "Build a software in 24 hours with mentorship and prizes.",
     description: ` <span class="text-white">A 24-Hour Innovation Marathon: Where Creativity Meets Code</span>\n\nGet ready for 24 hours of pure innovation, collaboration, and adrenaline!\nThis marathon brings together brilliant minds from across domains to solve real-world challenges through technology and creativity. Participants will collaborate in teams to prototype, build, and demo an AI-powered application under the guidance of expert mentors. The marathon focuses on pushing boundaries in Vision and Agents — encouraging teams to blend imagination with cutting-edge  tools to craft impactful solutions.\n\n <span class="text-white">Problem Statement Release</span>\n\nAt the start of the hackathon   , problem statements will be revealed, each designed to address pressing real-world issues. Teams must brainstorm, ideate, and select a statement that aligns with their skills and vision. They'll then turn their ideas into working prototypes — all within 24 hours.\n\n <span class="text-white">Event Phases</span>\n\n• Problem Statement Release – Discover and choose your challenge.\n• Ideation & Prototyping – Brainstorm innovative solutions and start building your MVP.\n• Mentorship Checkpoints – Get expert feedback and refine your solution with mentor guidance.\n• Final Presentation & Judging – Pitch your prototype to the judging panel and showcase your innovation.\n\n <span class="text-white">Perks & Amenities</span>\n\nWe've got your energy covered throughout the marathon!\n• 🥞 3 Full Meals:  Midnight snack , Dinner and Breakfast\n• 🍪 Snacks & Refreshments: Available throughout the event\n• 🍔 Midnight Burger Bash: Fuel for your late-night coding sprints\n• ☕ Tea & Coffee: Keep your neurons firing\n• 🎁 Exclusive Swags: Cool goodies for all participants\n• 💬 Mentorship & Networking: Interact with industry experts and tech leaders\n\n <span class="text-white">Final Showdown</span>\n\nShortlisted teams will present their prototypes to a panel of judges comprising industry professionals and academicians. The most innovative, impactful, and technically sound solutions will be crowned the winners — with exciting prizes and recognition awaiting them.`,
-    coverImage: "https://res.cloudinary.com/dx9bvma03/image/upload/v1761035597/CICADA_HACKATHON_srpido.png",
-    brochureImage: "/hacakthon-poster.png",
     clubName: "AIT  Club",
     clubLogo: "/ait-ai-club-logo.jpg",
-    time: "Starts 2:00 PM",
+    time: "Starts 10:30 AM",
     Duration: "24 hours",
     teamSize: "3 - 4 members",
     venue: "Atria Institute of Technology",
-    registrationFee: "₹ 1200 per team",
+    // registrationFee: "₹ 1200 per team", // hidden until fees are announced
+    registrationFee: FEE_TBA,
     mode: "Offline",
   },
   {
     slug: "bug-off",
     badges: ["Flagship Event"],
     imageFit: "cover",
+    // Poster: keep its title band in view when cropped to a card or banner.
+    imagePosition: "center 22%",
+    coverImage: "/posters/bug-off.webp",
+    brochureImage: "/posters/bug-off.webp",
     title: "Bug Off",
     summary: "Drop into a broken codebase, hunt down every defect and get the program running clean — against the clock.",
     description: `Every developer knows the pain — code that should work but doesn't. Bug Off drops your team into a broken codebase and challenges you to hunt down every defect, patch it, and get the program running clean.
@@ -92,7 +122,8 @@ It's a race against the clock and against faulty logic.
     Duration: "2 hours",
     teamSize: "2 members",
     venue: "Atria Institute of Technology",
-    registrationFee: "₹150 per team",
+    // registrationFee: "₹150 per team", // hidden until fees are announced
+    registrationFee: FEE_TBA,
     mode: "Offline",
   },
   {
@@ -103,29 +134,35 @@ It's a race against the clock and against faulty logic.
       title: "Eligibility: Open to 7th-semester students only",
     },
     prizes: [
-      { label: "Winners", amount: "₹8,000", perks: ["E-Certificate"] },
-      { label: "Runner Up", amount: "₹4,000", perks: ["E-Certificate"] },
+      { label: "Winners", amount: PRIZE_TBA /* was "₹8,000" — hidden until announced */, perks: ["E-Certificate"] },
+      { label: "Runner Up", amount: PRIZE_TBA /* was "₹4,000" — hidden until announced */, perks: ["E-Certificate"] },
     ],
     participantReward: "E-Certificates",
-    imageFit: "contain",
+    imageFit: "cover",
+    // Poster: keep its title band in view when cropped to a card or banner.
+    imagePosition: "center 22%",
+    coverImage: "/posters/project-expo.webp",
+    brochureImage: "/posters/project-expo.webp",
     title: "Project Expo - The Innovation Show",
     summary: "Exclusive platform for 7th-semester students to present innovative projects to industry professionals and academic experts",
-    description: `Project Expo is an exclusive platform for 7th-semester students to present their most innovative and impactful projects before a panel of industry professionals and academic experts. It's where creativity meets real-world problem-solving, and visionary ideas come to life through prototypes, research models, and tech demonstrations.\n\n<span class="text-white">Domains You Can Showcase In</span>\n\n🤖 Artificial Intelligence & Machine Learning\n🌐 Internet of Things (IoT)\n🔐 Cybersecurity\n⚙️ Robotics and Automation\n🌱 Green Technology & Sustainability\n📊 Data Science & Analytics\n💻 Web & Mobile Applications\n\nWhether you're showcasing a working prototype, a research-driven concept, or a tech-powered innovation, this is your moment to shine, connect, and inspire.\n\n <span class="text-white">Tracks & Prizes</span>\nTwo separate categories ensure fair recognition for all innovators:\n\n <span class="text-white">Software Track</span>\n🥇 Winners: ₹8,000 + E-Certificate\n🥈 Runners-up: ₹4,000 + E-Certificate\n\n <span class="text-white">Hardware Track</span>\n🥇 Winners: ₹8,000 + E-Certificate\n🥈 Runners-up: ₹4,000 + E-Certificate\n\n <span class="text-white">Event Highlights</span>\n• 100+ Projects on Display\n• Judging by Industry Professionals\n• Mentorship & Incubation Opportunities\n• Prizes & Certificates for Top Innovations\n• Networking with Industry Experts`,
-    coverImage: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760969089/Untitled_design_h0ch4k.png",
-    brochureImage: "/project-expo.png",
+    description: `Project Expo is an exclusive platform for 7th-semester students to present their most innovative and impactful projects before a panel of industry professionals and academic experts. It's where creativity meets real-world problem-solving, and visionary ideas come to life through prototypes, research models, and tech demonstrations.\n\n<span class="text-white">Domains You Can Showcase In</span>\n\n🤖 Artificial Intelligence & Machine Learning\n🌐 Internet of Things (IoT)\n🔐 Cybersecurity\n⚙️ Robotics and Automation\n🌱 Green Technology & Sustainability\n📊 Data Science & Analytics\n💻 Web & Mobile Applications\n\nWhether you're showcasing a working prototype, a research-driven concept, or a tech-powered innovation, this is your moment to shine, connect, and inspire.\n\n <span class="text-white">Tracks & Prizes</span>\nTwo separate categories ensure fair recognition for all innovators:\n\n <span class="text-white">Software Track</span>\n🥇 Winners: Prize yet to be announced + E-Certificate\n🥈 Runners-up: Prize yet to be announced + E-Certificate\n\n <span class="text-white">Hardware Track</span>\n🥇 Winners: Prize yet to be announced + E-Certificate\n🥈 Runners-up: Prize yet to be announced + E-Certificate\n\n <span class="text-white">Event Highlights</span>\n• 100+ Projects on Display\n• Judging by Industry Professionals\n• Mentorship & Incubation Opportunities\n• Prizes & Certificates for Top Innovations\n• Networking with Industry Experts`,
     clubName: "Innovation Club",
     clubLogo: "/ait-ai-club-logo.jpg",
     time: "9:00 AM – 5:00 PM",
     Duration: "Full day",
     teamSize: "Max of 4 members per team",
     venue: "Atria Institute of Technology",
-    registrationFee: "₹400 per team",
+    // registrationFee: "₹400 per team", // hidden until fees are announced
+    registrationFee: FEE_TBA,
     mode: "Offline",
   },
   {
     slug: "who-am-i",
     imageFit: "cover",
-    imagePosition: "20% 30%",
+    // Poster: keep its title band in view when cropped to a card or banner.
+    imagePosition: "center 22%",
+    coverImage: "/posters/who-am-i.webp",
+    brochureImage: "/posters/who-am-i.webp",
     title: "WHO AM I?",
     summary: "A case-based Capture the Flag challenge — investigate realistic cyber cases, follow the attack trail and uncover the final flag.",
     description: `A case-based Capture the Flag challenge where teams investigate realistic cyber cases, analyze digital evidence, follow hidden clues, connect the attack trail, and uncover the final flag.
@@ -136,19 +173,23 @@ It's a race against the clock and against faulty logic.
 • 🧩 Follow the clues – Hidden hints lead from one piece of evidence to the next.
 • 🔗 Connect the trail – Piece together how the attack unfolded.
 • 🚩 Capture the flag – Uncover the final flag before the clock runs out.`,
-    coverImage: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760965058/intrucv_lqqi1l.jpg",
     clubName: "Cybersecurity Club",
     clubLogo: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760269199/CyberSec-AIT_jtlgdt.png",
     time: "11:00 AM – 1:30 PM",
     Duration: "2 hrs 30 min",
     teamSize: "3 - 4 members",
     venue: "Atria Institute of Technology",
-    registrationFee: "₹200 per team",
+    // registrationFee: "₹200 per team", // hidden until fees are announced
+    registrationFee: FEE_TBA,
     mode: "Offline",
   },
   {
     slug: "aeromaneuver",
     imageFit: "cover",
+    // Poster: keep its title band in view when cropped to a card or banner.
+    imagePosition: "center 22%",
+    coverImage: "/posters/aeromaneuver.webp",
+    brochureImage: "/posters/aeromaneuver.webp",
     title: "AEROMANEUVER",
     summary: "Advanced UAV Navigation & Agility Challenge",
     description: `<span class="text-white">Advanced UAV Navigation & Agility Challenge</span>
@@ -161,13 +202,17 @@ Navigate complex obstacles, adapt to unpredictable flight conditions, and comple
     Duration: "4 hrs 30 min",
     teamSize: "Max of 4 members",
     venue: "Atria Institute of Technology",
-    registrationFee: "₹800 per team",
+    // registrationFee: "₹800 per team", // hidden until fees are announced
+    registrationFee: FEE_TBA,
     mode: "Offline",
   },
   {
     slug: "agent-arena",
     imageFit: "cover",
-    imagePosition: "center 30%",
+    // Poster: keep its title band in view when cropped to a card or banner.
+    imagePosition: "center 22%",
+    coverImage: "/posters/agent-arena.webp",
+    brochureImage: "/posters/agent-arena.webp",
     title: "AGENT ARENA 2026",
     summary: "Think. Build. Compete. Get a problem statement at the start and ship an AI agent that solves it — in 3.5 hours.",
     description: `<span class="text-white">Think. Build. Compete.</span>
@@ -179,25 +224,28 @@ A time-bound Agentic AI building competition where participants receive a proble
 • 🧠 Design – Plan how your agent will reason, decide and act.
 • 🛠️ Build – Develop the agent against the clock.
 • 🎤 Demonstrate – Show your agent solving the challenge.`,
-    coverImage: "https://res.cloudinary.com/dx9bvma03/image/upload/v1761040526/agentic_ai_do9mf7.jpg",
     clubName: "ATRAIC",
     clubLogo: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760378401/ai_club-removebg-preview_szuluv.png",
     time: "10:00 AM – 1:30 PM",
     Duration: "3 hrs 30 min",
     teamSize: "3 - 4 members",
     venue: "Atria Institute of Technology",
-    registrationFee: "₹200 per team",
+    // registrationFee: "₹200 per team", // hidden until fees are announced
+    registrationFee: FEE_TBA,
     mode: "Offline",
   },
   {
     slug: "ipl-auction",
     prizes: [
-      { label: "Winners", amount: "₹3,000", perks: ["E-Certificate"] },
-      { label: "Runner Up", amount: "₹1,000", perks: ["E-Certificate"] },
+      { label: "Winners", amount: PRIZE_TBA /* was "₹3,000" — hidden until announced */, perks: ["E-Certificate"] },
+      { label: "Runner Up", amount: PRIZE_TBA /* was "₹1,000" — hidden until announced */, perks: ["E-Certificate"] },
     ],
     participantReward: "E-Certificates",
     imageFit: "cover",
-    imagePosition: "center 20%",
+    // Poster: keep its title band in view when cropped to a card or banner.
+    imagePosition: "center 22%",
+    coverImage: "/posters/ipl-auction.webp",
+    brochureImage: "/posters/ipl-auction.webp",
     title: "IPL Auction: Cricket Strategy Challenge",
     summary: "Step into the shoes of an IPL team owner in this thrilling Auction Challenge where strategy meets cricketing genius!",
     description: `Step into the shoes of an IPL team owner in this thrilling Auction Challenge, where strategy meets cricketing genius!
@@ -232,15 +280,14 @@ The real action begins! Compete in a live, dynamic auction to secure your dream 
 • Test your cricket IQ and analytical thinking
 • Compete for exciting prizes and recognition
 • Experience the thrill of managing your own IPL franchise`,
-    coverImage: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760971638/ipl-2021-ix7zwgff29ylomuf_ina4fe.jpg",
-    brochureImage: "/ipl-auction.png",
     clubName: "Sports Analytics Club",
     clubLogo: "/ait-ai-club-logo.jpg",
     time: "1:00 PM – 5:00 PM",
     Duration: "4 hours",
     teamSize: "3 members per team",
     venue: "Atria Institute of Technology",
-    registrationFee: "₹200 per team",
+    // registrationFee: "₹200 per team", // hidden until fees are announced
+    registrationFee: FEE_TBA,
     mode: "Offline",
   },
 ]
@@ -248,4 +295,56 @@ The real action begins! Compete in a live, dynamic auction to secure your dream 
 /** Where an event's Register buttons point. */
 export function registrationHref(event: Event): string {
   return event.registerUrl ?? `/events/${event.slug}/register`
+}
+
+const MONTHS = ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"]
+
+/**
+ * When an event starts, as a sortable number: its `date` ("Nov 4, 2026") plus
+ * the first clock time in `time` ("11:00 AM – 1:30 PM", "Starts 10:30 AM").
+ * Parsed by hand so it never depends on the JS engine's date-string quirks.
+ *
+ * With no date set, every event sorts by time alone, which is the running
+ * order we can still state while the dates are unannounced.
+ */
+export function eventStart(event: Event): number {
+  const d = event.date?.match(/([A-Za-z]{3})[A-Za-z]*\.?\s+(\d{1,2})[^\d]+(\d{4})/)
+  const month = d ? MONTHS.indexOf(d[1].toLowerCase()) : -1
+  const day = d && month >= 0 ? Date.UTC(Number(d[3]), month, Number(d[2])) : Number.MAX_SAFE_INTEGER
+
+  const t = event.time?.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/i)
+  let minutes = 0
+  if (t) {
+    const hour = (Number(t[1]) % 12) + (t[3].toUpperCase() === "PM" ? 12 : 0)
+    minutes = hour * 60 + Number(t[2])
+  }
+  return day + minutes * 60_000
+}
+
+export type EventDay = {
+  /** "Day 1", "Day 2", … in fest order. Absent while dates are unannounced. */
+  label?: string
+  /** The shared `date` string, e.g. "Nov 4, 2026". Absent until announced. */
+  date?: string
+  events: Event[]
+}
+
+/**
+ * Every event in start order, grouped by day.
+ *
+ * Until the dates are announced there are no days to group by, so this returns
+ * a single unlabelled group rather than inventing a "Day 1" that means nothing.
+ */
+export function eventsByDay(list: Event[] = events): EventDay[] {
+  const sorted = [...list].sort((a, b) => eventStart(a) - eventStart(b))
+  if (!sorted.some((event) => event.date?.trim())) return [{ events: sorted }]
+
+  const days: EventDay[] = []
+  for (const event of sorted) {
+    const date = event.date?.trim() ?? ""
+    const current = days[days.length - 1]
+    if (current && current.date === date) current.events.push(event)
+    else days.push({ label: `Day ${days.length + 1}`, date, events: [event] })
+  }
+  return days
 }

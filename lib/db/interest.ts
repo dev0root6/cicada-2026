@@ -56,3 +56,31 @@ export async function summariseInterest(): Promise<InterestSummary[]> {
     notified: Number(row.notified),
   }))
 }
+
+export type PreRegistered = {
+  email: string
+  /** Event slugs this address asked to hear about. */
+  events: string[]
+}
+
+/**
+ * Everyone on a pre-registration ("notify me") list, one row per address.
+ * Pass an event slug to limit it to that event's list.
+ */
+export async function listPreRegistered(eventSlug?: string | null): Promise<PreRegistered[]> {
+  const sql = getSql()
+  const rows = await sql`
+    select lower(email) as email, array_agg(distinct event_slug) as events
+      from registration_interest
+     where (${eventSlug ?? null}::text is null or event_slug = ${eventSlug ?? null})
+     group by lower(email)
+     order by min(created_at)
+  `
+  return rows.map((row) => ({ email: String(row.email), events: (row.events as string[]) ?? [] }))
+}
+
+export async function isPreRegistered(email: string): Promise<boolean> {
+  const sql = getSql()
+  const rows = await sql`select 1 from registration_interest where lower(email) = lower(${email}) limit 1`
+  return rows.length > 0
+}

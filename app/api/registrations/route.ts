@@ -61,6 +61,10 @@ export async function POST(request: NextRequest) {
   }
 
   const amountPaise = feeToPaise(event.registrationFee)
+  // Fees still "Yet to be announced" would otherwise become a ₹0 order.
+  if (amountPaise <= 0) {
+    return NextResponse.json({ error: "Registration fee not announced yet" }, { status: 409 })
+  }
   const orderId = `cicada-${event.slug}-${crypto.randomUUID()}`
 
   try {
