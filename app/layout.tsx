@@ -32,6 +32,14 @@ export const metadata: Metadata = {
     title: site.title,
     description: site.description,
     type: "website",
+    // The announcement card, so a shared link previews the update itself.
+    images: [{ url: "/announcement/og.png", width: 1200, height: 630, alt: site.title }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: site.title,
+    description: site.description,
+    images: ["/announcement/og.png"],
   },
 }
 
