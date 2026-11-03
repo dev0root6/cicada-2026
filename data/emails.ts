@@ -12,8 +12,8 @@ import type { Event } from "./events"
 export const mailConfig = {
   /** Display name on the From line. The address is MAIL_USER. */
   fromName: `${site.title}`,
-  /** Where replies go. Leave undefined to reply to MAIL_USER. */
-  replyTo: site.social.email as string | undefined,
+  /** Where replies go. Undefined means replies land on MAIL_USER. */
+  replyTo: undefined as string | undefined,
   /** Absolute base for links in emails when the request host is unknown. */
   fallbackSiteUrl: "https://cicada-2026.vercel.app",
   /** Most emails sent per click of "Send alert" (Gmail allows ~500/day). */

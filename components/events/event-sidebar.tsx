@@ -71,16 +71,13 @@ export function EventSidebar({ event }: { event: Event }) {
           Questions about this event? Talk to the organising team.
         </p>
         <ContactDialog
-          people={event.contacts ?? organizerContacts}
+          people={organizerContacts}
           trigger={
             <Button variant="outline" size="sm" className="mt-3 w-full">
               Contact organizers
             </Button>
           }
         />
-        <Button asChild variant="ghost" size="sm" className="mt-2 w-full">
-          <a href={`mailto:${event.contactEmail ?? site.social.email}`}>Email us instead</a>
-        </Button>
       </div>
 
       <Button asChild variant="ghost" size="sm" className="mt-4 w-full">

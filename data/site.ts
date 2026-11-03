@@ -26,7 +26,6 @@ export const site = {
   },
   social: {
     instagram: "https://www.instagram.com/cicada_atria?igsh=dmp0Ym1hM3dneXc3",
-    email: "karansuthar9565@gmail.com",
   },
   credit: {
     label: "ScriptVerse",
@@ -54,25 +53,26 @@ export const footerLinks: NavLink[] = [
   { href: "/terms", label: "Terms & Conditions" },
 ]
 
-/** Organisers reachable from the footer / event pages. */
+/**
+ * The fest's contacts. This is the single list used everywhere — footer,
+ * event pages, the contact dialog — so there is one place to change it.
+ */
 export const organizerContacts = [
-  { name: "Priyanka", phone: "+91 8431822512" },
-  { name: "Swarnim", phone: "+91 9986837400" },
-  { name: "Karan Suthar", phone: "+91 8431770172" },
+  { name: "Sonia", role: "Faculty Coordinator", phone: "+91 81973 96564" },
+  { name: "Deva Kumar", role: "Student Coordinator", phone: "+91 96327 72904" },
 ]
 
+/**
+ * Shown on the About page as a credit only. Personal contact details are
+ * deliberately not held here — every way to reach the fest goes through
+ * `organizerContacts` above.
+ */
 export const facultyLead = {
   name: "Dr. Deepak N R",
   role: "Head of Department (ISE)",
   org: "Atria Institute of Technology",
   photo:
     "https://res.cloudinary.com/dx9bvma03/image/upload/v1761909347/IMG_20251031_164104_cjnugo.jpg",
-  phone: "+91 9886467667",
-  instagram: "https://www.instagram.com/drdeepugowda?igsh=enE0bWk0c2xnOW1i",
-  emails: [
-    { label: "Work", address: "isehod@atria.edu" },
-    { label: "Personal", address: "Deepaknrgowda@gmail.com" },
-  ],
 }
 
 export const collegeLogo =

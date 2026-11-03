@@ -1,8 +1,6 @@
 import type { Metadata } from "next"
-import { Instagram, Mail, Phone } from "lucide-react"
 import { Section } from "@/components/common/section"
-import { ContactDialog } from "@/components/common/contact-dialog"
-import { clubs, collegeLogo, facultyLead, site } from "@/data/site"
+import { clubs, collegeLogo, facultyLead, organizerContacts, site } from "@/data/site"
 import { cn } from "@/lib/utils"
 
 export const metadata: Metadata = {
@@ -75,6 +73,30 @@ export default function AboutPage() {
         </ul>
       </Section>
 
+      <Section
+        size="wide"
+        eyebrow="Get in touch"
+        title="Contact"
+        description="Reach the coordinators directly for anything about the fest."
+      >
+        <ul className="grid gap-4 sm:grid-cols-2">
+          {organizerContacts.map((person) => (
+            <li key={person.phone} className="surface surface-hover p-6">
+              <p className="font-mono text-[0.65rem] uppercase tracking-[0.15em] text-primary">
+                {person.role}
+              </p>
+              <p className="mt-2 text-lg font-semibold">{person.name}</p>
+              <a
+                href={`tel:${person.phone.replace(/\s/g, "")}`}
+                className="mt-1 inline-block font-mono text-sm text-muted-foreground transition-colors hover:text-primary"
+              >
+                {person.phone}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </Section>
+
       <Section size="wide" eyebrow="Faculty" title="Organizers">
         <div className="surface grid items-center gap-8 p-8 md:grid-cols-2 md:p-10">
           <div className="flex flex-col items-center gap-6 sm:flex-row sm:items-center">
@@ -89,38 +111,6 @@ export default function AboutPage() {
               <p className="mt-1 text-sm text-muted-foreground">{facultyLead.role}</p>
               <p className="text-sm text-muted-foreground">{facultyLead.org}</p>
 
-              <div className="mt-4 flex items-center justify-center gap-2 sm:justify-start">
-                <a
-                  href={`tel:${facultyLead.phone.replace(/\s/g, "")}`}
-                  aria-label={`Call ${facultyLead.name}`}
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
-                >
-                  <Phone className="h-4 w-4" />
-                </a>
-                <a
-                  href={facultyLead.instagram}
-                  target="_blank"
-                  rel="noreferrer noopener"
-                  aria-label="Instagram"
-                  className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
-                >
-                  <Instagram className="h-4 w-4" />
-                </a>
-                <ContactDialog
-                  title="Email"
-                  description="Choose an address to continue:"
-                  emails={facultyLead.emails}
-                  trigger={
-                    <button
-                      type="button"
-                      aria-label="Email"
-                      className="flex h-9 w-9 items-center justify-center rounded-full border border-border text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
-                    >
-                      <Mail className="h-4 w-4" />
-                    </button>
-                  }
-                />
-              </div>
             </div>
           </div>
 

@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
-export type ContactPerson = { name: string; phone: string }
+export type ContactPerson = { name: string; phone: string; role?: string }
 export type ContactEmail = { label: string; address: string }
 
 type ContactDialogProps = {
@@ -54,6 +54,7 @@ export function ContactDialog({
               icon={<Phone className="h-4 w-4 text-primary" />}
               title={person.name}
               subtitle={person.phone}
+              meta={person.role}
             />
           ))}
           {emails.map((email) => (
@@ -76,11 +77,14 @@ function ContactRow({
   icon,
   title,
   subtitle,
+  meta,
 }: {
   href: string
   icon: ReactNode
   title: string
   subtitle: string
+  /** Optional line above the value, e.g. the person's role. */
+  meta?: string
 }) {
   return (
     <a
@@ -92,6 +96,11 @@ function ContactRow({
       </span>
       <span className="min-w-0">
         <span className="block font-medium">{title}</span>
+        {meta && (
+          <span className="block font-mono text-[0.65rem] uppercase tracking-[0.12em] text-primary">
+            {meta}
+          </span>
+        )}
         <span className="block truncate text-sm text-muted-foreground">{subtitle}</span>
       </span>
     </a>

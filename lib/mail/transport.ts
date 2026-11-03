@@ -1,19 +1,19 @@
 import "server-only"
 import nodemailer, { type Transporter } from "nodemailer"
 import { mailConfig } from "@/data/emails"
-import { site } from "@/data/site"
 
 /**
  * Gmail over SMTP with an app password.
  *
  *   MAIL_APP_PASSWD  16-character Google app password (spaces are ignored)
- *   MAIL_USER        the Gmail address it belongs to; defaults to the site's
- *                    contact address in data/site.ts
+ *   MAIL_USER        the Gmail address it belongs to
+ *
+ * Both are required: there is deliberately no hardcoded fallback sender.
  */
 
 function credentials() {
   const pass = process.env.MAIL_APP_PASSWD?.replace(/\s+/g, "")
-  const user = process.env.MAIL_USER?.trim() || site.social.email
+  const user = process.env.MAIL_USER?.trim()
   return pass && user ? { user, pass } : null
 }
 

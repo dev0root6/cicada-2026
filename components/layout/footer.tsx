@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { useState } from "react"
-import { Instagram, Mail, MapPin, Phone } from "lucide-react"
+import { Instagram, MapPin, Phone } from "lucide-react"
 import { Container } from "@/components/common/container"
 import { ContactDialog } from "@/components/common/contact-dialog"
 import { Logo } from "@/components/brand/logo"
@@ -62,11 +62,6 @@ export function Footer() {
                 label="Instagram"
                 external
                 icon={<Instagram className="h-4 w-4" />}
-              />
-              <IconLink
-                href={`mailto:${site.social.email}`}
-                label="Email"
-                icon={<Mail className="h-4 w-4" />}
               />
               <button
                 type="button"

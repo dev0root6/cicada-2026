@@ -4,11 +4,6 @@ export type EventPrize = {
   perks?: string[]
 }
 
-export type EventContact = {
-  name: string
-  phone: string
-}
-
 export type EventNotice = {
   tone: "warning" | "info"
   title: string
@@ -46,8 +41,6 @@ export type Event = {
   prizes?: EventPrize[]
   /** What every participant walks away with. */
   participantReward?: string
-  /** Organisers to call, shown in the contact dialog. */
-  contacts?: EventContact[]
   /** Mailbox for written queries. */
   contactEmail?: string
   /** object-fit / object-position tuning for the cover image. */
@@ -65,12 +58,6 @@ export const events: Event[] = [
       { label: "2nd Prize", amount: "₹10,000", perks: ["E-Certificate"] },
     ],
     participantReward: "Exclusive Goodies + E-Certificates",
-    contacts: [
-      { name: "Swarnim", phone: "+91 9986837400" },
-      { name: "Priyanka V C", phone: "+91 8431822512" },
-      { name: "Sharanu", phone: "+91 8073525884" },
-      { name: "Sneha", phone: "+91 7483075818" },
-    ],
     imageFit: "cover",
     title: "CICADA Hackathon ",
     summary: "Build a software in 24 hours with mentorship and prizes.",
@@ -121,12 +108,6 @@ It's a race against the clock and against faulty logic.
       { label: "Runner Up", amount: "₹4,000", perks: ["E-Certificate"] },
     ],
     participantReward: "E-Certificates",
-    contacts: [
-      { name: "Shruthi Raj", phone: "+91 6204705418" },
-      { name: "Kashik", phone: "+91 6360497813" },
-      { name: "Kavan TB", phone: "+91 8951811235" },
-      { name: "Shrajan", phone: "+91 7795264283" },
-    ],
     imageFit: "contain",
     title: "Project Expo - The Innovation Show",
     summary: "Exclusive platform for 7th-semester students to present innovative projects to industry professionals and academic experts",
@@ -145,12 +126,6 @@ It's a race against the clock and against faulty logic.
   },
   {
     slug: "who-am-i",
-    contacts: [
-      { name: "Deva Kumar", phone: "+91 8431822512" },
-      { name: "Aishwarya", phone: "+91 9148771379" },
-      { name: "Charu Shree", phone: "+91 7019126145" },
-      { name: "Prithvi Prabhu", phone: "+91 9611272227" },
-    ],
     imageFit: "cover",
     imagePosition: "20% 30%",
     title: "WHO AM I?",
@@ -195,11 +170,6 @@ Navigate complex obstacles, adapt to unpredictable flight conditions, and comple
   },
   {
     slug: "agent-arena",
-    contacts: [
-      { name: "Aman", phone: "+91 9483798153" },
-      { name: "Mahima", phone: "+91 7483065137" },
-      { name: "Manotosh", phone: "+91 8293017048" },
-    ],
     imageFit: "cover",
     imagePosition: "center 30%",
     title: "AGENT ARENA 2026",
@@ -231,10 +201,6 @@ A time-bound Agentic AI building competition where participants receive a proble
       { label: "Runner Up", amount: "₹1,000", perks: ["E-Certificate"] },
     ],
     participantReward: "E-Certificates",
-    contacts: [
-      { name: "Karan Suthar", phone: "+91 8431770172" },
-      { name: "Shivam Malge", phone: "+91 8618169821" },
-    ],
     imageFit: "cover",
     imagePosition: "center 20%",
     title: "IPL Auction: Cricket Strategy Challenge",
