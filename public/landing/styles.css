@@ -361,6 +361,38 @@ body {
   color: var(--muted);
 }
 
+/* Postponement notice. Amber so it reads as news, not decoration. */
+.notice {
+  margin: clamp(20px, 4vh, 32px) auto 0;
+  max-width: 34rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 18px;
+  border: 1px solid rgba(245, 185, 75, .34);
+  border-radius: 10px;
+  background: rgba(245, 185, 75, .09);
+  text-align: center;
+}
+
+.notice b {
+  font-size: 13px;
+  letter-spacing: .06em;
+  color: rgb(252, 211, 128);
+}
+
+.notice span {
+  font-size: 12px;
+  line-height: 1.55;
+  color: rgba(252, 211, 128, .72);
+}
+
+@media (max-width: 520px) {
+  .notice { padding: 11px 14px; }
+  .notice b { font-size: 12px; }
+  .notice span { font-size: 11px; }
+}
+
 /* Way into the full site. */
 .enter {
   margin-top: clamp(24px, 5vh, 44px);

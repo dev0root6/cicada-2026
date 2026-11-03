@@ -34,6 +34,16 @@ export const site = {
   },
 } as const
 
+/**
+ * Site-wide notice, shown above the navbar on every page and on the landing
+ * teaser. Set `enabled: false` to take it down everywhere at once.
+ */
+export const announcement = {
+  enabled: true,
+  title: "CICADA 2026 has been postponed",
+  body: "New dates will be announced soon. Thank you for your patience.",
+}
+
 /** Shown wherever a date would go while the schedule is unconfirmed. */
 export const DATES_TBA = "Dates to be announced"
 export const DATE_TBA_SHORT = "TBA"

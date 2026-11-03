@@ -1,4 +1,5 @@
 import type { ReactNode } from "react"
+import { AnnouncementBanner } from "@/components/layout/announcement-banner"
 import { Navbar } from "@/components/layout/navbar"
 import { Footer } from "@/components/layout/footer"
 import { HeistBackdrop } from "@/components/visuals/heist-backdrop"
@@ -19,6 +20,7 @@ export default function SiteLayout({ children }: { children: ReactNode }) {
       >
         Skip to content
       </a>
+      <AnnouncementBanner />
       <Navbar />
       <main id="main" className="flex-1">
         {children}
