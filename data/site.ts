@@ -40,10 +40,17 @@ export const site = {
  */
 export const announcement = {
   enabled: true,
-  title: "CICADA 2026 has been postponed",
-  body: "New dates will be announced soon. Thank you for your patience.",
+  kicker: "CICADA 2026 — Important update",
+  /** The one line that has to land. Kept short so it can run at display size. */
+  title: "Something Big is Coming! 🚀",
+  lines: [
+    "The excitement is building! 🔥",
+    "The official dates for CICADA 2026 will be announced shortly.",
+    "Stay tuned for exciting updates, thrilling events and an unforgettable experience!",
+  ],
+  hashtags: ["#CICADA2026", "#AtriaInstituteOfTechnology", "#StayTuned"],
   /** Short form, repeated in the scrolling ticker. */
-  ticker: "Postponed — new dates announced soon",
+  ticker: "Something big is coming — stay tuned",
 }
 
 /** Shown wherever a date would go while the schedule is unconfirmed. */
