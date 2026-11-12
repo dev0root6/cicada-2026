@@ -76,6 +76,7 @@ export function feeAnnounced(event: Event): boolean {
 export const events: Event[] = [
   {
     slug: "hackathon",
+    registerUrl: "https://konfhub.com/checkout/cicada-2026?ticketId=126992",
     badges: ["Flagship Event"],
     prizes: [
       { label: "1st Prize", amount: PRIZE_TBA /* was "₹15,000" — hidden until announced */, perks: ["E-Certificate"] },
@@ -101,33 +102,8 @@ export const events: Event[] = [
     mode: "Offline",
   },
   {
-    slug: "bug-off",
-    badges: ["Flagship Event"],
-    imageFit: "cover",
-    // Poster: keep its title band in view when cropped to a card or banner.
-    imagePosition: "center 22%",
-    coverImage: "/posters/bug-off.webp",
-    brochureImage: "/posters/bug-off.webp",
-    title: "Bug Off",
-    summary: "Drop into a broken codebase, hunt down every defect and get the program running clean — against the clock.",
-    description: `Every developer knows the pain — code that should work but doesn't. Bug Off drops your team into a broken codebase and challenges you to hunt down every defect, patch it, and get the program running clean.
-
-<span class="text-white">The Challenge</span>
-It's a race against the clock and against faulty logic.
-• 🐞 Hunt – Track down every defect hiding in the codebase.
-• 🩹 Patch – Fix the bugs without breaking anything else.
-• ✅ Run clean – Get the program working end to end before time runs out.`,
-    clubName: "CICADA 2026",
-    time: "2:00 PM – 4:00 PM",
-    Duration: "2 hours",
-    teamSize: "2 members",
-    venue: "Atria Institute of Technology",
-    // registrationFee: "₹150 per team", // hidden until fees are announced
-    registrationFee: FEE_TBA,
-    mode: "Offline",
-  },
-  {
     slug: "project-expo",
+    registerUrl: "https://konfhub.com/checkout/cicada-2026?ticketId=126990",
     badges: ["7th-semester only"],
     notice: {
       tone: "info",
@@ -157,85 +133,8 @@ It's a race against the clock and against faulty logic.
     mode: "Offline",
   },
   {
-    slug: "who-am-i",
-    imageFit: "cover",
-    // Poster: keep its title band in view when cropped to a card or banner.
-    imagePosition: "center 22%",
-    coverImage: "/posters/who-am-i.webp",
-    brochureImage: "/posters/who-am-i.webp",
-    title: "WHO AM I?",
-    summary: "A case-based Capture the Flag challenge — investigate realistic cyber cases, follow the attack trail and uncover the final flag.",
-    description: `A case-based Capture the Flag challenge where teams investigate realistic cyber cases, analyze digital evidence, follow hidden clues, connect the attack trail, and uncover the final flag.
-
-<span class="text-white">How It Works</span>
-• 🗂️ Investigate – Each team is handed a realistic cyber case to work through.
-• 🔍 Analyze – Examine the digital evidence and pick out what matters.
-• 🧩 Follow the clues – Hidden hints lead from one piece of evidence to the next.
-• 🔗 Connect the trail – Piece together how the attack unfolded.
-• 🚩 Capture the flag – Uncover the final flag before the clock runs out.`,
-    clubName: "Cybersecurity Club",
-    clubLogo: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760269199/CyberSec-AIT_jtlgdt.png",
-    time: "11:00 AM – 1:30 PM",
-    Duration: "2 hrs 30 min",
-    teamSize: "3 - 4 members",
-    venue: "Atria Institute of Technology",
-    // registrationFee: "₹200 per team", // hidden until fees are announced
-    registrationFee: FEE_TBA,
-    mode: "Offline",
-  },
-  {
-    slug: "aeromaneuver",
-    imageFit: "cover",
-    // Poster: keep its title band in view when cropped to a card or banner.
-    imagePosition: "center 22%",
-    coverImage: "/posters/aeromaneuver.webp",
-    brochureImage: "/posters/aeromaneuver.webp",
-    title: "AEROMANEUVER",
-    summary: "Advanced UAV Navigation & Agility Challenge",
-    description: `<span class="text-white">Advanced UAV Navigation & Agility Challenge</span>
-
-Push the limits of aerial autonomy, precision, and maneuverability through a dynamic obstacle course designed to challenge every aspect of drone flight.
-
-Navigate complex obstacles, adapt to unpredictable flight conditions, and complete the mission with speed, precision, and control.`,
-    clubName: "Drone Club",
-    time: "9:00 AM – 1:30 PM",
-    Duration: "4 hrs 30 min",
-    teamSize: "Max of 4 members",
-    venue: "Atria Institute of Technology",
-    // registrationFee: "₹800 per team", // hidden until fees are announced
-    registrationFee: FEE_TBA,
-    mode: "Offline",
-  },
-  {
-    slug: "agent-arena",
-    imageFit: "cover",
-    // Poster: keep its title band in view when cropped to a card or banner.
-    imagePosition: "center 22%",
-    coverImage: "/posters/agent-arena.webp",
-    brochureImage: "/posters/agent-arena.webp",
-    title: "AGENT ARENA 2026",
-    summary: "Think. Build. Compete. Get a problem statement at the start and ship an AI agent that solves it — in 3.5 hours.",
-    description: `<span class="text-white">Think. Build. Compete.</span>
-
-A time-bound Agentic AI building competition where participants receive a problem statement at the start of the event and must design, develop, and demonstrate an AI agent specifically to solve that challenge.
-
-<span class="text-white">Event Flow</span>
-• 📜 Problem Statement Release – The challenge is revealed when the event begins.
-• 🧠 Design – Plan how your agent will reason, decide and act.
-• 🛠️ Build – Develop the agent against the clock.
-• 🎤 Demonstrate – Show your agent solving the challenge.`,
-    clubName: "ATRAIC",
-    clubLogo: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760378401/ai_club-removebg-preview_szuluv.png",
-    time: "10:00 AM – 1:30 PM",
-    Duration: "3 hrs 30 min",
-    teamSize: "3 - 4 members",
-    venue: "Atria Institute of Technology",
-    // registrationFee: "₹200 per team", // hidden until fees are announced
-    registrationFee: FEE_TBA,
-    mode: "Offline",
-  },
-  {
     slug: "ipl-auction",
+    registerUrl: "https://konfhub.com/checkout/cicada-2026?ticketId=126946",
     prizes: [
       { label: "Winners", amount: PRIZE_TBA /* was "₹3,000" — hidden until announced */, perks: ["E-Certificate"] },
       { label: "Runner Up", amount: PRIZE_TBA /* was "₹1,000" — hidden until announced */, perks: ["E-Certificate"] },
@@ -287,6 +186,62 @@ The real action begins! Compete in a live, dynamic auction to secure your dream 
     teamSize: "3 members per team",
     venue: "Atria Institute of Technology",
     // registrationFee: "₹200 per team", // hidden until fees are announced
+    registrationFee: FEE_TBA,
+    mode: "Offline",
+  },
+  {
+    slug: "free-fire",
+    registerUrl: "https://konfhub.com/checkout/cicada-2026?ticketId=126991",
+    prizes: DEFAULT_PRIZES,
+    participantReward: "E-Certificates",
+    imageFit: "cover",
+    coverImage: "/posters/free-fire.webp",
+    title: "Free Fire",
+    summary:
+      "Squad up for CICADA's Free Fire tournament — battle royale, knockout rounds, last squad standing.",
+    description: `Drop in, loot fast and outlast everyone else.
+
+CICADA's Free Fire tournament puts squads from across campus and beyond into the battle royale, playing for the title and the prize pool.
+
+ <span class="text-white">What to expect</span>
+• Squad-based battle royale matches
+• Knockout rounds leading to a final
+• Played on your own device
+
+ <span class="text-white">Before you register</span>
+The match format, schedule and full rulebook go out to registered squads ahead of the event. Register now to hold your squad's place and get those details first.`,
+    clubName: "Team CICADA",
+    Duration: "Yet to be announced",
+    teamSize: "Yet to be announced",
+    venue: "Atria Institute of Technology",
+    registrationFee: FEE_TBA,
+    mode: "Offline",
+  },
+  {
+    slug: "bgmi",
+    registerUrl: "https://konfhub.com/checkout/cicada-2026?ticketId=126998",
+    prizes: DEFAULT_PRIZES,
+    participantReward: "E-Certificates",
+    imageFit: "cover",
+    coverImage: "/posters/bgmi.webp",
+    title: "BGMI",
+    summary:
+      "Battlegrounds Mobile India at CICADA — squads, classic maps, and the last team standing takes it.",
+    description: `Erangel, Miramar, and whoever is still standing when the circle closes.
+
+CICADA's BGMI tournament runs squad matches through to a final, playing for the title and the prize pool.
+
+ <span class="text-white">What to expect</span>
+• Squad matches across classic maps
+• Points carried across rounds into a final
+• Played on your own device
+
+ <span class="text-white">Before you register</span>
+The match format, schedule and full rulebook go out to registered squads ahead of the event. Register now to hold your squad's place and get those details first.`,
+    clubName: "Team CICADA",
+    Duration: "Yet to be announced",
+    teamSize: "Yet to be announced",
+    venue: "Atria Institute of Technology",
     registrationFee: FEE_TBA,
     mode: "Offline",
   },

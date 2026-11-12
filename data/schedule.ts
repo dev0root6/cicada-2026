@@ -27,16 +27,12 @@ export const schedule: ScheduleDay[] = [
     items: [
       event("project-expo"),
       { title: "Cricket", time: "9:00 AM – 5:00 PM" },
-      event("who-am-i"),
-      event("bug-off"),
     ],
   },
   {
     label: "Day 2",
     items: [
-      event("aeromaneuver"),
       { title: "Football", time: "9:00 AM – 5:00 PM" },
-      event("agent-arena"),
       event("ipl-auction"),
     ],
   },
@@ -45,3 +41,6 @@ export const schedule: ScheduleDay[] = [
     items: [event("hackathon")],
   },
 ]
+
+// Free Fire and BGMI are not listed above: their day and time are not set yet.
+// Add `event("free-fire")` and `event("bgmi")` to a day once they are.
