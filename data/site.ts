@@ -15,9 +15,11 @@ export const site = {
   logo: "/brand/cicada-bug.svg",
   brochure: "/Cicada Brochure-1_compress.pdf",
   /** Set once confirmed; null until then and the site says so. */
-  dates: null as string | null,
+  dates: "Nov 19 – 21, 2026" as string | null,
   /** Compact form for the hero stat tile. */
-  shortDates: null as string | null,
+  shortDates: "Nov 19–21" as string | null,
+  /** Daily gate hours from the brochure. */
+  hours: "8:30 AM – 5:30 PM",
   venue: {
     name: "Atria Institute of Technology",
     city: "Hebbal, Bengaluru",
@@ -40,17 +42,17 @@ export const site = {
  */
 export const announcement = {
   enabled: true,
-  kicker: "CICADA 2026 — Important update",
+  kicker: "CICADA 2026 — Dates announced",
   /** The one line that has to land. Kept short so it can run at display size. */
-  title: "Something Big is Coming! 🚀",
+  title: "19 – 21 November 2026 🚀",
   lines: [
-    "The excitement is building! 🔥",
-    "The official dates for CICADA 2026 will be announced shortly.",
-    "Stay tuned for exciting updates, thrilling events and an unforgettable experience!",
+    "The wait is over — CICADA 2026 has its dates! 🔥",
+    "Three days at Atria Institute of Technology, 8:30 AM to 5:30 PM.",
+    "Project Expo, IPL Auction, E-Sports and a 24-hour Hackathon. Registrations are open.",
   ],
-  hashtags: ["#CICADA2026", "#AtriaInstituteOfTechnology", "#StayTuned"],
+  hashtags: ["#CICADA2026", "#AtriaInstituteOfTechnology", "#SaveTheDate"],
   /** Short form, repeated in the scrolling ticker. */
-  ticker: "Something big is coming — stay tuned",
+  ticker: "19 – 21 November 2026 — registrations open",
 }
 
 /** Shown wherever a date would go while the schedule is unconfirmed. */
@@ -82,8 +84,9 @@ export const footerLinks: NavLink[] = [
  * event pages, the contact dialog — so there is one place to change it.
  */
 export const organizerContacts = [
-  { name: "Sonia", role: "Faculty Coordinator", phone: "+91 81973 96564" },
-  { name: "Deva Kumar", role: "Student Coordinator", phone: "+91 96327 72904" },
+  { name: "Ms. Sonia S B", role: "Faculty Coordinator", phone: "+91 81973 96564" },
+  { name: "Deva Kumar S", role: "Student Coordinator", phone: "+91 96327 72904" },
+  { name: "Mohammed Rehan", role: "Student Coordinator", phone: "+91 98869 24883" },
 ]
 
 /**
@@ -93,11 +96,19 @@ export const organizerContacts = [
  */
 export const facultyLead = {
   name: "Dr. Deepak N R",
-  role: "Head of Department (ISE)",
+  role: "Convenor · Head of Department (ISE)",
   org: "Atria Institute of Technology",
   photo:
     "https://res.cloudinary.com/dx9bvma03/image/upload/v1761909347/IMG_20251031_164104_cjnugo.jpg",
 }
+
+/** Faculty credited on the brochure cover, after the convenor. */
+export const facultyTeam = [
+  { name: "Dr. Keshavamurthy", role: "Co-Convenor · HoD, ECE" },
+  { name: "Dr. Naveen Kumar", role: "Professor" },
+  { name: "Dr. Kavitha S Patil", role: "Associate Professor" },
+  { name: "Dr. Jyoti Metan", role: "Associate Professor" },
+]
 
 export const collegeLogo =
   "https://res.cloudinary.com/dx9bvma03/image/upload/v1761926582/College_Logo_gjwudh.png"

@@ -51,17 +51,14 @@ export type Event = {
 
 /** Flagship events first, then in schedule order. */
 /**
- * Shown instead of a fee while fees are under wraps. The real amounts are kept
- * as comments on each event; to publish one, uncomment its line and delete the
- * FEE_TBA line below it.
+ * Shown in place of a fee while an event's price is not settled. Every event
+ * currently prices in rupees; this is here for the next one that does not.
  */
 export const FEE_TBA = "Yet to be announced"
 
 /**
- * Shown instead of prize money while it's under wraps. Each prize keeps its
- * real amount in a comment; to publish it, put the amount back in place of
- * PRIZE_TBA. (Project Expo's description had its per-track amounts too:
- * ₹8,000 winners / ₹4,000 runners-up for both Software and Hardware.)
+ * Shown in place of prize money that is not announced yet. The prize panel
+ * renders it as "to be announced" rather than an amount.
  */
 export const PRIZE_TBA = "Yet to be announced"
 
@@ -79,8 +76,8 @@ export const events: Event[] = [
     registerUrl: "https://konfhub.com/checkout/cicada-2026?ticketId=126992",
     badges: ["Flagship Event"],
     prizes: [
-      { label: "1st Prize", amount: PRIZE_TBA /* was "₹15,000" — hidden until announced */, perks: ["E-Certificate"] },
-      { label: "2nd Prize", amount: PRIZE_TBA /* was "₹10,000" — hidden until announced */, perks: ["E-Certificate"] },
+      { label: "1st Prize", amount: "₹15,000", perks: ["Internship opportunity", "Goodies", "E-Certificate"] },
+      { label: "2nd Prize", amount: "₹10,000", perks: ["Internship opportunity", "Goodies", "E-Certificate"] },
     ],
     participantReward: "Exclusive Goodies + E-Certificates",
     imageFit: "cover",
@@ -93,12 +90,12 @@ export const events: Event[] = [
     description: ` <span class="text-white">A 24-Hour Innovation Marathon: Where Creativity Meets Code</span>\n\nGet ready for 24 hours of pure innovation, collaboration, and adrenaline!\nThis marathon brings together brilliant minds from across domains to solve real-world challenges through technology and creativity. Participants will collaborate in teams to prototype, build, and demo an AI-powered application under the guidance of expert mentors. The marathon focuses on pushing boundaries in Vision and Agents — encouraging teams to blend imagination with cutting-edge  tools to craft impactful solutions.\n\n <span class="text-white">Problem Statement Release</span>\n\nAt the start of the hackathon   , problem statements will be revealed, each designed to address pressing real-world issues. Teams must brainstorm, ideate, and select a statement that aligns with their skills and vision. They'll then turn their ideas into working prototypes — all within 24 hours.\n\n <span class="text-white">Event Phases</span>\n\n• Problem Statement Release – Discover and choose your challenge.\n• Ideation & Prototyping – Brainstorm innovative solutions and start building your MVP.\n• Mentorship Checkpoints – Get expert feedback and refine your solution with mentor guidance.\n• Final Presentation & Judging – Pitch your prototype to the judging panel and showcase your innovation.\n\n <span class="text-white">Perks & Amenities</span>\n\nWe've got your energy covered throughout the marathon!\n• 🥞 3 Full Meals:  Midnight snack , Dinner and Breakfast\n• 🍪 Snacks & Refreshments: Available throughout the event\n• 🍔 Midnight Burger Bash: Fuel for your late-night coding sprints\n• ☕ Tea & Coffee: Keep your neurons firing\n• 🎁 Exclusive Swags: Cool goodies for all participants\n• 💬 Mentorship & Networking: Interact with industry experts and tech leaders\n\n <span class="text-white">Final Showdown</span>\n\nShortlisted teams will present their prototypes to a panel of judges comprising industry professionals and academicians. The most innovative, impactful, and technically sound solutions will be crowned the winners — with exciting prizes and recognition awaiting them.`,
     clubName: "AIT  Club",
     clubLogo: "/ait-ai-club-logo.jpg",
+    date: "Nov 20, 2026",
     time: "Starts 10:30 AM",
-    Duration: "24 hours",
-    teamSize: "3 - 4 members",
+    Duration: "24 hours, running into Nov 21",
+    teamSize: "3 – 4 members",
     venue: "Atria Institute of Technology",
-    // registrationFee: "₹ 1200 per team", // hidden until fees are announced
-    registrationFee: FEE_TBA,
+    registrationFee: "₹1,000 per team",
     mode: "Offline",
   },
   {
@@ -110,8 +107,11 @@ export const events: Event[] = [
       title: "Eligibility: Open to 7th-semester students only",
     },
     prizes: [
-      { label: "Winners", amount: PRIZE_TBA /* was "₹8,000" — hidden until announced */, perks: ["E-Certificate"] },
-      { label: "Runner Up", amount: PRIZE_TBA /* was "₹4,000" — hidden until announced */, perks: ["E-Certificate"] },
+      // Hardware and Software are judged as separate tracks, each paying out in full.
+      { label: "Winner · Hardware", amount: "₹4,000", perks: ["E-Certificate"] },
+      { label: "Runner Up · Hardware", amount: "₹2,000", perks: ["E-Certificate"] },
+      { label: "Winner · Software", amount: "₹4,000", perks: ["E-Certificate"] },
+      { label: "Runner Up · Software", amount: "₹2,000", perks: ["E-Certificate"] },
     ],
     participantReward: "E-Certificates",
     imageFit: "cover",
@@ -121,23 +121,23 @@ export const events: Event[] = [
     brochureImage: "/posters/project-expo.webp",
     title: "Project Expo - The Innovation Show",
     summary: "Exclusive platform for 7th-semester students to present innovative projects to industry professionals and academic experts",
-    description: `Project Expo is an exclusive platform for 7th-semester students to present their most innovative and impactful projects before a panel of industry professionals and academic experts. It's where creativity meets real-world problem-solving, and visionary ideas come to life through prototypes, research models, and tech demonstrations.\n\n<span class="text-white">Domains You Can Showcase In</span>\n\n🤖 Artificial Intelligence & Machine Learning\n🌐 Internet of Things (IoT)\n🔐 Cybersecurity\n⚙️ Robotics and Automation\n🌱 Green Technology & Sustainability\n📊 Data Science & Analytics\n💻 Web & Mobile Applications\n\nWhether you're showcasing a working prototype, a research-driven concept, or a tech-powered innovation, this is your moment to shine, connect, and inspire.\n\n <span class="text-white">Tracks & Prizes</span>\nTwo separate categories ensure fair recognition for all innovators:\n\n <span class="text-white">Software Track</span>\n🥇 Winners: Prize yet to be announced + E-Certificate\n🥈 Runners-up: Prize yet to be announced + E-Certificate\n\n <span class="text-white">Hardware Track</span>\n🥇 Winners: Prize yet to be announced + E-Certificate\n🥈 Runners-up: Prize yet to be announced + E-Certificate\n\n <span class="text-white">Event Highlights</span>\n• 100+ Projects on Display\n• Judging by Industry Professionals\n• Mentorship & Incubation Opportunities\n• Prizes & Certificates for Top Innovations\n• Networking with Industry Experts`,
+    description: `Project Expo is an exclusive platform for 7th-semester students to present their most innovative and impactful projects before a panel of industry professionals and academic experts. It's where creativity meets real-world problem-solving, and visionary ideas come to life through prototypes, research models, and tech demonstrations.\n\n<span class="text-white">Domains You Can Showcase In</span>\n\n🤖 Artificial Intelligence & Machine Learning\n🌐 Internet of Things (IoT)\n🔐 Cybersecurity\n⚙️ Robotics and Automation\n🌱 Green Technology & Sustainability\n📊 Data Science & Analytics\n💻 Web & Mobile Applications\n\nWhether you're showcasing a working prototype, a research-driven concept, or a tech-powered innovation, this is your moment to shine, connect, and inspire.\n\n <span class="text-white">Tracks & Prizes</span>\nTwo separate categories ensure fair recognition for all innovators:\n\n <span class="text-white">Software Track</span>\n🥇 Winner: ₹4,000 + E-Certificate\n🥈 Runner-up: ₹2,000 + E-Certificate\n\n <span class="text-white">Hardware Track</span>\n🥇 Winner: ₹4,000 + E-Certificate\n🥈 Runner-up: ₹2,000 + E-Certificate\n\n <span class="text-white">Event Highlights</span>\n• 100+ Projects on Display\n• Judging by Industry Professionals\n• Mentorship & Incubation Opportunities\n• Prizes & Certificates for Top Innovations\n• Networking with Industry Experts`,
     clubName: "Innovation Club",
     clubLogo: "/ait-ai-club-logo.jpg",
-    time: "9:00 AM – 5:00 PM",
-    Duration: "Full day",
-    teamSize: "Max of 4 members per team",
+    date: "Nov 19, 2026",
+    time: "10:00 AM – 1:00 PM",
+    Duration: "3 hours",
+    teamSize: "Up to 4 members per team",
     venue: "Atria Institute of Technology",
-    // registrationFee: "₹400 per team", // hidden until fees are announced
-    registrationFee: FEE_TBA,
+    registrationFee: "₹400 per team",
     mode: "Offline",
   },
   {
     slug: "ipl-auction",
     registerUrl: "https://konfhub.com/checkout/cicada-2026?ticketId=126946",
     prizes: [
-      { label: "Winners", amount: PRIZE_TBA /* was "₹3,000" — hidden until announced */, perks: ["E-Certificate"] },
-      { label: "Runner Up", amount: PRIZE_TBA /* was "₹1,000" — hidden until announced */, perks: ["E-Certificate"] },
+      { label: "Winner", amount: "₹2,000", perks: ["E-Certificate"] },
+      { label: "Runner Up", amount: "₹1,000", perks: ["E-Certificate"] },
     ],
     participantReward: "E-Certificates",
     imageFit: "cover",
@@ -181,18 +181,21 @@ The real action begins! Compete in a live, dynamic auction to secure your dream 
 • Experience the thrill of managing your own IPL franchise`,
     clubName: "Sports Analytics Club",
     clubLogo: "/ait-ai-club-logo.jpg",
+    date: "Nov 19, 2026",
     time: "1:00 PM – 5:00 PM",
     Duration: "4 hours",
-    teamSize: "3 members per team",
+    teamSize: "3 – 4 members",
     venue: "Atria Institute of Technology",
-    // registrationFee: "₹200 per team", // hidden until fees are announced
-    registrationFee: FEE_TBA,
+    registrationFee: "₹300 per team",
     mode: "Offline",
   },
   {
     slug: "free-fire",
     registerUrl: "https://konfhub.com/checkout/cicada-2026?ticketId=126991",
-    prizes: DEFAULT_PRIZES,
+    prizes: [
+      { label: "Winner", amount: "₹2,000", perks: ["E-Certificate"] },
+      { label: "Runner Up", amount: "₹1,000", perks: ["E-Certificate"] },
+    ],
     participantReward: "E-Certificates",
     imageFit: "cover",
     coverImage: "/posters/free-fire.webp",
@@ -211,16 +214,21 @@ CICADA's Free Fire tournament puts squads from across campus and beyond into the
  <span class="text-white">Before you register</span>
 The match format, schedule and full rulebook go out to registered squads ahead of the event. Register now to hold your squad's place and get those details first.`,
     clubName: "Team CICADA",
-    Duration: "Yet to be announced",
-    teamSize: "Yet to be announced",
+    date: "Nov 20, 2026",
+    time: "9:00 AM – 12:00 PM",
+    Duration: "3 hours",
+    teamSize: "3 – 4 members",
     venue: "Atria Institute of Technology",
-    registrationFee: FEE_TBA,
+    registrationFee: "₹300 per team",
     mode: "Offline",
   },
   {
     slug: "bgmi",
     registerUrl: "https://konfhub.com/checkout/cicada-2026?ticketId=126998",
-    prizes: DEFAULT_PRIZES,
+    prizes: [
+      { label: "Winner", amount: "₹2,000", perks: ["E-Certificate"] },
+      { label: "Runner Up", amount: "₹1,000", perks: ["E-Certificate"] },
+    ],
     participantReward: "E-Certificates",
     imageFit: "cover",
     coverImage: "/posters/bgmi.webp",
@@ -239,10 +247,12 @@ CICADA's BGMI tournament runs squad matches through to a final, playing for the 
  <span class="text-white">Before you register</span>
 The match format, schedule and full rulebook go out to registered squads ahead of the event. Register now to hold your squad's place and get those details first.`,
     clubName: "Team CICADA",
-    Duration: "Yet to be announced",
-    teamSize: "Yet to be announced",
+    date: "Nov 20, 2026",
+    time: "9:00 AM – 12:00 PM",
+    Duration: "3 hours",
+    teamSize: "3 – 4 members",
     venue: "Atria Institute of Technology",
-    registrationFee: FEE_TBA,
+    registrationFee: "₹300 per team",
     mode: "Offline",
   },
 ]

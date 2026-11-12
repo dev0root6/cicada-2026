@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import { Section } from "@/components/common/section"
-import { clubs, collegeLogo, facultyLead, organizerContacts, site } from "@/data/site"
+import { clubs, collegeLogo, facultyLead, facultyTeam, organizerContacts, site } from "@/data/site"
 import { cn } from "@/lib/utils"
 
 export const metadata: Metadata = {
@@ -121,6 +121,15 @@ export default function AboutPage() {
             className="mx-auto w-56 object-contain md:ml-auto md:mr-0 md:w-64"
           />
         </div>
+
+        <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {facultyTeam.map((person) => (
+            <li key={person.name} className="surface p-5">
+              <p className="font-medium">{person.name}</p>
+              <p className="mt-1 text-sm text-muted-foreground">{person.role}</p>
+            </li>
+          ))}
+        </ul>
       </Section>
     </>
   )

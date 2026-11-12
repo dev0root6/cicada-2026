@@ -30,7 +30,7 @@ export const faqs: FaqItem[] = [
   },
   {
     question: `When and where is ${site.title}?`,
-    answer: `${site.title} takes place at ${site.venue.name} in ${site.venue.city}. The official dates will be announced shortly — keep an eye on this site and our social media for the update.`,
+    answer: `${site.title} runs from ${site.dates} at ${site.venue.name} in ${site.venue.city}, 8:30 AM to 5:30 PM each day. Project Expo and the IPL Auction are on 19 November, E-Sports and the start of the Hackathon on 20 November, and the Hackathon finishes on 21 November.`,
   },
   {
     question: "Is accommodation provided for participants?",

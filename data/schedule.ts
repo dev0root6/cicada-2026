@@ -24,23 +24,17 @@ function event(slug: string): ScheduleItem {
 export const schedule: ScheduleDay[] = [
   {
     label: "Day 1",
-    items: [
-      event("project-expo"),
-      { title: "Cricket", time: "9:00 AM – 5:00 PM" },
-    ],
+    date: "Nov 19",
+    items: [event("project-expo"), event("ipl-auction")],
   },
   {
     label: "Day 2",
-    items: [
-      { title: "Football", time: "9:00 AM – 5:00 PM" },
-      event("ipl-auction"),
-    ],
+    date: "Nov 20",
+    items: [event("free-fire"), event("bgmi"), event("hackathon")],
   },
   {
     label: "Day 3",
-    items: [event("hackathon")],
+    date: "Nov 21",
+    items: [{ title: "Hackathon finale — judging and results", time: "Through the morning" }],
   },
 ]
-
-// Free Fire and BGMI are not listed above: their day and time are not set yet.
-// Add `event("free-fire")` and `event("bgmi")` to a day once they are.
