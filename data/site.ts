@@ -13,7 +13,7 @@ export const site = {
   description:
     "CICADA is AIT's annual technology festival — workshops, hackathons, competitions, talks and showcases hosted by clubs across campus.",
   logo: "/brand/cicada-bug.svg",
-  brochure: "/Cicada Brochure-1_compress.pdf",
+  brochure: "/Cicada-Brochure-2026.pdf",
   /** Set once confirmed; null until then and the site says so. */
   dates: "Nov 19 – 21, 2026" as string | null,
   /** Compact form for the hero stat tile. */

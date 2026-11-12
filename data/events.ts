@@ -202,17 +202,17 @@ The real action begins! Compete in a live, dynamic auction to secure your dream 
     title: "Free Fire",
     summary:
       "Squad up for CICADA's Free Fire tournament — battle royale, knockout rounds, last squad standing.",
-    description: `Drop in, loot fast and outlast everyone else.
+    description: `Drop in, loot fast and outlast everyone else — CICADA's Free Fire bracket.
 
-CICADA's Free Fire tournament puts squads from across campus and beyond into the battle royale, playing for the title and the prize pool.
+E-Sports is a competitive world of gaming where skill, strategy and teamwork come together. It turns a passion for gaming into thrilling challenges, unforgettable victories and real opportunities.
 
- <span class="text-white">What to expect</span>
-• Squad-based battle royale matches
-• Knockout rounds leading to a final
+ <span class="text-white">Format</span>
+• Squads of 3 – 4 players
+• Matches run 9:00 AM to 12:00 PM on 20 November
 • Played on your own device
 
  <span class="text-white">Before you register</span>
-The match format, schedule and full rulebook go out to registered squads ahead of the event. Register now to hold your squad's place and get those details first.`,
+The match format, maps and full rulebook go out to registered squads ahead of the event. Register now to hold your squad's place and get those details first.`,
     clubName: "Team CICADA",
     date: "Nov 20, 2026",
     time: "9:00 AM – 12:00 PM",
@@ -235,17 +235,17 @@ The match format, schedule and full rulebook go out to registered squads ahead o
     title: "BGMI",
     summary:
       "Battlegrounds Mobile India at CICADA — squads, classic maps, and the last team standing takes it.",
-    description: `Erangel, Miramar, and whoever is still standing when the circle closes.
+    description: `Classic maps, shrinking circle, last squad standing — CICADA's BGMI bracket.
 
-CICADA's BGMI tournament runs squad matches through to a final, playing for the title and the prize pool.
+E-Sports is a competitive world of gaming where skill, strategy and teamwork come together. It turns a passion for gaming into thrilling challenges, unforgettable victories and real opportunities.
 
- <span class="text-white">What to expect</span>
-• Squad matches across classic maps
-• Points carried across rounds into a final
+ <span class="text-white">Format</span>
+• Squads of 3 – 4 players
+• Matches run 9:00 AM to 12:00 PM on 20 November
 • Played on your own device
 
  <span class="text-white">Before you register</span>
-The match format, schedule and full rulebook go out to registered squads ahead of the event. Register now to hold your squad's place and get those details first.`,
+The match format, maps and full rulebook go out to registered squads ahead of the event. Register now to hold your squad's place and get those details first.`,
     clubName: "Team CICADA",
     date: "Nov 20, 2026",
     time: "9:00 AM – 12:00 PM",
