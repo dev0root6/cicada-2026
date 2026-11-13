@@ -44,7 +44,7 @@ components/
   ui/                  shadcn/ui primitives (only the ones in use; add more with the shadcn CLI)
 
 data/
-  site.ts              Fest identity, nav, sponsors, clubs, organisers, gallery
+  site.ts              Fest identity, nav, sponsors, organisers, gallery
   events.ts            Event list — copy, logistics, prizes, contacts
   schedule.ts          Day-by-day timetable on the home page
   emails.ts            Email templates and mail settings
@@ -61,7 +61,7 @@ per-event branches in the markup. To change what the site says:
 | --- | --- |
 | Fest name, year, dates, venue, socials | `data/site.ts` |
 | Nav and footer links | `data/site.ts` |
-| Sponsors, clubs, gallery photos | `data/site.ts` |
+| Sponsors, gallery photos | `data/site.ts` |
 | An event's copy, fee, prizes, organisers | `data/events.ts` |
 | Day-by-day schedule | `data/schedule.ts` |
 | Email copy, subjects, sender name | `data/emails.ts` |

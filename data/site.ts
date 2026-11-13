@@ -95,12 +95,6 @@ export type OrganizerContact = {
  * event pages, the contact dialog — so there is one place to change it.
  */
 export const organizerContacts: OrganizerContact[] = [
-  {
-    name: "Ms. Sonia S B",
-    role: "Faculty Coordinator",
-    phone: "+91 81973 96564",
-    photo: "/team/sonia-s-b.webp",
-  },
   { name: "Deva Kumar S", role: "Student Coordinator", phone: "+91 96327 72904" },
   { name: "Mohammed Rehan", role: "Student Coordinator", phone: "+91 98869 24883" },
 ]
@@ -118,8 +112,15 @@ export const facultyLead = {
     "https://res.cloudinary.com/dx9bvma03/image/upload/v1761909347/IMG_20251031_164104_cjnugo.jpg",
 }
 
+export type FacultyMember = {
+  name: string
+  role: string
+  photo?: string
+}
+
 /** Faculty credited on the brochure cover, after the convenor. */
-export const facultyTeam = [
+export const facultyTeam: FacultyMember[] = [
+  { name: "Ms. Sonia S B", role: "Faculty Coordinator", photo: "/team/sonia-s-b.webp" },
   { name: "Dr. Naveen Kumar", role: "Professor" },
   { name: "Dr. Kavitha S Patil", role: "Associate Professor" },
   { name: "Dr. Jyoti Metan", role: "Associate Professor" },
@@ -127,34 +128,6 @@ export const facultyTeam = [
 
 export const collegeLogo =
   "https://res.cloudinary.com/dx9bvma03/image/upload/v1761926582/College_Logo_gjwudh.png"
-
-export type Club = {
-  name: string
-  logo: string
-  /** Some logos are transparent PNGs that need a ring to read on dark. */
-  ringed?: boolean
-}
-
-export const clubs: Club[] = [
-  {
-    name: "CyberSec Club",
-    logo: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760269199/CyberSec-AIT_jtlgdt.png",
-  },
-  {
-    name: "IoT Forge Club",
-    logo: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760960677/iot_forge-modified_v2gvml.png",
-    ringed: true,
-  },
-  {
-    name: "AI Club",
-    logo: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760378401/ai_club-removebg-preview_szuluv.png",
-  },
-  {
-    name: "E-Cell Atria",
-    logo: "https://res.cloudinary.com/dx9bvma03/image/upload/v1760959250/E-Cell_Atria_Logo_Option_4_1_h0lvih.jpg",
-    ringed: true,
-  },
-]
 
 export type Sponsor = {
   name: string

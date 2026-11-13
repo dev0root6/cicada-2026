@@ -1,15 +1,12 @@
 import type { Metadata } from "next"
 import { Section } from "@/components/common/section"
 import {
-  clubs,
   collegeLogo,
   facultyLead,
   facultyTeam,
   organizerContacts,
   site,
-  type OrganizerContact,
 } from "@/data/site"
-import { cn } from "@/lib/utils"
 
 export const metadata: Metadata = {
   title: "About",
@@ -51,34 +48,6 @@ export default function AboutPage() {
             </div>
           ))}
         </div>
-      </Section>
-
-      <Section
-        size="wide"
-        align="center"
-        eyebrow="Hosted by"
-        title="Participating clubs"
-        className="border-y border-border bg-card/30"
-      >
-        <ul className="grid grid-cols-2 gap-8 sm:grid-cols-4">
-          {clubs.map((club) => (
-            <li key={club.name} className="flex flex-col items-center gap-3 text-center">
-              <img
-                src={club.logo}
-                alt=""
-                aria-hidden
-                loading="lazy"
-                className={cn(
-                  "h-24 w-24 rounded-full object-cover md:h-28 md:w-28",
-                  club.ringed && "border-2 border-border",
-                )}
-              />
-              <span className="font-mono text-[0.65rem] uppercase tracking-[0.15em] text-muted-foreground">
-                {club.name}
-              </span>
-            </li>
-          ))}
-        </ul>
       </Section>
 
       <Section
@@ -135,9 +104,12 @@ export default function AboutPage() {
 
         <ul className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           {facultyTeam.map((person) => (
-            <li key={person.name} className="surface p-5">
-              <p className="font-medium">{person.name}</p>
-              <p className="mt-1 text-sm text-muted-foreground">{person.role}</p>
+            <li key={person.name} className="surface flex items-center gap-4 p-5">
+              <Portrait person={person} />
+              <div className="min-w-0">
+                <p className="font-medium leading-snug">{person.name}</p>
+                <p className="mt-1 text-sm text-muted-foreground">{person.role}</p>
+              </div>
             </li>
           ))}
         </ul>
@@ -150,7 +122,7 @@ export default function AboutPage() {
  * A coordinator's photo, or their initials where we don't have one — so a
  * row of cards stays even instead of one portrait beside two empty circles.
  */
-function Portrait({ person }: { person: OrganizerContact }) {
+function Portrait({ person }: { person: { name: string; photo?: string } }) {
   if (person.photo) {
     return (
       <img
