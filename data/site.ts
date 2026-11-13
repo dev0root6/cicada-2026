@@ -30,10 +30,6 @@ export const site = {
   social: {
     instagram: "https://www.instagram.com/cicada_atria?igsh=dmp0Ym1hM3dneXc3",
   },
-  credit: {
-    label: "ScriptVerse",
-    href: "https://script-verse-mu.vercel.app/",
-  },
 } as const
 
 /**
@@ -124,7 +120,6 @@ export const facultyLead = {
 
 /** Faculty credited on the brochure cover, after the convenor. */
 export const facultyTeam = [
-  { name: "Dr. Keshavamurthy", role: "Co-Convenor · HoD, ECE" },
   { name: "Dr. Naveen Kumar", role: "Professor" },
   { name: "Dr. Kavitha S Patil", role: "Associate Professor" },
   { name: "Dr. Jyoti Metan", role: "Associate Professor" },

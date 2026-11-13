@@ -90,14 +90,6 @@ export function Footer() {
             >
               {"// Play with the bug"}
             </button>
-            <a
-              href={site.credit.href}
-              target="_blank"
-              rel="noreferrer noopener"
-              className="transition-colors hover:text-primary"
-            >
-              Built by {site.credit.label}
-            </a>
           </div>
         </Container>
       </div>
