@@ -35,8 +35,8 @@ export type Event = {
   coverImage?: string
   brochureImage?: string
   /**
-   * Titles that are one event on the brochure but sell separate tickets, e.g.
-   * Free Fire and BGMI are both E-Sports. Counted once in event totals.
+   * Titles that are one event on the brochure but sell their own ticket, e.g.
+   * Free Fire runs under E-Sports. Titles sharing a group count once.
    */
   group?: string
   /** Short labels rendered as pills on the event card. */
@@ -210,41 +210,6 @@ The real action begins! Compete in a live, dynamic auction to secure your dream 
     summary:
       "Squad up for CICADA's Free Fire tournament — battle royale, knockout rounds, last squad standing.",
     description: `Drop in, loot fast and outlast everyone else — CICADA's Free Fire bracket.
-
-E-Sports is a competitive world of gaming where skill, strategy and teamwork come together. It turns a passion for gaming into thrilling challenges, unforgettable victories and real opportunities.
-
- <span class="text-white">Format</span>
-• Squads of 3 – 4 players
-• Matches run 9:00 AM to 12:00 PM on 20 November
-• Played on your own device
-
- <span class="text-white">Before you register</span>
-The match format, maps and full rulebook go out to registered squads ahead of the event. Register now to hold your squad's place and get those details first.`,
-    clubName: "Team CICADA",
-    date: "Nov 20, 2026",
-    time: "9:00 AM – 12:00 PM",
-    Duration: "3 hours",
-    teamSize: "3 – 4 members",
-    venue: "Atria Institute of Technology",
-    registrationFee: "₹300 per team",
-    mode: "Offline",
-  },
-  {
-    slug: "bgmi",
-    group: "E-Sports",
-    registerUrl: "https://konfhub.com/checkout/cicada-2026?ticketId=126998",
-    prizes: [
-      { label: "Winner", amount: "₹2,000", perks: ["E-Certificate"] },
-      { label: "Runner Up", amount: "₹1,000", perks: ["E-Certificate"] },
-    ],
-    participantReward: "E-Certificates",
-    imageFit: "cover",
-    coverImage: "/posters/bgmi.webp",
-    brochureImage: "/posters/bgmi.webp",
-    title: "BGMI",
-    summary:
-      "Battlegrounds Mobile India at CICADA — squads, classic maps, and the last team standing takes it.",
-    description: `Classic maps, shrinking circle, last squad standing — CICADA's BGMI bracket.
 
 E-Sports is a competitive world of gaming where skill, strategy and teamwork come together. It turns a passion for gaming into thrilling challenges, unforgettable victories and real opportunities.
 
