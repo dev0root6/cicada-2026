@@ -199,6 +199,7 @@ The real action begins! Compete in a live, dynamic auction to secure your dream 
     participantReward: "E-Certificates",
     imageFit: "cover",
     coverImage: "/posters/free-fire.webp",
+    brochureImage: "/posters/free-fire.webp",
     title: "Free Fire",
     summary:
       "Squad up for CICADA's Free Fire tournament — battle royale, knockout rounds, last squad standing.",
@@ -232,6 +233,7 @@ The match format, maps and full rulebook go out to registered squads ahead of th
     participantReward: "E-Certificates",
     imageFit: "cover",
     coverImage: "/posters/bgmi.webp",
+    brochureImage: "/posters/bgmi.webp",
     title: "BGMI",
     summary:
       "Battlegrounds Mobile India at CICADA — squads, classic maps, and the last team standing takes it.",
