@@ -10,9 +10,9 @@ export function FeaturedEvents() {
     <Section
       id="featured"
       size="wide"
-      eyebrow="Line-up"
-      title="Featured events"
-      description="A slice of what's on. Every event runs on campus and is open to teams from any college."
+      eyebrow={`${events.length} events`}
+      title="The line-up"
+      description="Everything running across the three days. Every event is on campus and open to teams from any college."
       action={
         <Button asChild variant="outline">
           <Link href="/events">
@@ -23,7 +23,7 @@ export function FeaturedEvents() {
       }
     >
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {events.slice(0, 3).map((event) => (
+        {events.map((event) => (
           <EventCard key={event.slug} event={event} />
         ))}
       </div>

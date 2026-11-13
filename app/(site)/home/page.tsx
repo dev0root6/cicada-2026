@@ -2,8 +2,8 @@ import { Hero } from "@/components/home/hero"
 import { FeaturedEvents } from "@/components/home/featured-events"
 import { Schedule } from "@/components/home/schedule"
 import { AboutPreview } from "@/components/home/about-preview"
-import { Standings } from "@/components/home/standings"
 import { Gallery } from "@/components/home/gallery"
+import { PastEvents } from "@/components/home/past-events"
 import { Sponsors } from "@/components/home/sponsors"
 import { Venue } from "@/components/home/venue"
 import { Faq } from "@/components/home/faq"
@@ -17,8 +17,8 @@ export default function HomePage() {
       <FeaturedEvents />
       <Schedule />
       <AboutPreview />
-      <Standings />
       <Gallery />
+      <PastEvents />
       <Sponsors />
       <Venue />
       <Faq />

@@ -75,7 +75,6 @@ export const navLinks: NavLink[] = [
 export const footerLinks: NavLink[] = [
   { href: "/events", label: "Events" },
   { href: "/about", label: "About" },
-  { href: "/project-expo", label: "Project Expo" },
   { href: "/terms", label: "Terms & Conditions" },
 ]
 
