@@ -78,12 +78,25 @@ export const footerLinks: NavLink[] = [
   { href: "/terms", label: "Terms & Conditions" },
 ]
 
+export type OrganizerContact = {
+  name: string
+  role: string
+  phone: string
+  /** Square portrait. Without one the card falls back to initials. */
+  photo?: string
+}
+
 /**
  * The fest's contacts. This is the single list used everywhere — footer,
  * event pages, the contact dialog — so there is one place to change it.
  */
-export const organizerContacts = [
-  { name: "Ms. Sonia S B", role: "Faculty Coordinator", phone: "+91 81973 96564" },
+export const organizerContacts: OrganizerContact[] = [
+  {
+    name: "Ms. Sonia S B",
+    role: "Faculty Coordinator",
+    phone: "+91 81973 96564",
+    photo: "/team/sonia-s-b.webp",
+  },
   { name: "Deva Kumar S", role: "Student Coordinator", phone: "+91 96327 72904" },
   { name: "Mohammed Rehan", role: "Student Coordinator", phone: "+91 98869 24883" },
 ]
