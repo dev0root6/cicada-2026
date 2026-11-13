@@ -517,7 +517,17 @@ body {
   transition: opacity .3s;
 }
 .strip-logos img:hover { opacity: 1; }
-.strip-logos .logo-ieee { height: 22px; }
+
+/* Sponsors without a logo file show as a wordmark. */
+.sponsor-name {
+  font-family: var(--mono);
+  font-size: clamp(13px, 2.6vw, 16px);
+  font-weight: 500;
+  letter-spacing: .16em;
+  color: rgb(var(--green-rgb) / .82);
+  transition: color .3s;
+}
+.sponsor-name:hover { color: var(--green); }
 
 .strip-sep { width: 1px; height: 22px; background: rgb(var(--green-rgb) / .3); }
 
@@ -628,7 +638,7 @@ body {
   .tagline { letter-spacing: .16em; max-width: 28ch; line-height: 1.7; }
   .subline { font-size: 10px; letter-spacing: .12em; }
   .strip-logos img { height: 24px; }
-  .strip-logos .logo-ieee { height: 18px; }
+  .sponsor-name { letter-spacing: .12em; }
 }
 
 @media (max-height: 560px) and (orientation: landscape) {
@@ -659,4 +669,3 @@ body {
 .strip-logos img[hidden] { display: none; }
 .strip-logos img[hidden] + .strip-sep,
 .strip-sep:has(+ img[hidden]) { display: none; }
-.strip:not(:has(img:not([hidden]))) { visibility: hidden; }
