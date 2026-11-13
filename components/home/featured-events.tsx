@@ -3,14 +3,14 @@ import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Section } from "@/components/common/section"
 import { EventCard } from "@/components/events/event-card"
-import { events } from "@/data/events"
+import { countEvents, events } from "@/data/events"
 
 export function FeaturedEvents() {
   return (
     <Section
       id="featured"
       size="wide"
-      eyebrow={`${events.length} events`}
+      eyebrow={`${countEvents()} events`}
       title="The line-up"
       description="Everything running across the three days. Every event is on campus and open to teams from any college."
       action={

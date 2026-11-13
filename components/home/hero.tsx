@@ -65,7 +65,7 @@ export function Hero({ eventCount }: { eventCount: number }) {
             <dl className="mx-auto mt-12 grid max-w-lg grid-cols-3 gap-px overflow-hidden rounded-2xl border border-border bg-border text-left">
               <Stat label="Events" value={String(eventCount)} />
               <Stat label="Dates" value={site.shortDates ?? DATE_TBA_SHORT} icon={CalendarDays} />
-              <Stat label="Venue" value="Hebbal" icon={MapPin} />
+              <Stat label="Venue" value={site.venue.name} icon={MapPin} wrap />
             </dl>
           </div>
         </div>
@@ -78,10 +78,13 @@ function Stat({
   label,
   value,
   icon: Icon,
+  wrap = false,
 }: {
   label: string
   value: string
   icon?: typeof CalendarDays
+  /** Long values (the venue) need to wrap instead of overflowing the tile. */
+  wrap?: boolean
 }) {
   return (
     <div className="bg-background/80 p-4">
@@ -89,7 +92,15 @@ function Stat({
         {Icon && <Icon className="h-3 w-3" aria-hidden />}
         {label}
       </dt>
-      <dd className="mt-1 whitespace-nowrap font-mono text-base font-semibold tabular-nums text-primary sm:text-xl">{value}</dd>
+      <dd
+        className={
+          wrap
+            ? "mt-1 font-mono text-xs font-semibold leading-snug text-primary sm:text-sm"
+            : "mt-1 whitespace-nowrap font-mono text-base font-semibold tabular-nums text-primary sm:text-xl"
+        }
+      >
+        {value}
+      </dd>
     </div>
   )
 }

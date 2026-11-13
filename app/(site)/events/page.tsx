@@ -1,7 +1,7 @@
 import type { Metadata } from "next"
 import { Section } from "@/components/common/section"
 import { EventCard } from "@/components/events/event-card"
-import { events, eventsByDay } from "@/data/events"
+import { countEvents, events, eventsByDay } from "@/data/events"
 
 export const metadata: Metadata = {
   title: "Events",
@@ -16,7 +16,7 @@ export default function EventsPage() {
   return (
     <Section
       size="wide"
-      eyebrow={grouped ? `${events.length} events · ${days.length} days` : `${events.length} events`}
+      eyebrow={grouped ? `${countEvents()} events · ${days.length} days` : `${countEvents()} events`}
       title="All events"
       description="Hackathons, CTFs, agent builds, drone runs and showcases, in running order. Pick a track and register — most events run in teams."
     >

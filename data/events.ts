@@ -34,6 +34,11 @@ export type Event = {
   registerUrl?: string
   coverImage?: string
   brochureImage?: string
+  /**
+   * Titles that are one event on the brochure but sell separate tickets, e.g.
+   * Free Fire and BGMI are both E-Sports. Counted once in event totals.
+   */
+  group?: string
   /** Short labels rendered as pills on the event card. */
   badges?: string[]
   /** Banner shown above the description on the detail page. */
@@ -191,6 +196,7 @@ The real action begins! Compete in a live, dynamic auction to secure your dream 
   },
   {
     slug: "free-fire",
+    group: "E-Sports",
     registerUrl: "https://konfhub.com/checkout/cicada-2026?ticketId=126991",
     prizes: [
       { label: "Winner", amount: "₹2,000", perks: ["E-Certificate"] },
@@ -225,6 +231,7 @@ The match format, maps and full rulebook go out to registered squads ahead of th
   },
   {
     slug: "bgmi",
+    group: "E-Sports",
     registerUrl: "https://konfhub.com/checkout/cicada-2026?ticketId=126998",
     prizes: [
       { label: "Winner", amount: "₹2,000", perks: ["E-Certificate"] },
@@ -258,6 +265,14 @@ The match format, maps and full rulebook go out to registered squads ahead of th
     mode: "Offline",
   },
 ]
+
+/**
+ * How many events the fest has, as the brochure counts them: titles sharing a
+ * `group` (the two E-Sports brackets) count once.
+ */
+export function countEvents(list: Event[] = events): number {
+  return new Set(list.map((event) => event.group ?? event.slug)).size
+}
 
 /** Where an event's Register buttons point. */
 export function registrationHref(event: Event): string {

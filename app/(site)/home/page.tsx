@@ -8,12 +8,12 @@ import { Sponsors } from "@/components/home/sponsors"
 import { Venue } from "@/components/home/venue"
 import { Faq } from "@/components/home/faq"
 import { Cta } from "@/components/home/cta"
-import { events } from "@/data/events"
+import { countEvents } from "@/data/events"
 
 export default function HomePage() {
   return (
     <>
-      <Hero eventCount={events.length} />
+      <Hero eventCount={countEvents()} />
       <FeaturedEvents />
       <Schedule />
       <AboutPreview />
