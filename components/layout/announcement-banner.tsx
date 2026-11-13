@@ -45,6 +45,13 @@ export function AnnouncementBanner() {
             ))}
           </div>
 
+          {announcement.highlight && (
+            <p className="mt-1 inline-flex items-center gap-2 rounded-full border border-primary/35 bg-primary/10 px-4 py-2 text-sm font-medium text-foreground">
+              <span aria-hidden>{announcement.highlight.icon}</span>
+              {announcement.highlight.text}
+            </p>
+          )}
+
           <ul className="mt-1 flex flex-wrap justify-center gap-x-3 gap-y-1.5">
             {announcement.hashtags.map((tag) => (
               <li

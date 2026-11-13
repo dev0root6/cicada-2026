@@ -443,6 +443,21 @@ body {
   color: rgba(214, 245, 224, .72);
 }
 
+/* One extra beat under the notice lines, for programming called out on its own. */
+.notice-highlight {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 12px 0 0;
+  padding: 9px 16px;
+  border: 1px solid rgba(74, 222, 128, .34);
+  border-radius: 999px;
+  background: rgba(74, 222, 128, .1);
+  font-size: clamp(11px, 2.3vw, 13px);
+  line-height: 1.4;
+  color: #eafff1;
+}
+
 .notice-tags {
   display: flex;
   flex-wrap: wrap;

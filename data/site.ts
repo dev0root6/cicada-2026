@@ -50,6 +50,14 @@ export const announcement = {
     "Three days at Atria Institute of Technology, 8:30 AM to 5:30 PM.",
     "Project Expo, IPL Auction, E-Sports and a 24-hour Hackathon. Registrations are open.",
   ],
+  /**
+   * One extra beat under the main lines, for programming worth calling out on
+   * its own. Set to null when there is nothing to add.
+   */
+  highlight: {
+    icon: "🎬",
+    text: "Movie show from 5 PM onwards — Friday, 20 November",
+  } as { icon: string; text: string } | null,
   hashtags: ["#CICADA2026", "#AtriaInstituteOfTechnology", "#SaveTheDate"],
   /** Short form, repeated in the scrolling ticker. */
   ticker: "19 – 21 November 2026 — registrations open",
@@ -165,6 +173,8 @@ export type Sponsor = {
 export const sponsors: Sponsor[] = [
   { name: "Ellipsonic", href: "https://ellipsonic.com/" },
   { name: "HackoSquad", href: "https://www.hackosquad.com/" },
+  { name: "CAREERTERK" },
+  { name: "TECHFORCZ" },
 ]
 
 export const galleryImages = [

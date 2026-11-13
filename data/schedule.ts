@@ -30,7 +30,12 @@ export const schedule: ScheduleDay[] = [
   {
     label: "Day 2",
     date: "Nov 20",
-    items: [event("free-fire"), event("bgmi"), event("hackathon")],
+    items: [
+      event("free-fire"),
+      event("bgmi"),
+      event("hackathon"),
+      { title: "Movie show", time: "5:00 PM onwards" },
+    ],
   },
   {
     label: "Day 3",
