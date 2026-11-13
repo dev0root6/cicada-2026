@@ -171,8 +171,6 @@ export type Sponsor = {
 }
 
 export const sponsors: Sponsor[] = [
-  { name: "Ellipsonic", href: "https://ellipsonic.com/" },
-  { name: "HackoSquad", href: "https://www.hackosquad.com/" },
   { name: "CAREERTERK" },
   { name: "TECHFORCZ" },
 ]
