@@ -153,34 +153,35 @@ export const events: Event[] = [
     title: "IPL Auction: Cricket Strategy Challenge",
     summary: "Step into the shoes of an IPL team owner in this thrilling Auction Challenge where strategy meets cricketing genius!",
     description: `Step into the shoes of an IPL team owner in this thrilling Auction Challenge, where strategy meets cricketing genius!
-With a fixed purse and a roster of real-world players, you'll compete head-to-head with other participants to bid, balance, and build your ultimate championship-winning squad.
+With a fixed purse and a roster of real-world players, you'll go head-to-head with other teams to bid, balance, and build your ultimate championship-winning squad.
 Your goal? To craft the most powerful and cost-efficient team that can perform in every match condition — all while managing your budget wisely.
 
  <span class="text-white">Event Structure</span>
-The challenge unfolds in two exciting rounds:
+The challenge unfolds over two exciting rounds:
 
-1. <span class="text-white">Round 1: Quiz Round</span> 
-Show off your cricket knowledge! The top 10 teams from this round qualify for the grand auction.
+1. <span class="text-white">Round 1: Quiz Round (Online)</span>
+Show off your cricket knowledge! This round is held online, and the top 10 teams qualify for the grand auction.
 
-2. <span class="text-white">Round 2: Auction Round</span> 
-The real action begins! Compete in a live, dynamic auction to secure your dream players and form a balanced squad.
+2. <span class="text-white">Round 2: Auction Round (On Campus)</span>
+The real action begins! The auction is conducted through a live presentation — players go under the hammer slide by slide, and teams bid to build a balanced squad.
 
  <span class="text-white">Key Features</span>
-• 📊 Realistic Player Database – Includes player stats, base prices, and roles
-• 💻 Live Bidding Interface – Experience a fast-paced auction environment
-• 🧠 Strategic Team Building – Balance your team across batsmen, bowlers, and all-rounders
-• 💰 Budget Management – Every bid counts, so plan your spending carefully
-• 🏅 Performance-Based Scoring – Win based on team strength, balance, and budget efficiency
+• 📊 Realistic Player Database – player stats, base prices, and roles
+• 🖥️ Presentation-Led Auction – players are revealed slide by slide as the bidding unfolds
+• 🧠 Strategic Team Building – balance your squad across batsmen, bowlers, and all-rounders
+• 💰 Budget Management – every bid counts, so plan your spending carefully
+• 🏅 Performance-Based Scoring – win on team strength, balance, and budget efficiency
 
 🏏 <span class="text-white">How It Works</span>
-• Each team receives a virtual budget to start.
-• Players are auctioned in multiple rounds.
-• Teams bid strategically to outsmart opponents.
-• Build a balanced lineup with the right mix of roles.
-• Winners are chosen based on team strength & budget efficiency.
+• Qualify for the auction through the online quiz round.
+• Each team receives a virtual budget before the bidding begins.
+• Players are auctioned slide by slide, over multiple rounds.
+• Teams bid strategically to outsmart their opponents.
+• Build a balanced line-up with the right mix of roles.
+• Winners are chosen on team strength and budget efficiency.
 
 🎯 <span class="text-white">Why Join</span>
-• Engage in a fun, high-energy strategy challenge
+• Take part in a fun, high-energy strategy challenge
 • Test your cricket IQ and analytical thinking
 • Compete for exciting prizes and recognition
 • Experience the thrill of managing your own IPL franchise`,
@@ -192,7 +193,7 @@ The real action begins! Compete in a live, dynamic auction to secure your dream 
     teamSize: "3 – 4 members",
     venue: "Atria Institute of Technology",
     registrationFee: "₹300 per team",
-    mode: "Offline",
+    mode: "Hybrid — Round 1 online, Round 2 on campus",
   },
   {
     slug: "free-fire",
