@@ -33,7 +33,7 @@ export const schedule: ScheduleDay[] = [
     items: [
       event("free-fire"),
       event("hackathon"),
-      { title: "Movie show", time: "5:00 PM onwards" },
+      { title: "Movie show — all night", time: "5:30 PM – 7:30 AM" },
     ],
   },
   {

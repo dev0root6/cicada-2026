@@ -52,7 +52,7 @@ export const announcement = {
    */
   highlight: {
     icon: "🎬",
-    text: "Movie show from 5 PM onwards — Friday, 20 November",
+    text: "All-night movie show from 5:30 PM — Friday, 20 November",
   } as { icon: string; text: string } | null,
   hashtags: ["#CICADA2026", "#AtriaInstituteOfTechnology", "#SaveTheDate"],
   /** Short form, repeated in the scrolling ticker. */
@@ -79,8 +79,8 @@ export const hackathonRunSheet = {
   items: [
     { time: "1:00 – 2:00 PM", label: "Problem statement announcement", key: true },
     { time: "4:30 – 5:30 PM", label: "Snacks" },
-    { time: "5:30 – 7:30 PM", label: "Movie time" },
-    { time: "5:30 PM", label: "Cultural & entertainment" },
+    { time: "5:30 – 7:30 PM", label: "Cultural & entertainment" },
+    { time: "5:30 PM – 7:30 AM", label: "Movie time — all night" },
     { time: "8:30 PM", label: "Dinner" },
     { time: "2:00 – 3:00 AM", label: "Midnight snacks" },
     { time: "8:30 AM", label: "Breakfast" },
