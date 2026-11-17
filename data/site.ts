@@ -56,7 +56,36 @@ export const announcement = {
   } as { icon: string; text: string } | null,
   hashtags: ["#CICADA2026", "#AtriaInstituteOfTechnology", "#SaveTheDate"],
   /** Short form, repeated in the scrolling ticker. */
-  ticker: "19 – 21 November 2026 — registrations open",
+  ticker: "19 – 21 November 2026 — registrations open — 24-hour hackathon schedule is out",
+}
+
+export type RunSheetItem = {
+  time: string
+  label: string
+  /** Marks the beats that are the hackathon itself rather than the social programme. */
+  key?: boolean
+}
+
+/**
+ * Hour-by-hour run sheet for the 24-hour hackathon, shown inside the
+ * announcement. Rendered in the order given — it reads as a night that runs
+ * from the problem drop through to judging.
+ */
+export const hackathonRunSheet = {
+  enabled: true,
+  kicker: "Update — 24-hour hackathon",
+  title: "The run sheet is live 🔓",
+  lead: "Problem drops at 1 PM. Twenty-four hours later you are pitching. Here is every beat in between.",
+  items: [
+    { time: "1:00 – 2:00 PM", label: "Problem statement announcement", key: true },
+    { time: "4:30 – 5:30 PM", label: "Snacks" },
+    { time: "5:30 – 7:30 PM", label: "Movie time" },
+    { time: "5:30 PM", label: "Cultural & entertainment" },
+    { time: "8:30 PM", label: "Dinner" },
+    { time: "2:00 – 3:00 AM", label: "Midnight snacks" },
+    { time: "8:30 AM", label: "Breakfast" },
+    { time: "11:30 AM", label: "Evaluation starts", key: true },
+  ] as RunSheetItem[],
 }
 
 /** Shown wherever a date would go while the schedule is unconfirmed. */

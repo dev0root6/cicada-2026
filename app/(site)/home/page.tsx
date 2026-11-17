@@ -1,3 +1,4 @@
+import { AnnouncementBanner } from "@/components/layout/announcement-banner"
 import { Hero } from "@/components/home/hero"
 import { FeaturedEvents } from "@/components/home/featured-events"
 import { Schedule } from "@/components/home/schedule"
@@ -13,6 +14,7 @@ import { countEvents } from "@/data/events"
 export default function HomePage() {
   return (
     <>
+      <AnnouncementBanner />
       <Hero eventCount={countEvents()} />
       <FeaturedEvents />
       <Schedule />
