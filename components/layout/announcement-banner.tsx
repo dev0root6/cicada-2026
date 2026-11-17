@@ -7,13 +7,12 @@ import { announcement, hackathonRunSheet } from "@/data/site"
  *
  * Deliberately loud: this is the one thing every visitor should leave with, so
  * it gets display type and movement rather than a line of small text people
- * scroll past. Green rather than a warning colour — it is a teaser, not a
- * caution.
+ * scroll past. Green rather than a warning colour — it is news, not a caution.
  *
  * Not dismissible: hiding it behind an × is how people miss it.
  *
- * Carries the hackathon run sheet underneath, because the schedule is the
- * thing entrants come back to check.
+ * It currently carries the hackathon run sheet, because the schedule is the
+ * thing entrants come back to check. The dates themselves are the hero's job.
  */
 export function AnnouncementBanner() {
   if (!announcement.enabled) return null
@@ -28,63 +27,30 @@ export function AnnouncementBanner() {
       <div className="signal-bar h-[3px] w-full" aria-hidden />
 
       <Container size="wide">
-        <div className="flex flex-col items-center gap-4 py-8 text-center md:py-11">
+        <div className="flex flex-col items-center gap-4 pt-9 text-center md:pt-12">
           <span className="flex items-center gap-2.5">
             <span className="animate-beacon h-2 w-2 rounded-full bg-primary" aria-hidden />
             <span className="font-mono text-[0.7rem] uppercase tracking-[0.3em] text-primary">
-              {announcement.kicker}
+              {hackathonRunSheet.kicker}
             </span>
           </span>
 
-          <h2 className="announce-glow max-w-4xl font-display text-3xl font-bold leading-[1.12] tracking-tight text-foreground sm:text-4xl md:text-5xl lg:text-6xl">
-            {announcement.title}
+          <h2 className="announce-glow font-display text-3xl font-bold uppercase leading-[1.08] tracking-[0.04em] text-foreground sm:text-4xl md:text-5xl lg:text-6xl">
+            Hackathon updates
           </h2>
 
-          <div className="max-w-2xl space-y-1.5">
-            {announcement.lines.map((line) => (
-              <p key={line} className="text-sm leading-relaxed text-muted-foreground md:text-base">
-                {line}
-              </p>
-            ))}
-          </div>
-
-          {announcement.highlight && (
-            <p className="mt-1 inline-flex items-center gap-2 rounded-full border border-primary/35 bg-primary/10 px-4 py-2 text-sm font-medium text-foreground">
-              <span aria-hidden>{announcement.highlight.icon}</span>
-              {announcement.highlight.text}
-            </p>
-          )}
-
-          <ul className="mt-1 flex flex-wrap justify-center gap-x-3 gap-y-1.5">
-            {announcement.hashtags.map((tag) => (
-              <li
-                key={tag}
-                className="rounded-full border border-primary/25 px-3 py-1 font-mono text-[0.65rem] tracking-wider text-primary/80"
-              >
-                {tag}
-              </li>
-            ))}
-          </ul>
+          <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground md:text-base">
+            {hackathonRunSheet.lead}
+          </p>
         </div>
 
         {hackathonRunSheet.enabled && (
-          <div className="mx-auto mb-10 max-w-5xl rounded-xl border border-primary/30 bg-background/50 p-6 md:mb-12 md:p-8">
-            <div className="flex flex-col items-center gap-2.5 text-center">
-              <span className="flex items-center gap-2.5">
-                <span className="animate-beacon h-2 w-2 rounded-full bg-primary" aria-hidden />
-                <span className="font-mono text-[0.7rem] uppercase tracking-[0.3em] text-primary">
-                  {hackathonRunSheet.kicker}
-                </span>
-              </span>
-              <h3 className="font-display text-2xl font-bold tracking-tight text-foreground md:text-3xl">
-                {hackathonRunSheet.title}
-              </h3>
-              <p className="max-w-xl text-sm leading-relaxed text-muted-foreground">
-                {hackathonRunSheet.lead}
-              </p>
-            </div>
+          <div className="mx-auto mb-10 mt-8 max-w-5xl rounded-xl border border-primary/30 bg-background/50 p-6 md:mb-12 md:mt-10 md:p-8">
+            <h3 className="text-center font-mono text-[0.7rem] uppercase tracking-[0.3em] text-primary">
+              {hackathonRunSheet.title}
+            </h3>
 
-            <ol className="mt-7 grid gap-x-8 gap-y-0 sm:grid-cols-2">
+            <ol className="mt-6 grid gap-x-8 gap-y-0 sm:grid-cols-2">
               {hackathonRunSheet.items.map((item) => (
                 <li
                   key={`${item.time}-${item.label}`}

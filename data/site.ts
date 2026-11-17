@@ -36,25 +36,13 @@ export const site = {
  * Site-wide notice, shown above the navbar on every page and on the landing
  * teaser. Set `enabled: false` to take it down everywhere at once.
  */
+/**
+ * Site-wide notice, rendered at the top of the home page. It currently carries
+ * the hackathon run sheet below; the dates themselves live in the hero.
+ * Set `enabled: false` to take the whole notice down.
+ */
 export const announcement = {
   enabled: true,
-  kicker: "CICADA 2026 — Dates announced",
-  /** The one line that has to land. Kept short so it can run at display size. */
-  title: "19 – 21 November 2026 🚀",
-  lines: [
-    "The wait is over — CICADA 2026 has its dates! 🔥",
-    "Three days at Atria Institute of Technology, 8:30 AM to 5:30 PM.",
-    "Project Expo, IPL Auction, E-Sports and a 24-hour Hackathon. Registrations are open.",
-  ],
-  /**
-   * One extra beat under the main lines, for programming worth calling out on
-   * its own. Set to null when there is nothing to add.
-   */
-  highlight: {
-    icon: "🎬",
-    text: "All-night movie show from 5:30 PM — Friday, 20 November",
-  } as { icon: string; text: string } | null,
-  hashtags: ["#CICADA2026", "#AtriaInstituteOfTechnology", "#SaveTheDate"],
   /** Short form, repeated in the scrolling ticker. */
   ticker: "19 – 21 November 2026 — registrations open — 24-hour hackathon schedule is out",
 }
