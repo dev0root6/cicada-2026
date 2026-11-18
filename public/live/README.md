@@ -35,14 +35,38 @@ Pictures that appear in the **Live now** section on the home page.
 - **Landscape reads best** in the strip; portrait shots are cropped to fit.
 - **Faces:** only post photos of people who are happy to be posted.
 
-## Switching an event's state
+## How a card decides it is live
 
-In `data/live.ts`, each entry has a `status`:
+Nothing to switch by hand. Each entry in `data/live.ts` carries the window it
+runs in, campus time:
 
-| status     | shown as                                  |
-| ---------- | ----------------------------------------- |
-| `live`     | pulsing dot, "Live now", at the top        |
-| `upcoming` | "Up next"                                  |
-| `done`     | "Wrapped" — stays on the board with photos |
+```ts
+start: "2026-11-19T10:00:00+05:30",
+end:   "2026-11-19T13:00:00+05:30",
+```
+
+The board reads the browser's clock every 30 seconds and labels each card:
+
+| when                   | shown as                                     |
+| ---------------------- | -------------------------------------------- |
+| before `start`         | "Up next", with "in 2h 15m"                   |
+| between `start`/`end`  | pulsing dot, "Live now", with "40m left"      |
+| after `end`            | "Wrapped" — stays on the board with photos    |
+
+Live cards sort to the top on their own.
+
+The `+05:30` matters: it pins the board to campus time, so a visitor in
+another timezone still sees the right status. Don't drop it.
+
+Two notes per entry: `noteBefore` shows until it starts, `note` from then on.
+
+### When the clock is wrong
+
+A session that overran, started early or got pulled — set `override` on that
+entry and it ignores the clock until you remove it:
+
+```ts
+override: "live",   // or "upcoming" / "done"
+```
 
 Set `liveBoard.enabled` to `false` to remove the whole section after the fest.

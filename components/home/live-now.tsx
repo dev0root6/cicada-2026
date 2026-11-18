@@ -1,3 +1,6 @@
+"use client"
+
+import { useEffect, useState } from "react"
 import Image from "next/image"
 import Link from "next/link"
 import { ArrowRight } from "lucide-react"
@@ -5,16 +8,29 @@ import { ArrowRight } from "lucide-react"
 import { Section } from "@/components/common/section"
 import { Button } from "@/components/ui/button"
 import { events } from "@/data/events"
-import { liveBoard, sortedLiveEntries, type LiveEntry, type LiveStatus } from "@/data/live"
+import {
+  entriesAt,
+  formatSlot,
+  liveBoard,
+  relativeTime,
+  type LiveEntry,
+  type LiveStatus,
+} from "@/data/live"
 import { cn } from "@/lib/utils"
 
 /**
- * The live board: what is running on campus right now, with pictures.
+ * The live board: what is running on campus, worked out from the clock.
  *
- * Everything here is driven by data/live.ts so the board can be updated
- * mid-fest by editing one file — no component changes while an event is on.
- * The section removes itself when the board is switched off or empty.
+ * The page is statically rendered, so the clock has to be read in the browser
+ * — a status baked at build time would be wrong within the hour. Until the
+ * first tick lands, every card shows its scheduled slot and no status pill,
+ * which is true at any moment and avoids a hydration mismatch.
+ *
+ * Re-reads the time every 30 seconds, so a card flips on its own while the
+ * page sits open on a screen in the hall.
  */
+
+const TICK_MS = 30_000
 
 const statusLabel: Record<LiveStatus, string> = {
   live: "Live now",
@@ -40,26 +56,46 @@ function StatusPill({ status }: { status: LiveStatus }) {
   )
 }
 
-function Card({ entry }: { entry: LiveEntry }) {
+type CardProps = { entry: LiveEntry; status: LiveStatus | null; now: number | null }
+
+function Card({ entry, status, now }: CardProps) {
   const event = events.find((candidate) => candidate.slug === entry.slug)
   const title = entry.label ?? event?.title.trim() ?? entry.slug
   const photos = entry.photos ?? []
+  const note =
+    status === "upcoming"
+      ? (entry.noteBefore ?? entry.note)
+      : status === "done"
+        ? (entry.noteAfter ?? entry.note)
+        : entry.note
+  const countdown = status && now !== null ? relativeTime(entry, status, now) : null
 
   return (
     <article
       className={cn(
         "surface flex flex-col overflow-hidden",
-        entry.status === "live" && "border-primary/35",
-        entry.status === "done" && "opacity-85",
+        status === "live" && "border-primary/35",
+        status === "done" && "opacity-85",
       )}
     >
       <div className="flex flex-col gap-3 p-5">
         <div className="flex items-start justify-between gap-3">
           <h3 className="text-lg font-semibold leading-snug">{title}</h3>
-          <StatusPill status={entry.status} />
+          {status && <StatusPill status={status} />}
         </div>
 
-        {entry.note && <p className="text-sm leading-relaxed text-muted-foreground">{entry.note}</p>}
+        {/* The slot is the one fact that is true whether or not the clock has
+            been read yet, so it anchors the card from the first paint. */}
+        <p className="font-mono text-[0.68rem] uppercase tracking-[0.14em] text-muted-foreground">
+          {formatSlot(entry)}
+          {countdown && (
+            <span className={cn("ml-2", status === "live" ? "text-primary" : "text-foreground/70")}>
+              · {countdown}
+            </span>
+          )}
+        </p>
+
+        {note && <p className="text-sm leading-relaxed text-muted-foreground">{note}</p>}
 
         {event && (
           <Link
@@ -104,21 +140,48 @@ function Card({ entry }: { entry: LiveEntry }) {
 }
 
 export function LiveNow() {
-  if (!liveBoard.enabled) return null
+  // null until the browser has read its clock — see the note above.
+  const [now, setNow] = useState<number | null>(null)
 
-  const entries = sortedLiveEntries()
-  if (entries.length === 0) return null
+  useEffect(() => {
+    setNow(Date.now())
+    const id = setInterval(() => setNow(Date.now()), TICK_MS)
+    return () => clearInterval(id)
+  }, [])
+
+  if (!liveBoard.enabled || liveBoard.entries.length === 0) return null
+
+  const entries =
+    now === null
+      ? liveBoard.entries.map((entry) => ({ ...entry, status: null as LiveStatus | null }))
+      : entriesAt(now)
 
   const liveCount = entries.filter((entry) => entry.status === "live").length
+  const nextUp = entries.find((entry) => entry.status === "upcoming")
+
+  const eyebrow =
+    now === null
+      ? "The board"
+      : liveCount > 0
+        ? `${liveCount} running right now`
+        : nextUp
+          ? `Next up · ${nextUp.label ?? nextUp.slug}`
+          : "That's a wrap"
 
   return (
     <Section
       id="live"
       size="wide"
-      eyebrow={liveCount > 0 ? `${liveCount} running right now` : "The board"}
+      eyebrow={eyebrow}
       title={
         <span className="inline-flex flex-wrap items-center gap-3">
-          <span className="animate-beacon h-2.5 w-2.5 rounded-full bg-primary" aria-hidden />
+          <span
+            className={cn(
+              "h-2.5 w-2.5 rounded-full",
+              liveCount > 0 ? "animate-beacon bg-primary" : "bg-muted-foreground/40",
+            )}
+            aria-hidden
+          />
           Live now
         </span>
       }
@@ -135,7 +198,7 @@ export function LiveNow() {
     >
       <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
         {entries.map((entry) => (
-          <Card key={entry.slug} entry={entry} />
+          <Card key={entry.slug} entry={entry} status={entry.status} now={now} />
         ))}
       </div>
     </Section>
