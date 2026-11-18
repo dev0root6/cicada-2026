@@ -36,11 +36,7 @@ export function EventTakeaways() {
   )
 }
 
-const requirements = [
-  "Laptop with necessary software installed",
-  "Valid college ID for entry",
-  "Team registration completed before deadline",
-]
+const requirements = ["Team registration completed before deadline"]
 
 export function EventRequirements() {
   return (

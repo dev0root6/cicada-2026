@@ -206,8 +206,8 @@ The real action begins! The auction is conducted through a live presentation —
     group: "E-Sports",
     registerUrl: "https://konfhub.com/checkout/cicada-2026?ticketId=126991",
     prizes: [
-      { label: "Winner", amount: "₹2,000", perks: ["E-Certificate"] },
-      { label: "Runner Up", amount: "₹1,000", perks: ["E-Certificate"] },
+      { label: "Winner", amount: "₹2,000" },
+      { label: "Runner Up", amount: "₹1,000" },
     ],
     participantReward: "E-Certificates",
     imageFit: "cover",
