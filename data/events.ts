@@ -100,7 +100,7 @@ export const events: Event[] = [
     Duration: "24 hours, running into Nov 21",
     teamSize: "3 – 4 members",
     venue: "Atria Institute of Technology",
-    registrationFee: "₹1,000 per team",
+    registrationFee: "₹1,500 per team",
     mode: "Offline",
   },
   {
