@@ -104,7 +104,7 @@ export default async function EventDetailPage({ params }: PageProps) {
               participantReward={event.participantReward}
             />
 
-            <EventTakeaways />
+            <EventTakeaways slug={event.slug} />
             <EventRequirements />
           </div>
 

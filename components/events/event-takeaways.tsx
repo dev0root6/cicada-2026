@@ -1,6 +1,10 @@
-import { Award, Lightbulb, Target, Users } from "lucide-react"
+import { Award, Crosshair, Gamepad2, Lightbulb, Target, Trophy, Users } from "lucide-react"
 
-const takeaways = [
+import type { LucideIcon } from "lucide-react"
+
+type Takeaway = { icon: LucideIcon; title: string; body: string }
+
+const takeaways: Takeaway[] = [
   {
     icon: Target,
     title: "Hands-on Experience",
@@ -15,12 +19,43 @@ const takeaways = [
   { icon: Award, title: "Recognition", body: "Certificates and prizes for winners" },
 ]
 
-export function EventTakeaways() {
+/**
+ * Events whose draw is not "practical learning" get their own four. Anything
+ * not listed here falls back to the generic set above.
+ */
+const takeawaysBySlug: Record<string, Takeaway[]> = {
+  "free-fire": [
+    {
+      icon: Gamepad2,
+      title: "Competitive Experience",
+      body: "Battle against skilled squads and prove your skills on the battlefield.",
+    },
+    {
+      icon: Crosshair,
+      title: "Show Your Skills",
+      body: "Showcase your aim, strategy, teamwork and survival instincts.",
+    },
+    {
+      icon: Users,
+      title: "Squad Up & Connect",
+      body: "Meet fellow gamers, build connections and compete together.",
+    },
+    {
+      icon: Trophy,
+      title: "Glory & Rewards",
+      body: "Compete for exciting prizes, recognition and the ultimate Booyah!",
+    },
+  ],
+}
+
+export function EventTakeaways({ slug }: { slug?: string }) {
+  const items = (slug && takeawaysBySlug[slug]) || takeaways
+
   return (
     <div className="surface p-6">
       <h2 className="text-base font-semibold">What you&apos;ll gain</h2>
       <div className="mt-5 grid gap-5 sm:grid-cols-2">
-        {takeaways.map(({ icon: Icon, title, body }) => (
+        {items.map(({ icon: Icon, title, body }) => (
           <div key={title} className="flex gap-3">
             <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-primary/10">
               <Icon className="h-4 w-4 text-primary" aria-hidden />
