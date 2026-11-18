@@ -86,9 +86,15 @@ export function EventCard({ event }: { event: Event }) {
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </Button>
-          <Button asChild size="sm" variant="outline">
-            <Link href={registrationHref(event)}>Register</Link>
-          </Button>
+          {event.soldOut ? (
+            <span className="rounded-full border border-amber-500/50 bg-amber-500/10 px-3 py-1.5 font-mono text-[0.65rem] font-bold uppercase tracking-[0.18em] text-amber-300">
+              Sold out
+            </span>
+          ) : (
+            <Button asChild size="sm" variant="outline">
+              <Link href={registrationHref(event)}>Register</Link>
+            </Button>
+          )}
           {event.brochureImage && (
             <Button asChild size="icon" variant="ghost" title={`${event.title} brochure`}>
               <a href={event.brochureImage} target="_blank" rel="noreferrer noopener">

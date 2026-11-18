@@ -41,6 +41,12 @@ export type Event = {
   group?: string
   /** Short labels rendered as pills on the event card. */
   badges?: string[]
+  /**
+   * Registration is closed because every pass is gone. The Register buttons
+   * become a dead "Passes sold out" marker rather than disappearing, so the
+   * page answers the question instead of leaving a gap.
+   */
+  soldOut?: boolean
   /** Banner shown above the description on the detail page. */
   notice?: EventNotice
   /** Prize tiers, rendered in order. */
@@ -79,7 +85,8 @@ export const events: Event[] = [
   {
     slug: "hackathon",
     registerUrl: "https://konfhub.com/checkout/cicada-2026?ticketId=126992",
-    badges: ["Flagship Event"],
+    soldOut: true,
+    badges: ["Flagship Event", "Passes sold out"],
     prizes: [
       { label: "1st Prize", amount: "₹15,000", perks: ["Internship opportunity", "Goodies", "E-Certificate"] },
       { label: "2nd Prize", amount: "₹10,000", perks: ["Internship opportunity", "Goodies", "E-Certificate"] },
@@ -103,10 +110,10 @@ export const events: Event[] = [
     registrationFee: "₹1,500 per team",
     mode: "Offline",
     notice: {
-      tone: "info",
-      title: "Registration fee revised to ₹1,500 per team",
+      tone: "warning",
+      title: "PASSES SOLD OUT",
       body:
-        "We have already crossed 150+ registrations. With demand well past what we planned for, the fee has been revised from ₹1,000 to ₹1,500 per team. Seats remain limited and are confirmed in the order payments come in.",
+        "Every hackathon pass is gone — we crossed 150+ registrations and the floor is full. No further teams can be taken, at any price. Registered teams keep their place; watch your email for the problem statement drop.",
     },
   },
   {

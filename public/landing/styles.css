@@ -684,3 +684,99 @@ body {
 .strip-logos img[hidden] { display: none; }
 .strip-logos img[hidden] + .strip-sep,
 .strip-sep:has(+ img[hidden]) { display: none; }
+
+/* ---------------------------------------------------------------------- */
+/* Sound + auto-advance (added when the fest went live)                    */
+/* ---------------------------------------------------------------------- */
+
+/* Sound toggle. Mirrors .skip-btn so the two corners match. */
+.sound-btn {
+  position: fixed;
+  top: max(18px, env(safe-area-inset-top, 0px));
+  left: max(18px, env(safe-area-inset-left, 0px));
+  z-index: 40;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 14px;
+  font: 500 10px/1 var(--mono, ui-monospace, monospace);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: var(--green);
+  background: rgb(10 10 10 / .72);
+  border: 1px solid rgb(76 217 123 / .32);
+  border-radius: 999px;
+  cursor: pointer;
+  backdrop-filter: blur(6px);
+  transition: opacity .3s, border-color .2s, color .2s;
+}
+.sound-btn:hover { border-color: var(--green); }
+.sound-btn:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+.sound-btn .sound-on { font-size: 13px; line-height: 1; }
+/* Once sound is playing the control stops shouting for attention. */
+.sound-btn[aria-pressed="true"] { color: rgb(143 161 150 / .9); border-color: rgb(76 217 123 / .18); }
+.sound-btn[aria-pressed="true"] .sound-on { opacity: .45; }
+/* A beacon while sound is still off, so the offer is noticed. */
+.sound-btn[aria-pressed="false"] .sound-on { animation: sound-pulse 1.6s ease-in-out infinite; }
+@keyframes sound-pulse { 0%, 100% { opacity: .45 } 50% { opacity: 1 } }
+
+/* Auto-advance strip, revealed once the intro has played out.
+   Pinned to the viewport rather than the flow: the hero is taller than a
+   laptop screen, and a countdown nobody can see is no countdown at all. */
+.advance {
+  position: fixed;
+  left: 50%;
+  bottom: calc(68px + env(safe-area-inset-bottom, 0px));
+  transform: translateX(-50%);
+  z-index: 45;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 13px 20px 14px;
+  background: rgb(10 10 10 / .82);
+  border: 1px solid rgb(76 217 123 / .22);
+  border-radius: 14px;
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  animation: advance-in .5s ease forwards;
+}
+.advance[hidden] { display: none; }
+@keyframes advance-in { to { opacity: 1 } }
+
+.advance-text {
+  margin: 0;
+  font: 500 10.5px/1 var(--mono, ui-monospace, monospace);
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: rgb(143 161 150 / .95);
+}
+.advance-text b { color: var(--green); font-weight: 700; font-variant-numeric: tabular-nums; }
+
+.advance-bar {
+  width: min(260px, 62vw);
+  height: 2px;
+  background: rgb(76 217 123 / .16);
+  overflow: hidden;
+}
+.advance-bar i { display: block; height: 100%; width: 0; background: var(--green); }
+
+.advance-stay {
+  padding: 6px 13px;
+  font: 500 9.5px/1 var(--mono, ui-monospace, monospace);
+  letter-spacing: .22em;
+  text-transform: uppercase;
+  color: rgb(143 161 150 / .8);
+  background: none;
+  border: 1px solid rgb(143 161 150 / .22);
+  border-radius: 999px;
+  cursor: pointer;
+  transition: color .2s, border-color .2s;
+}
+.advance-stay:hover { color: var(--green); border-color: rgb(76 217 123 / .45); }
+.advance-stay:focus-visible { outline: 2px solid var(--green); outline-offset: 3px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .sound-btn[aria-pressed="false"] .sound-on { animation: none; opacity: 1; }
+  .advance { animation: none; opacity: 1; }
+}

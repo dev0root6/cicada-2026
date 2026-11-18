@@ -50,6 +50,14 @@
 
   <button class="skip-btn" type="button">Skip intro <span aria-hidden="true">›</span></button>
 
+  <!-- Sound. Browsers block autoplay with audio, so the button is the fallback:
+       it stays visible until a gesture has let the sting through. -->
+  <button class="sound-btn" type="button" aria-pressed="false">
+    <span class="sound-on" aria-hidden="true">&#9834;</span>
+    <span class="sound-label">Sound on</span>
+  </button>
+  <audio class="sting" preload="auto" src="/landing/assets/cicada-intro.mp3"></audio>
+
   <main class="hero">
     <div class="breach" aria-hidden="true"></div>
 
@@ -97,22 +105,29 @@
 
     <p class="edition" aria-hidden="true"><span>[</span> 2026 <span>]</span></p>
 
-    <p class="tagline"><span class="sr-only">The plan is already in motion.</span><span aria-hidden="true">The plan is already in motion.</span></p>
-    <p class="subline">// no names &nbsp;·&nbsp; no faces &nbsp;·&nbsp; just the plan</p>
+    <p class="tagline"><span class="sr-only">CICADA 2026 has started.</span><span aria-hidden="true">CICADA 2026 has started.</span></p>
+    <p class="subline">// 19 &ndash; 21 november &nbsp;·&nbsp; atria institute of technology &nbsp;·&nbsp; live now</p>
 
     <!-- Site-wide notice. Mirrors `announcement` in data/site.ts; remove both together. -->
     <aside class="notice" role="status">
       <i class="notice-signal" aria-hidden="true"></i>
-      <p class="notice-kicker"><i class="notice-beacon" aria-hidden="true"></i>CICADA 2026 — Dates announced</p>
-      <b>19 &ndash; 21 November 2026 &#128640;</b>
-      <span>The wait is over &mdash; CICADA 2026 has its dates! &#128293;</span>
-      <span>Three days at Atria Institute of Technology, 8:30 AM to 5:30 PM.</span>
-      <span>Project Expo, IPL Auction, E-Sports and a 24-hour Hackathon. Registrations are open.</span>
-      <p class="notice-highlight"><span aria-hidden="true">&#127916;</span> Movie show from 5 PM onwards &mdash; Friday, 20 November</p>
-      <p class="notice-tags"><em>#CICADA2026</em><em>#AtriaInstituteOfTechnology</em><em>#SaveTheDate</em></p>
+      <p class="notice-kicker"><i class="notice-beacon" aria-hidden="true"></i>Live now &mdash; on campus</p>
+      <b>CICADA 2026 has begun &#128640;</b>
+      <span>Three days at Atria Institute of Technology, 19 &ndash; 21 November.</span>
+      <span>Project Expo, IPL Auction, E-Sports and the 24-hour Hackathon are under way.</span>
+      <p class="notice-highlight"><span aria-hidden="true">&#128248;</span> Live updates and photos from every event &mdash; inside</p>
+      <p class="notice-tags"><em>#CICADA2026</em><em>#AtriaInstituteOfTechnology</em><em>#LiveNow</em></p>
     </aside>
 
     <a class="enter" href="/home">Enter <span aria-hidden="true">→</span></a>
+
+    <!-- Auto-advance: the intro hands the visitor to the site on its own.
+         Cancelled by "Stay here", so nobody is dragged off a page they want. -->
+    <div class="advance" hidden>
+      <p class="advance-text">Taking you inside&hellip; <b class="advance-count">5</b></p>
+      <div class="advance-bar" aria-hidden="true"><i></i></div>
+      <button class="advance-stay" type="button">Stay here</button>
+    </div>
   </main>
 
   <footer class="strip">

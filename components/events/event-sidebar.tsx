@@ -32,9 +32,18 @@ export function EventSidebar({ event }: { event: Event }) {
             {event.registrationFee}
           </p>
 
-          <Button asChild size="lg" className="mt-5 w-full">
-            <Link href={registrationHref(event)}>Register now</Link>
-          </Button>
+          {event.soldOut ? (
+            <p
+              className="mt-5 w-full rounded-lg border-2 border-amber-500/55 bg-amber-500/10 px-4 py-3.5 text-center font-display text-lg font-bold uppercase tracking-[0.12em] text-amber-300"
+              role="status"
+            >
+              Passes sold out
+            </p>
+          ) : (
+            <Button asChild size="lg" className="mt-5 w-full">
+              <Link href={registrationHref(event)}>Register now</Link>
+            </Button>
+          )}
 
           {event.brochureImage && (
             <Button asChild size="lg" variant="outline" className="mt-2 w-full">

@@ -12,6 +12,19 @@
 
   clearTimeout(window.__introFailsafe)
 
+  // The intro is a once-per-visit event. Coming back to "/" later in the same
+  // session goes straight through to the live site; ?stay=1 always holds here.
+  var SEEN_KEY = "cicada:intro-seen"
+  var STAY_KEY = "cicada:intro-stay"
+  var forceStay = /[?&]stay=1\b/.test(window.location.search)
+  if (forceStay) {
+    try { sessionStorage.setItem(STAY_KEY, "1") } catch (err) { /* private mode */ }
+  } else {
+    var seen = false
+    try { seen = !!sessionStorage.getItem(SEEN_KEY) } catch (err) { /* ignore */ }
+    if (seen) { window.location.replace("/home"); return }
+  }
+
   function rand(n) { return Math.floor(Math.random() * n) }
   function randChar() { return CIPHER[rand(CIPHER.length)] }
   function later(fn, ms) { timers.push(setTimeout(fn, ms)) }
@@ -51,6 +64,55 @@
     }, 40)
   }
 
+  // ---- Sound -----------------------------------------------------------
+  // Browsers refuse audio until the visitor has interacted with the page, so
+  // the sting is attempted immediately and, if refused, armed to start on the
+  // first gesture. The button is both the manual control and the signal that
+  // sound exists at all.
+  var sting = document.querySelector(".sting")
+  var soundBtn = document.querySelector(".sound-btn")
+  var soundLabel = soundBtn ? soundBtn.querySelector(".sound-label") : null
+  var soundOn = false
+
+  function markSound(on) {
+    soundOn = on
+    if (!soundBtn) return
+    soundBtn.setAttribute("aria-pressed", on ? "true" : "false")
+    if (soundLabel) soundLabel.textContent = on ? "Sound on" : "Tap for sound"
+  }
+
+  function playSting() {
+    if (!sting || soundOn) return
+    var p = sting.play()
+    if (p && typeof p.then === "function") {
+      p.then(function () { markSound(true) }).catch(function () { markSound(false) })
+    } else {
+      markSound(true)
+    }
+  }
+
+  function stopSting() {
+    if (!sting) return
+    sting.pause()
+    sting.currentTime = 0
+    markSound(false)
+  }
+
+  if (soundBtn) {
+    soundBtn.addEventListener("click", function (e) {
+      e.stopPropagation()
+      if (soundOn) stopSting()
+      else playSting()
+    })
+  }
+  // First gesture anywhere also unlocks it, for the common autoplay refusal.
+  document.addEventListener("pointerdown", function once() {
+    document.removeEventListener("pointerdown", once)
+    if (!soundOn && !reduced) playSting()
+  })
+
+  if (!reduced) playSting()
+
   // ---- Skip ------------------------------------------------------------
   // Custom cursor and grid trails (public/brand/cicada-cursor.js).
   if (window.CicadaCursor) window.CicadaCursor.attach({ grid: ".grid" })
@@ -73,7 +135,59 @@
     if (tag) tag.textContent = tagText
     root.classList.add("done")
     removeSkipListeners()
+    startAdvance()
   }
+
+  // ---- Auto-advance ----------------------------------------------------
+  // The fest is on, so the teaser hands visitors to the live site by itself.
+  // "Stay here" cancels for good; so does opening any link, and the second
+  // visit in a session skips the intro altogether (see the top of the file).
+  var ADVANCE_MS = 5000
+  var advance = document.querySelector(".advance")
+  var advanceBar = advance ? advance.querySelector(".advance-bar i") : null
+  var advanceCount = advance ? advance.querySelector(".advance-count") : null
+  var advanceStay = advance ? advance.querySelector(".advance-stay") : null
+  var advanceRaf = 0
+  var advanceCancelled = false
+  var advanceRunning = false
+
+  function cancelAdvance(remember) {
+    advanceCancelled = true
+    advanceRunning = false
+    cancelAnimationFrame(advanceRaf)
+    if (advance) advance.hidden = true
+    // Only "Stay here" is a standing decision; leaving by a link is not.
+    try { sessionStorage.setItem(remember ? STAY_KEY : SEEN_KEY, "1") } catch (err) { /* private mode */ }
+  }
+
+  function startAdvance() {
+    if (advanceCancelled || advanceRunning || !advance) return
+    try { if (sessionStorage.getItem(STAY_KEY)) return } catch (err) { /* ignore */ }
+    advanceRunning = true
+    advance.hidden = false
+    var t0 = performance.now()
+    function step(now) {
+      if (advanceCancelled) return
+      var p = Math.min(1, (now - t0) / ADVANCE_MS)
+      if (advanceBar) advanceBar.style.width = (p * 100).toFixed(2) + "%"
+      if (advanceCount) advanceCount.textContent = String(Math.max(1, Math.ceil((1 - p) * ADVANCE_MS / 1000)))
+      if (p < 1) { advanceRaf = requestAnimationFrame(step); return }
+      try { sessionStorage.setItem(SEEN_KEY, "1") } catch (err) { /* ignore */ }
+      window.location.replace("/home")
+    }
+    advanceRaf = requestAnimationFrame(step)
+  }
+
+  if (advanceStay) {
+    advanceStay.addEventListener("click", function (e) {
+      e.stopPropagation()
+      cancelAdvance(true)
+    })
+  }
+  // Following any link is a decision of its own; don't race it.
+  document.addEventListener("click", function (e) {
+    if (e.target.closest("a")) cancelAdvance(false)
+  })
 
   function skip() {
     if (root.classList.contains("done")) return
