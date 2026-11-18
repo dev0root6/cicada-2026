@@ -102,6 +102,12 @@ export const events: Event[] = [
     venue: "Atria Institute of Technology",
     registrationFee: "₹1,500 per team",
     mode: "Offline",
+    notice: {
+      tone: "info",
+      title: "Registration fee revised to ₹1,500 per team",
+      body:
+        "We have already crossed 150+ registrations. With demand well past what we planned for, the fee has been revised from ₹1,000 to ₹1,500 per team. Seats remain limited and are confirmed in the order payments come in.",
+    },
   },
   {
     slug: "project-expo",
