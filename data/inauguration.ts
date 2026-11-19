@@ -13,14 +13,14 @@ export const inaugurationFilm = {
    * A file in public/. The dashboard checks it exists before rendering a
    * player, so leaving this pointing at a missing file is harmless.
    */
-  src: "/up/inauguration.mp4" as string | null,
+  src: null as string | null,
 
   /**
    * YouTube video id — the part after `v=` or after `youtu.be/`.
    * For https://www.youtube.com/watch?v=dQw4w9WgXcQ that is "dQw4w9WgXcQ".
    * Set `src` to null to use this.
    */
-  youtubeId: null as string | null,
+  youtubeId: "2IKQO3UsY_M" as string | null,
 
   /** Start the film this many seconds in. YouTube only. */
   startAt: 0,

@@ -78,26 +78,41 @@ export function Dashboard({ initial }: { initial: CeremonyState }) {
     })
   }, [revealed, hasFilm])
 
+  // Whether a player will actually appear, so the heading can make room.
+  const showFilm = Boolean((FILM && hasFilm) || (!FILM && YOUTUBE))
+
   if (revealed) {
     return (
-      <main className="flex min-h-dvh flex-col items-center justify-center overflow-hidden px-6 py-10">
+      <main className="flex h-dvh flex-col items-center justify-center overflow-hidden px-6 py-6">
         <div className="reveal-in flex w-full max-w-6xl flex-col items-center">
           <p className="font-mono text-[0.75rem] uppercase tracking-[0.42em] text-primary md:text-sm">
             Atria Institute of Technology presents
           </p>
 
-          <h1 className="announce-glow mt-6 font-display text-[clamp(3.5rem,16vw,11rem)] font-bold uppercase leading-[0.95] tracking-[0.02em]">
+          <h1
+            className={cn(
+              "announce-glow font-display font-bold uppercase leading-[0.95] tracking-[0.02em]",
+              showFilm
+                ? "mt-4 text-[clamp(2.25rem,7vw,5rem)]"
+                : "mt-6 text-[clamp(3.5rem,16vw,11rem)]",
+            )}
+          >
             CICADA <span className="text-primary">2026</span>
           </h1>
 
-          <p className="mt-4 font-mono text-sm uppercase tracking-[0.3em] text-muted-foreground md:text-base">
+          <p
+            className={cn(
+              "font-mono uppercase tracking-[0.3em] text-muted-foreground",
+              showFilm ? "mt-2 text-xs md:text-sm" : "mt-4 text-sm md:text-base",
+            )}
+          >
             Declared open · 19 – 21 November 2026
           </p>
 
           {FILM && hasFilm && (
             <video
               ref={videoRef}
-              className="mt-10 w-full max-w-5xl rounded-xl border border-primary/25"
+              className="mt-5 max-h-[58dvh] w-full max-w-5xl rounded-xl border border-primary/25"
               src={FILM}
               playsInline
               controls
@@ -106,7 +121,7 @@ export function Dashboard({ initial }: { initial: CeremonyState }) {
           )}
 
           {!FILM && YOUTUBE && (
-            <div className="mt-10 aspect-video w-full max-w-5xl overflow-hidden rounded-xl border border-primary/25">
+            <div className="mt-5 aspect-video max-h-[58dvh] w-full max-w-5xl overflow-hidden rounded-xl border border-primary/25">
               {/* rel=0 keeps the end screen to this channel; modestbranding and
                   playsinline keep the frame as plain as YouTube allows. */}
               <iframe
