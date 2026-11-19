@@ -31,14 +31,46 @@ the same presses as a list, so you can see who has not pressed yet.
 
 ## The film
 
-The dashboard plays `public/up/inauguration.mp4` after the reveal. Until that
-file exists the reveal still works — the wordmark lands and no video box is
-shown, because the page checks whether the file is there before rendering a
-player. Drop the film in at that exact path, commit, and it appears.
+Configured in `data/inauguration.ts`. Two options; the self-hosted file wins
+if both are set.
+
+### Self-hosted (preferred)
+
+Drop the film at `public/up/inauguration.mp4`, commit, done. Until that file
+exists the reveal still works — the wordmark lands and no video box is shown,
+because the page checks the file is there before rendering a player.
 
 It tries to play with sound and falls back to muted if the browser refuses
-autoplay. Click the projector page once before the ceremony starts and sound
-will be allowed.
+autoplay. **Click the projector page once before the ceremony starts** and
+sound will be allowed.
+
+Keep the file under ~50 MB: GitHub warns above 50 MB per file and refuses
+above 100 MB. Re-encoding usually gets a 1080p reel well under that with no
+visible loss on a projector:
+
+```
+ffmpeg -i big.mp4 -c:v libx264 -crf 23 -preset slow -vf scale=1920:-2        -c:a aac -b:a 160k -movflags +faststart public/up/inauguration.mp4
+```
+
+### YouTube
+
+For a file too large to keep in the repository. Upload as **Unlisted**, then
+in `data/inauguration.ts` set `src: null` and `youtubeId` to the id from the
+URL (the part after `v=`).
+
+Weigh this against self-hosting before the day:
+
+- **It cannot autoplay with sound.** YouTube is stricter than a plain `<video>`
+  tag; expect to click play, or to start muted.
+- **It needs the venue's internet** at the exact moment of the reveal. A
+  self-hosted file is already cached by the page.
+- **Ads and end screens.** Unlisted videos on a channel without monetisation
+  normally show neither, but this is YouTube's call, not yours. `rel=0` keeps
+  suggestions to your own channel.
+- **It is YouTube-branded.** The title bar and logo appear on the projector.
+
+If the film has to be large, compressing it and self-hosting is the safer
+ceremony. Use YouTube when that is not possible.
 
 ## Setup
 

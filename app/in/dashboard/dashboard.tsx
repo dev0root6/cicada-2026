@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react"
 
+import { inaugurationFilm } from "@/data/inauguration"
 import type { CeremonyState } from "@/lib/inauguration/shared"
 import { cn } from "@/lib/utils"
 
@@ -16,8 +17,8 @@ import { cn } from "@/lib/utils"
 
 const POLL_MS = 1200
 
-/** Dropped in at public/up/inauguration.mp4 whenever the film is ready. */
-const FILM = "/up/inauguration.mp4"
+const FILM = inaugurationFilm.src
+const YOUTUBE = inaugurationFilm.youtubeId
 
 export function Dashboard({ initial }: { initial: CeremonyState }) {
   const [state, setState] = useState<CeremonyState>(initial)
@@ -50,8 +51,10 @@ export function Dashboard({ initial }: { initial: CeremonyState }) {
   }, [revealed])
 
   // Only show the player if the film has actually been uploaded, so the screen
-  // never shows a broken video box in front of an audience.
+  // never shows a broken video box in front of an audience. A YouTube embed
+  // can't be probed this way, so it is simply trusted.
   useEffect(() => {
+    if (!FILM) return
     let alive = true
     fetch(FILM, { method: "HEAD" })
       .then((res) => {
@@ -66,7 +69,7 @@ export function Dashboard({ initial }: { initial: CeremonyState }) {
   // Try to play with sound the moment we reveal; fall back to muted if the
   // browser refuses, so the film rolls either way.
   useEffect(() => {
-    if (!revealed || !hasFilm) return
+    if (!revealed || !hasFilm || !FILM) return
     const video = videoRef.current
     if (!video) return
     video.play().catch(() => {
@@ -91,7 +94,7 @@ export function Dashboard({ initial }: { initial: CeremonyState }) {
             Declared open · 19 – 21 November 2026
           </p>
 
-          {hasFilm && (
+          {FILM && hasFilm && (
             <video
               ref={videoRef}
               className="mt-10 w-full max-w-5xl rounded-xl border border-primary/25"
@@ -100,6 +103,20 @@ export function Dashboard({ initial }: { initial: CeremonyState }) {
               controls
               autoPlay
             />
+          )}
+
+          {!FILM && YOUTUBE && (
+            <div className="mt-10 aspect-video w-full max-w-5xl overflow-hidden rounded-xl border border-primary/25">
+              {/* rel=0 keeps the end screen to this channel; modestbranding and
+                  playsinline keep the frame as plain as YouTube allows. */}
+              <iframe
+                className="h-full w-full"
+                src={`https://www.youtube-nocookie.com/embed/${YOUTUBE}?autoplay=1&rel=0&modestbranding=1&playsinline=1&start=${inaugurationFilm.startAt}`}
+                title="CICADA 2026 inauguration film"
+                allow="autoplay; encrypted-media; fullscreen"
+                allowFullScreen
+              />
+            </div>
           )}
         </div>
       </main>
