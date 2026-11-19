@@ -1,6 +1,7 @@
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
+import { Maximize2 } from "lucide-react"
 
 import { inaugurationFilm } from "@/data/inauguration"
 import type { CeremonyState } from "@/lib/inauguration/shared"
@@ -9,13 +10,25 @@ import { cn } from "@/lib/utils"
 /**
  * The reveal screen, for the projector.
  *
- * Deliberately almost empty before the release: a row of lamps, one per chief
- * guest, lighting up as each presses. No counters, no copy, nothing that
- * explains the trick to the room. When the last lamp lights, the wordmark
- * lands and the film rolls.
+ * Three states, in order:
+ *
+ *  1. **Standby** — one lamp per chief guest, lighting as each presses. No
+ *     counters and no copy: nothing on screen should explain the trick to the
+ *     room before it happens.
+ *  2. **Title** — the wordmark lands the moment the last guest presses, and
+ *     holds for a few seconds so the room can react.
+ *  3. **Film** — the player then takes the entire viewport, edge to edge.
+ *
+ * Real browser fullscreen can only be requested from a user gesture, so it
+ * cannot be triggered by the reveal itself. The "Arm projector" button exists
+ * for that: one click before the ceremony puts the page into fullscreen and
+ * unlocks audio, and the reveal is then already running edge to edge.
  */
 
 const POLL_MS = 1200
+
+/** How long the wordmark holds before the film takes over. */
+const TITLE_HOLD_MS = 3400
 
 const FILM = inaugurationFilm.src
 const YOUTUBE = inaugurationFilm.youtubeId
@@ -23,10 +36,15 @@ const YOUTUBE = inaugurationFilm.youtubeId
 export function Dashboard({ initial }: { initial: CeremonyState }) {
   const [state, setState] = useState<CeremonyState>(initial)
   const [revealed, setRevealed] = useState(initial.released)
+  const [stage, setStage] = useState<"title" | "film">("title")
   const [hasFilm, setHasFilm] = useState(false)
+  const [armed, setArmed] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
 
-  // Poll until released, then stop — nothing after the reveal depends on it.
+  const showFilm = Boolean((FILM && hasFilm) || (!FILM && YOUTUBE))
+
+  /* ---- live state ------------------------------------------------------ */
+
   useEffect(() => {
     if (revealed) return
     let alive = true
@@ -50,9 +68,8 @@ export function Dashboard({ initial }: { initial: CeremonyState }) {
     }
   }, [revealed])
 
-  // Only show the player if the film has actually been uploaded, so the screen
-  // never shows a broken video box in front of an audience. A YouTube embed
-  // can't be probed this way, so it is simply trusted.
+  /* ---- is there actually a film? --------------------------------------- */
+
   useEffect(() => {
     if (!FILM) return
     let alive = true
@@ -66,81 +83,109 @@ export function Dashboard({ initial }: { initial: CeremonyState }) {
     }
   }, [])
 
-  // Try to play with sound the moment we reveal; fall back to muted if the
-  // browser refuses, so the film rolls either way.
+  /* ---- title, then film ------------------------------------------------ */
+
   useEffect(() => {
-    if (!revealed || !hasFilm || !FILM) return
+    if (!revealed || !showFilm) return
+    const id = setTimeout(() => setStage("film"), TITLE_HOLD_MS)
+    return () => clearTimeout(id)
+  }, [revealed, showFilm])
+
+  // Self-hosted file: try with sound, fall back to muted rather than not play.
+  useEffect(() => {
+    if (stage !== "film" || !FILM) return
     const video = videoRef.current
     if (!video) return
     video.play().catch(() => {
       video.muted = true
       void video.play().catch(() => undefined)
     })
-  }, [revealed, hasFilm])
+  }, [stage])
 
-  // Whether a player will actually appear, so the heading can make room.
-  const showFilm = Boolean((FILM && hasFilm) || (!FILM && YOUTUBE))
+  /* ---- fullscreen ------------------------------------------------------ */
+
+  // Track fullscreen rather than assume it: Esc or F11 can drop out of it.
+  useEffect(() => {
+    const sync = () => setArmed(Boolean(document.fullscreenElement))
+    document.addEventListener("fullscreenchange", sync)
+    return () => document.removeEventListener("fullscreenchange", sync)
+  }, [])
+
+  const arm = useCallback(async () => {
+    try {
+      await document.documentElement.requestFullscreen?.()
+    } catch {
+      // Refused, or the browser has no Fullscreen API. The ceremony still
+      // works — the operator can press F11 instead.
+    }
+    setArmed(true)
+    // A click is also the gesture that lets audio start later, so warm the
+    // self-hosted player up here while the room is still filling.
+    const video = videoRef.current
+    if (video) {
+      try {
+        await video.play()
+        video.pause()
+        video.currentTime = 0
+      } catch {
+        /* nothing to warm up yet */
+      }
+    }
+  }, [])
+
+  /* ---- 3. film, edge to edge ------------------------------------------- */
+
+  if (revealed && stage === "film" && showFilm) {
+    return (
+      <main className="fixed inset-0 z-50 bg-black">
+        {FILM ? (
+          <video
+            ref={videoRef}
+            className="h-full w-full object-contain"
+            src={FILM}
+            playsInline
+            autoPlay
+            controls
+          />
+        ) : (
+          <iframe
+            className="h-full w-full border-0"
+            src={`https://www.youtube-nocookie.com/embed/${YOUTUBE}?autoplay=1&rel=0&modestbranding=1&playsinline=1&fs=1&start=${inaugurationFilm.startAt}`}
+            title="CICADA 2026 inauguration film"
+            allow="autoplay; encrypted-media; fullscreen"
+            allowFullScreen
+          />
+        )}
+      </main>
+    )
+  }
+
+  /* ---- 2. the title ----------------------------------------------------- */
 
   if (revealed) {
     return (
-      <main className="flex h-dvh flex-col items-center justify-center overflow-hidden px-6 py-6">
-        <div className="reveal-in flex w-full max-w-6xl flex-col items-center">
+      <main className="flex h-dvh flex-col items-center justify-center overflow-hidden px-6">
+        <div className="reveal-in flex w-full max-w-6xl flex-col items-center text-center">
           <p className="font-mono text-[0.75rem] uppercase tracking-[0.42em] text-primary md:text-sm">
             Atria Institute of Technology presents
           </p>
 
-          <h1
-            className={cn(
-              "announce-glow font-display font-bold uppercase leading-[0.95] tracking-[0.02em]",
-              showFilm
-                ? "mt-4 text-[clamp(2.25rem,7vw,5rem)]"
-                : "mt-6 text-[clamp(3.5rem,16vw,11rem)]",
-            )}
-          >
+          <h1 className="announce-glow mt-6 font-display text-[clamp(3.5rem,16vw,11rem)] font-bold uppercase leading-[0.95] tracking-[0.02em]">
             CICADA <span className="text-primary">2026</span>
           </h1>
 
-          <p
-            className={cn(
-              "font-mono uppercase tracking-[0.3em] text-muted-foreground",
-              showFilm ? "mt-2 text-xs md:text-sm" : "mt-4 text-sm md:text-base",
-            )}
-          >
+          <p className="mt-4 font-mono text-sm uppercase tracking-[0.3em] text-muted-foreground md:text-base">
             Declared open · 19 – 21 November 2026
           </p>
-
-          {FILM && hasFilm && (
-            <video
-              ref={videoRef}
-              className="mt-5 max-h-[58dvh] w-full max-w-5xl rounded-xl border border-primary/25"
-              src={FILM}
-              playsInline
-              controls
-              autoPlay
-            />
-          )}
-
-          {!FILM && YOUTUBE && (
-            <div className="mt-5 aspect-video max-h-[58dvh] w-full max-w-5xl overflow-hidden rounded-xl border border-primary/25">
-              {/* rel=0 keeps the end screen to this channel; modestbranding and
-                  playsinline keep the frame as plain as YouTube allows. */}
-              <iframe
-                className="h-full w-full"
-                src={`https://www.youtube-nocookie.com/embed/${YOUTUBE}?autoplay=1&rel=0&modestbranding=1&playsinline=1&start=${inaugurationFilm.startAt}`}
-                title="CICADA 2026 inauguration film"
-                allow="autoplay; encrypted-media; fullscreen"
-                allowFullScreen
-              />
-            </div>
-          )}
         </div>
       </main>
     )
   }
 
-  // ---- before the release: lamps only ----
+  /* ---- 1. standby ------------------------------------------------------- */
+
   return (
-    <main className="flex min-h-dvh flex-col items-center justify-center px-6">
+    <main className="flex h-dvh flex-col items-center justify-center px-6">
       <div className="flex flex-wrap items-center justify-center gap-6 md:gap-9">
         {state.guests.map((guest) => (
           <span
@@ -161,6 +206,23 @@ export function Dashboard({ initial }: { initial: CeremonyState }) {
           Standing by
         </p>
       )}
+
+      {/* The one control on this screen, and only until it has been used.
+          Clicking it is what makes the reveal fullscreen and lets it have
+          sound — both need a real gesture, which the reveal itself is not. */}
+      {!armed && (
+        <button
+          type="button"
+          onClick={() => void arm()}
+          className="fixed bottom-6 right-6 inline-flex items-center gap-2 rounded-full border border-border/70 bg-background/80 px-4 py-2.5 font-mono text-[0.65rem] uppercase tracking-[0.2em] text-muted-foreground/70 backdrop-blur transition-colors hover:border-primary/50 hover:text-primary"
+        >
+          <Maximize2 className="h-3.5 w-3.5" aria-hidden />
+          Arm projector
+        </button>
+      )}
+
+      {/* Warms the self-hosted player up on the arming click. */}
+      {FILM && hasFilm && <video ref={videoRef} src={FILM} className="hidden" preload="auto" />}
     </main>
   )
 }

@@ -21,10 +21,14 @@ fix — links to it may already be in circulation.
    before the guests arrive.
 3. Copy each link and give it to that guest — WhatsApp, a QR code, or open it
    on a phone you hand them. Each link works for exactly one button.
-4. Put `/in/dashboard` on the projector. It shows one dim lamp per guest and
+4. Put `/in/dashboard` on the projector and click **Arm projector**, bottom
+   right. That one click does two things a page cannot do by itself: it puts
+   the browser into fullscreen, and it earns the permission that lets the film
+   play with sound. After it, the screen shows one dim lamp per guest and
    nothing else.
 5. On the host's cue, the guests press. Each lamp lights as its press lands.
-6. When the last lamp lights, the wordmark reveals and the film plays.
+6. When the last lamp lights, the wordmark reveals, holds for about three and
+   a half seconds, and then the film takes the whole screen, edge to edge.
 
 Keep `/in/inaugration` open on your own laptop through the ceremony — it shows
 the same presses as a list, so you can see who has not pressed yet.
@@ -41,8 +45,8 @@ exists the reveal still works — the wordmark lands and no video box is shown,
 because the page checks the file is there before rendering a player.
 
 It tries to play with sound and falls back to muted if the browser refuses
-autoplay. **Click the projector page once before the ceremony starts** and
-sound will be allowed.
+autoplay. **Arm the projector before the ceremony starts** and sound will be
+allowed.
 
 Keep the file under ~50 MB: GitHub warns above 50 MB per file and refuses
 above 100 MB. Re-encoding usually gets a 1080p reel well under that with no
