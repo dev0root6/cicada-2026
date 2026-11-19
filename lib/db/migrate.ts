@@ -29,6 +29,8 @@ export const TABLES = [
   "registration_interest",
   "site_flags",
   "email_log",
+  "inauguration_ceremony",
+  "inauguration_guests",
 ] as const
 
 /** Which of the app's tables exist (true) or are missing (false). */

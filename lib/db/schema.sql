@@ -145,3 +145,41 @@ create table if not exists email_log (
 
 create index if not exists email_log_kind_recipient_idx
   on email_log (kind, lower(recipient), sent_at desc);
+
+-- ---------------------------------------------------------------------------
+-- The inauguration ceremony (/in).
+--
+-- A single ceremony row plus one row per chief guest. The guest's row id is
+-- the code in their link, /in/<id>, so a link is a capability: whoever holds
+-- it can press that guest's button exactly once.
+--
+-- The release is derived, not stored as a separate flag: the ceremony is
+-- released when every guest row has a pressed_at. That makes a double press,
+-- a refresh or two guests pressing at the same instant harmless.
+-- ---------------------------------------------------------------------------
+create table if not exists inauguration_ceremony (
+  -- Single row, always 'live'. A second ceremony would need a second id.
+  id          text        primary key default 'live',
+  -- How many guests the admin said are in the room. Guests are created to match.
+  guest_count integer     not null default 0,
+  -- Set the moment the last guest presses; null while the ceremony is pending.
+  released_at timestamptz,
+  created_at  timestamptz not null default now(),
+  updated_at  timestamptz not null default now()
+);
+
+create table if not exists inauguration_guests (
+  -- Short random code; this is what appears in /in/<id>.
+  id          text        primary key,
+  ceremony_id text        not null default 'live'
+                          references inauguration_ceremony (id) on delete cascade,
+  -- Display name on the guest's own screen and the dashboard.
+  label       text        not null,
+  -- Ordering on the dashboard, 1-based.
+  position    integer     not null default 0,
+  pressed_at  timestamptz,
+  created_at  timestamptz not null default now()
+);
+
+create index if not exists inauguration_guests_ceremony_idx
+  on inauguration_guests (ceremony_id, position);

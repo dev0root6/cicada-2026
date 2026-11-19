@@ -517,3 +517,23 @@
 @media (prefers-reduced-motion: reduce) {
   .entity-roam, .entity-flicker, .entity-scramble > span { animation: none; }
 }
+
+/* ---------------------------------------------------------------------- */
+/* Inauguration reveal (/in/dashboard)                                     */
+/* ---------------------------------------------------------------------- */
+
+/* The wordmark landing when the last chief guest presses. One shot, no loop:
+   this plays once in front of a room and then stays put. */
+@keyframes reveal-in {
+  0%   { opacity: 0; transform: scale(0.94); filter: blur(14px); }
+  55%  { opacity: 1; filter: blur(0); }
+  100% { opacity: 1; transform: scale(1); filter: blur(0); }
+}
+
+.reveal-in {
+  animation: reveal-in 1.5s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-in { animation: none; }
+}
