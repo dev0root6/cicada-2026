@@ -28,7 +28,14 @@ fix — links to it may already be in circulation.
    nothing else.
 5. On the host's cue, the guests press. Each lamp lights as its press lands.
 6. When the last lamp lights, the wordmark reveals, holds for about three and
-   a half seconds, and then the film takes the whole screen, edge to edge.
+   a half seconds, and then the film takes the whole screen — the player
+   itself goes fullscreen, edge to edge, with nothing of the page around it.
+
+   That handover only works if the projector was armed: a browser refuses a
+   fullscreen request with no gesture behind it, but allows fullscreen to move
+   from the page to an element inside it. Unarmed, the film still covers the
+   whole viewport through CSS, so the room sees the same thing — you just keep
+   the browser's own chrome unless someone pressed F11.
 
 Keep `/in/inaugration` open on your own laptop through the ceremony — it shows
 the same presses as a list, so you can see who has not pressed yet.

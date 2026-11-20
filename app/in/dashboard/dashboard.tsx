@@ -40,6 +40,7 @@ export function Dashboard({ initial }: { initial: CeremonyState }) {
   const [hasFilm, setHasFilm] = useState(false)
   const [armed, setArmed] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
+  const filmRef = useRef<HTMLElement>(null)
 
   const showFilm = Boolean((FILM && hasFilm) || (!FILM && YOUTUBE))
 
@@ -102,6 +103,27 @@ export function Dashboard({ initial }: { initial: CeremonyState }) {
     })
   }, [stage])
 
+  /**
+   * Put the player itself into fullscreen as it appears.
+   *
+   * Browsers refuse a fullscreen request that has no user gesture behind it —
+   * except when the document is already fullscreen, where moving fullscreen to
+   * a descendant is allowed. That is exactly the case after "Arm projector",
+   * which is why arming matters. Unarmed, this throws and is swallowed: the
+   * film still covers the viewport through CSS, so the room sees the same
+   * thing either way.
+   */
+  useEffect(() => {
+    if (stage !== "film") return
+    const target = filmRef.current
+    if (!target) return
+    const id = setTimeout(() => {
+      if (document.fullscreenElement === target) return
+      void target.requestFullscreen?.().catch(() => undefined)
+    }, 80)
+    return () => clearTimeout(id)
+  }, [stage])
+
   /* ---- fullscreen ------------------------------------------------------ */
 
   // Track fullscreen rather than assume it: Esc or F11 can drop out of it.
@@ -137,7 +159,7 @@ export function Dashboard({ initial }: { initial: CeremonyState }) {
 
   if (revealed && stage === "film" && showFilm) {
     return (
-      <main className="fixed inset-0 z-50 bg-black">
+      <main ref={filmRef} className="fixed inset-0 z-50 bg-black">
         {FILM ? (
           <video
             ref={videoRef}
