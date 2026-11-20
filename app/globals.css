@@ -721,3 +721,9 @@
   }
   .scout, .blinding { opacity: 0 }
 }
+
+/* The standing display's panel timer (/landing). */
+@keyframes landing-progress {
+  from { width: 0 }
+  to   { width: 100% }
+}
