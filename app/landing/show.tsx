@@ -37,6 +37,14 @@ export function LandingShow() {
 
       {/* ---- the mark ---- */}
       <section className="absolute inset-0 z-30 flex flex-col items-center justify-center px-6 text-center">
+        {/* The host, above the fest's own mark and kept quieter than it. */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src="/brand/atria-white.png"
+          alt="Atria Institute of Technology"
+          className="mb-9 w-[min(34vw,330px)] opacity-90"
+        />
+
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img
           src="/brand/cicada-wordmark.svg"
@@ -47,7 +55,7 @@ export function LandingShow() {
           2026
         </p>
         <p className="mt-10 font-mono text-[clamp(0.6rem,0.78vw,0.8rem)] uppercase tracking-[0.3em] text-muted-foreground">
-          Atria Institute of Technology · Dept. of ISE
+          Department of Information Science and Engineering
         </p>
         <p className="mt-2.5 font-mono text-[clamp(0.6rem,0.78vw,0.8rem)] uppercase tracking-[0.3em] text-muted-foreground/70">
           19 – 21 November 2026 · Bengaluru
