@@ -727,3 +727,49 @@
   from { width: 0 }
   to   { width: 100% }
 }
+
+/* ---------------------------------------------------------------------- */
+/* Standing display (/landing) — panels that flip                          */
+/* ---------------------------------------------------------------------- */
+
+/* The stage holds the perspective so every panel flips about the same
+   vanishing point; a perspective on each panel would make them look like
+   separate cards on separate desks. */
+.flipstage {
+  perspective: 1900px;
+  perspective-origin: 50% 46%;
+  transform-style: preserve-3d;
+}
+
+.flipcard {
+  transform-origin: 50% 50%;
+  backface-visibility: hidden;
+  transition:
+    transform 1000ms cubic-bezier(0.22, 0.75, 0.2, 1),
+    opacity 620ms ease;
+  will-change: transform, opacity;
+}
+
+/* Waiting its turn, edge-on to the room. */
+.flip-next { transform: rotateY(88deg) translateZ(-60px); opacity: 0; }
+/* Face on. */
+.flip-on   { transform: rotateY(0deg) translateZ(0); opacity: 1; }
+/* Gone the other way, so the cycle reads as one continuous rotation. */
+.flip-past { transform: rotateY(-88deg) translateZ(-60px); opacity: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .flipcard { transition: opacity 300ms ease; }
+  .flip-next, .flip-past { transform: none; }
+}
+
+/* Scanline wash, the same trick the teaser uses, kept faint enough to read
+   type through. */
+.crt-wash {
+  background-image: repeating-linear-gradient(
+    0deg,
+    rgb(255 255 255 / 0.028) 0px,
+    rgb(255 255 255 / 0.028) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
