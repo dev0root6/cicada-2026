@@ -264,4 +264,32 @@
       if (e.target === e.currentTarget) place(e.currentTarget)
     })
   }
+
+  // ---- Event reel --------------------------------------------------------
+  // Four posters, one cross-fading into the next. Paused while the page is
+  // hidden so a tab left open overnight is not animating to nobody.
+  ;(function reel() {
+    var items = document.querySelectorAll(".reel-item")
+    var dots = document.querySelectorAll(".reel-dots i")
+    if (items.length < 2) return
+
+    var at = 0
+    var HOLD = 3200
+
+    function show(next) {
+      items[at].classList.remove("is-on")
+      if (dots[at]) dots[at].classList.remove("is-on")
+      at = next % items.length
+      items[at].classList.add("is-on")
+      if (dots[at]) dots[at].classList.add("is-on")
+    }
+
+    // Deliberately NOT registered in `intervals`: that list is what finish()
+    // clears when the intro ends, and the reel has to outlive the intro.
+    setInterval(function () {
+      if (document.hidden) return
+      show(at + 1)
+    }, HOLD)
+  })()
+
 })()

@@ -780,3 +780,77 @@ body {
   .sound-btn[aria-pressed="false"] .sound-on { animation: none; opacity: 1; }
   .advance { animation: none; opacity: 1; }
 }
+
+/* ---------------------------------------------------------------------- */
+/* Event reel — the four events, one cross-fading into the next            */
+/* ---------------------------------------------------------------------- */
+
+.reel {
+  width: min(560px, 86vw);
+  margin: 26px auto 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+}
+
+.reel-stack {
+  position: relative;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 1px solid rgb(76 217 123 / .22);
+  background: rgb(8 10 9 / .7);
+  overflow: hidden;
+}
+
+.reel-item {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transform: scale(1.04);
+  transition: opacity .9s ease, transform 4s ease-out;
+}
+.reel-item.is-on { opacity: 1; transform: scale(1); }
+
+.reel-item img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 22%;
+}
+
+/* The event's name, over the foot of its poster. */
+.reel-item b {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 26px 16px 13px;
+  background: linear-gradient(to top, rgb(5 7 6 / .94), transparent);
+  font: 600 11px/1 var(--mono, ui-monospace, monospace);
+  letter-spacing: .24em;
+  text-transform: uppercase;
+  color: #eaf5ee;
+  text-align: center;
+}
+
+.reel-dots { display: flex; gap: 7px; }
+.reel-dots i {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: rgb(143 161 150 / .3);
+  transition: background .4s ease, transform .4s ease;
+}
+.reel-dots i.is-on { background: var(--green); transform: scale(1.35); }
+
+/* The reel belongs to the settled page, not the intro. */
+html.js:not(.done):not(.skip) .reel { opacity: 0; }
+.reel { transition: opacity .6s ease .1s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .reel-item { transition: opacity .2s ease; transform: none; }
+  .reel-item.is-on { transform: none; }
+}
