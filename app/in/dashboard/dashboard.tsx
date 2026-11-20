@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react"
 import { Maximize2 } from "lucide-react"
 
 import { inaugurationFilm } from "@/data/inauguration"
+import { Reveal } from "./reveal"
 import type { CeremonyState } from "@/lib/inauguration/shared"
 import { cn } from "@/lib/utils"
 
@@ -15,8 +16,9 @@ import { cn } from "@/lib/utils"
  *  1. **Standby** — one lamp per chief guest, lighting as each presses. No
  *     counters and no copy: nothing on screen should explain the trick to the
  *     room before it happens.
- *  2. **Title** — the wordmark lands the moment the last guest presses, and
- *     holds for a few seconds so the room can react.
+ *  2. **Sequence** — the release film: a scout bug flies in and settles, the
+ *     wordmark forms, a huge bug arrives and glitches apart, goes dark, comes
+ *     back with its eye lit, and CICADA 2026 lands. About 16 seconds.
  *  3. **Film** — the player then takes the entire viewport, edge to edge.
  *
  * Real browser fullscreen can only be requested from a user gesture, so it
@@ -27,16 +29,13 @@ import { cn } from "@/lib/utils"
 
 const POLL_MS = 1200
 
-/** How long the wordmark holds before the film takes over. */
-const TITLE_HOLD_MS = 3400
-
 const FILM = inaugurationFilm.src
 const YOUTUBE = inaugurationFilm.youtubeId
 
 export function Dashboard({ initial }: { initial: CeremonyState }) {
   const [state, setState] = useState<CeremonyState>(initial)
   const [revealed, setRevealed] = useState(initial.released)
-  const [stage, setStage] = useState<"title" | "film">("title")
+  const [stage, setStage] = useState<"sequence" | "film">("sequence")
   const [hasFilm, setHasFilm] = useState(false)
   const [armed, setArmed] = useState(false)
   const videoRef = useRef<HTMLVideoElement>(null)
@@ -84,13 +83,13 @@ export function Dashboard({ initial }: { initial: CeremonyState }) {
     }
   }, [])
 
-  /* ---- title, then film ------------------------------------------------ */
+  /* ---- the sequence hands over to the film ----------------------------- */
 
-  useEffect(() => {
-    if (!revealed || !showFilm) return
-    const id = setTimeout(() => setStage("film"), TITLE_HOLD_MS)
-    return () => clearTimeout(id)
-  }, [revealed, showFilm])
+  // When there is no film to play, the sequence simply ends on the title and
+  // stays there — the last frame of the ceremony is the wordmark.
+  const sequenceDone = useCallback(() => {
+    if (showFilm) setStage("film")
+  }, [showFilm])
 
   // Self-hosted file: try with sound, fall back to muted rather than not play.
   useEffect(() => {
@@ -182,24 +181,12 @@ export function Dashboard({ initial }: { initial: CeremonyState }) {
     )
   }
 
-  /* ---- 2. the title ----------------------------------------------------- */
+  /* ---- 2. the release sequence ------------------------------------------ */
 
   if (revealed) {
     return (
-      <main className="flex h-dvh flex-col items-center justify-center overflow-hidden px-6">
-        <div className="reveal-in flex w-full max-w-6xl flex-col items-center text-center">
-          <p className="font-mono text-[0.75rem] uppercase tracking-[0.42em] text-primary md:text-sm">
-            Atria Institute of Technology presents
-          </p>
-
-          <h1 className="announce-glow mt-6 font-display text-[clamp(3.5rem,16vw,11rem)] font-bold uppercase leading-[0.95] tracking-[0.02em]">
-            CICADA <span className="text-primary">2026</span>
-          </h1>
-
-          <p className="mt-4 font-mono text-sm uppercase tracking-[0.3em] text-muted-foreground md:text-base">
-            Declared open · 19 – 21 November 2026
-          </p>
-        </div>
+      <main className="h-dvh w-full overflow-hidden bg-black">
+        <Reveal onDone={sequenceDone} />
       </main>
     )
   }

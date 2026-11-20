@@ -27,9 +27,24 @@ fix — links to it may already be in circulation.
    play with sound. After it, the screen shows one dim lamp per guest and
    nothing else.
 5. On the host's cue, the guests press. Each lamp lights as its press lands.
-6. When the last lamp lights, the wordmark reveals, holds for about three and
-   a half seconds, and then the film takes the whole screen — the player
-   itself goes fullscreen, edge to edge, with nothing of the page around it.
+6. When the last lamp lights the release sequence runs, about 16 seconds:
+
+   | beat | what the room sees |
+   | --- | --- |
+   | scout | a single small bug flies in out of the dark |
+   | perch | it settles on nothing, and the wordmark draws in beneath it |
+   | leave | it is startled off the screen |
+   | glitch | a huge bug arrives, tearing itself apart in colour-split slices |
+   | blind | it cuts out in hard blocks and the screen goes black |
+   | return | it comes back dark, charges up, and its eye catches |
+   | title | a flash hands over to CICADA 2026 |
+
+   Then the film takes the whole screen — the player itself goes fullscreen,
+   edge to edge, with nothing of the page around it.
+
+   The beats and their durations are at the top of `app/in/dashboard/reveal.tsx`
+   if the timing needs changing. With no film configured the sequence ends on
+   the wordmark and stays there.
 
    That handover only works if the projector was armed: a browser refuses a
    fullscreen request with no gesture behind it, but allows fullscreen to move
