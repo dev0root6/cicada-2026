@@ -119,6 +119,7 @@ export const events: Event[] = [
   {
     slug: "project-expo",
     registerUrl: "https://konfhub.com/checkout/cicada-2026?ticketId=126990",
+    soldOut: true,
     badges: ["7th-semester only"],
     notice: {
       tone: "info",
@@ -153,6 +154,7 @@ export const events: Event[] = [
   {
     slug: "ipl-auction",
     registerUrl: "https://konfhub.com/checkout/cicada-2026?ticketId=126946",
+    soldOut: true,
     prizes: [
       { label: "Winner", amount: "₹2,000", perks: ["E-Certificate"] },
       { label: "Runner Up", amount: "₹1,000", perks: ["E-Certificate"] },
@@ -212,6 +214,7 @@ The real action begins! The auction is conducted through a live presentation —
     slug: "free-fire",
     group: "E-Sports",
     registerUrl: "https://konfhub.com/checkout/cicada-2026?ticketId=126991",
+    soldOut: true,
     prizes: [
       { label: "Winner", amount: "₹2,000" },
       { label: "Runner Up", amount: "₹1,000" },
