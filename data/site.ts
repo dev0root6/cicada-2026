@@ -156,7 +156,7 @@ export type Sponsor = {
 }
 
 export const sponsors: Sponsor[] = [
-  { name: "CAREERTERK" },
+  { name: "CAREERTREK" },
   { name: "TECHFORCZ" },
 ]
 

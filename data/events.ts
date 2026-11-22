@@ -113,7 +113,7 @@ export const events: Event[] = [
       tone: "warning",
       title: "PASSES SOLD OUT",
       body:
-        "Every hackathon pass is gone — we crossed 150+ registrations and the floor is full. No further teams can be taken, at any price. Registered teams keep their place; watch your email for the problem statement drop.",
+        "Every hackathon pass is gone — we crossed 200+ registrations and the floor is full. No further teams can be taken, at any price. Registered teams keep their place; watch your email for the problem statement drop.",
     },
   },
   {
