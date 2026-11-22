@@ -86,9 +86,9 @@ export function EventCard({ event }: { event: Event }) {
               <ArrowRight className="h-3.5 w-3.5" />
             </Link>
           </Button>
-          {event.soldOut ? (
+          {event.registrationsClosed ? (
             <span className="rounded-full border border-amber-500/50 bg-amber-500/10 px-3 py-1.5 font-mono text-[0.65rem] font-bold uppercase tracking-[0.18em] text-amber-300">
-              Sold out
+              Closed
             </span>
           ) : (
             <Button asChild size="sm" variant="outline">

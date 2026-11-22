@@ -6,6 +6,7 @@ import { InfoPill } from "@/components/common/info-pill"
 import { EventCover } from "@/components/events/event-cover"
 import { EventDescription } from "@/components/events/event-description"
 import { EventNotice } from "@/components/events/event-notice"
+import { EventResults } from "@/components/events/event-results"
 import { EventSidebar } from "@/components/events/event-sidebar"
 import { EventRequirements, EventTakeaways } from "@/components/events/event-takeaways"
 import { PrizePanel } from "@/components/events/prize-panel"
@@ -98,6 +99,8 @@ export default async function EventDetailPage({ params }: PageProps) {
                 <EventDescription description={event.description} />
               </div>
             </section>
+
+            <EventResults slug={event.slug} />
 
             <PrizePanel
               prizes={event.prizes?.length ? event.prizes : DEFAULT_PRIZES}

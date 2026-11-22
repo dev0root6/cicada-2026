@@ -42,11 +42,11 @@ export type Event = {
   /** Short labels rendered as pills on the event card. */
   badges?: string[]
   /**
-   * Registration is closed because every pass is gone. The Register buttons
-   * become a dead "Passes sold out" marker rather than disappearing, so the
-   * page answers the question instead of leaving a gap.
+   * Registration is closed. The Register buttons become a dead "Registrations
+   * closed" marker rather than disappearing, so the page answers the question
+   * instead of leaving a gap.
    */
-  soldOut?: boolean
+  registrationsClosed?: boolean
   /** Banner shown above the description on the detail page. */
   notice?: EventNotice
   /** Prize tiers, rendered in order. */
@@ -85,8 +85,8 @@ export const events: Event[] = [
   {
     slug: "hackathon",
     registerUrl: "https://konfhub.com/checkout/cicada-2026?ticketId=126992",
-    soldOut: true,
-    badges: ["Flagship Event", "Passes sold out"],
+    registrationsClosed: true,
+    badges: ["Flagship Event"],
     prizes: [
       { label: "1st Prize", amount: "₹15,000", perks: ["Internship opportunity", "Goodies", "E-Certificate"] },
       { label: "2nd Prize", amount: "₹10,000", perks: ["Internship opportunity", "Goodies", "E-Certificate"] },
@@ -111,15 +111,15 @@ export const events: Event[] = [
     mode: "Offline",
     notice: {
       tone: "warning",
-      title: "PASSES SOLD OUT",
+      title: "REGISTRATIONS CLOSED",
       body:
-        "Every hackathon pass is gone — we crossed 200+ registrations and the floor is full. No further teams can be taken, at any price. Registered teams keep their place; watch your email for the problem statement drop.",
+        "The hackathon ran on 20 – 21 November and registrations are closed. More than 200 teams registered before entries were stopped.",
     },
   },
   {
     slug: "project-expo",
     registerUrl: "https://konfhub.com/checkout/cicada-2026?ticketId=126990",
-    soldOut: true,
+    registrationsClosed: true,
     badges: ["7th-semester only"],
     notice: {
       tone: "info",
@@ -154,7 +154,7 @@ export const events: Event[] = [
   {
     slug: "ipl-auction",
     registerUrl: "https://konfhub.com/checkout/cicada-2026?ticketId=126946",
-    soldOut: true,
+    registrationsClosed: true,
     prizes: [
       { label: "Winner", amount: "₹2,000", perks: ["E-Certificate"] },
       { label: "Runner Up", amount: "₹1,000", perks: ["E-Certificate"] },
@@ -214,7 +214,7 @@ The real action begins! The auction is conducted through a live presentation —
     slug: "free-fire",
     group: "E-Sports",
     registerUrl: "https://konfhub.com/checkout/cicada-2026?ticketId=126991",
-    soldOut: true,
+    registrationsClosed: true,
     prizes: [
       { label: "Winner", amount: "₹2,000" },
       { label: "Runner Up", amount: "₹1,000" },

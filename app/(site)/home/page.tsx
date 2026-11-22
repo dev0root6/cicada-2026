@@ -1,6 +1,7 @@
 import { AnnouncementBanner } from "@/components/layout/announcement-banner"
 import { Hero } from "@/components/home/hero"
 import { LiveNow } from "@/components/home/live-now"
+import { Winners } from "@/components/home/winners"
 import { FeaturedEvents } from "@/components/home/featured-events"
 import { Schedule } from "@/components/home/schedule"
 import { AboutPreview } from "@/components/home/about-preview"
@@ -17,6 +18,7 @@ export default function HomePage() {
     <>
       <AnnouncementBanner />
       <Hero eventCount={countEvents()} />
+      <Winners />
       <LiveNow />
       <FeaturedEvents />
       <Schedule />

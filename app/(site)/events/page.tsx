@@ -5,7 +5,7 @@ import { countEvents, events, eventsByDay } from "@/data/events"
 
 export const metadata: Metadata = {
   title: "Events",
-  description: "Browse every CICADA event and register.",
+  description: "Every event from CICADA 2026.",
 }
 
 export default function EventsPage() {
@@ -18,7 +18,7 @@ export default function EventsPage() {
       size="wide"
       eyebrow={grouped ? `${countEvents()} events · ${days.length} days` : `${countEvents()} events`}
       title="All events"
-      description="Hackathons, CTFs, agent builds, drone runs and showcases, in running order. Pick a track and register — most events run in teams."
+      description="Every event from CICADA 2026, in running order. Registrations are closed."
     >
       <div className="space-y-14">
         {days.map((day) => (

@@ -89,7 +89,7 @@ export const liveBoard = {
       label: "Hackathon",
       start: "2026-11-20T10:30:00+05:30",
       end: "2026-11-21T13:00:00+05:30",
-      noteBefore: "Passes sold out · problem statements drop at 1:00 PM",
+      noteBefore: "Registrations closed · problem statements drop at 1:00 PM",
       note: "24 hours on the clock · evaluation from 11:30 AM",
       noteAfter: "24 hours done · projects evaluated",
       photos: [],

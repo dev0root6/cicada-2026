@@ -32,12 +32,12 @@ export function EventSidebar({ event }: { event: Event }) {
             {event.registrationFee}
           </p>
 
-          {event.soldOut ? (
+          {event.registrationsClosed ? (
             <p
               className="mt-5 w-full rounded-lg border-2 border-amber-500/55 bg-amber-500/10 px-4 py-3.5 text-center font-display text-lg font-bold uppercase tracking-[0.12em] text-amber-300"
               role="status"
             >
-              Passes sold out
+              Registrations closed
             </p>
           ) : (
             <Button asChild size="lg" className="mt-5 w-full">
